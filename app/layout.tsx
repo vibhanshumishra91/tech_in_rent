@@ -1,31 +1,23 @@
 import type { Metadata } from "next";
-import WhatsAppFloat from "@/components/shared/WhatsAppFloat";
-import { Manrope, Space_Grotesk } from "next/font/google";
+import { Syne, Outfit } from "next/font/google";
 import "./globals.css";
 
-const manrope = Manrope({
-  variable: "--font-manrope-sans",
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-mono",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "TechInRent | LinkedIn Growth Services",
-    template: "%s | TechInRent",
-  },
+  title: "TechInRent | LinkedIn Growth Services",
   description:
-    "TechInRent helps brands and professionals scale outreach, recover accounts, and grow LinkedIn visibility with conversion-focused systems.",
-  openGraph: {
-    title: "TechInRent | LinkedIn Growth Services",
-    description:
-      "Scale outreach, recover accounts, and grow LinkedIn visibility with TechInRent.",
-    type: "website",
-  },
+    "TechInRent helps brands and professionals grow LinkedIn reach with secure, fast, and reliable growth services.",
 };
 
 export default function RootLayout({
@@ -36,12 +28,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={`${syne.variable} ${outfit.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col">
-        {children}
-        <WhatsAppFloat />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

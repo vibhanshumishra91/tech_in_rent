@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TechInRent — LinkedIn Growth Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  /* Brand — teal from logo */
+  --teal:#0e7a6e;
+  --teal-dark:#095e55;
+  --teal-deep:#063d37;
+  --teal-mid:#128578;
+  --teal-light:#19a898;
+  --teal-pale:#e6f4f2;
+  --teal-pale2:#d0ece9;
+  --teal-glow:rgba(14,122,110,.12);
+  --teal-border:rgba(14,122,110,.2);
+
+  /* Neutrals */
+  --white:#ffffff;
+  --off:#f7fafa;
+  --off2:#eef4f3;
+  --ink:#0d1f1e;
+  --ink2:#1a3332;
+  --body:#334544;
+  --muted:#6b8685;
+  --muted2:#9ab5b3;
+  --line:rgba(14,122,110,.12);
+
+  /* Accent */
+  --amber:#e8952a;
+  --amber-dim:rgba(232,149,42,.1);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--white);
+  color:var(--body);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ─── CURSOR ─── */
+.cur{
+  position:fixed;z-index:9999;pointer-events:none;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--teal);
+  transform:translate(-50%,-50%);
+  transition:width .18s,height .18s,background .18s;
+}
+.cur-ring{
+  position:fixed;z-index:9998;pointer-events:none;
+  width:34px;height:34px;border-radius:50%;
+  border:1.5px solid rgba(14,122,110,.45);
+  transform:translate(-50%,-50%);
+  transition:width .22s,height .22s;
+}
+.cur.big{width:18px;height:18px}
+.cur-ring.big{width:50px;height:50px}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:68px;
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(18px);
+}
+.nav-logo{
+  display:flex;align-items:center;gap:11px;
+  text-decoration:none;cursor:none;
+}
+.logo-box{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,var(--teal),var(--teal-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;
+  color:#fff;font-size:14px;letter-spacing:.02em;
+  box-shadow:0 4px 14px rgba(14,122,110,.3);
+}
+.logo-name{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:17px;color:var(--ink);letter-spacing:-.01em;
+}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{
+  text-decoration:none;color:var(--muted);
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;
+  transition:color .2s;cursor:none;
+}
+.nav-links a:hover{color:var(--teal)}
+.btn-nav{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--teal);color:#fff;
+  padding:9px 22px;border-radius:8px;
+  font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;
+  text-decoration:none;letter-spacing:.01em;
+  transition:all .2s;cursor:none;
+  box-shadow:0 4px 14px rgba(14,122,110,.25);
+}
+.btn-nav:hover{background:var(--teal-dark);transform:translateY(-1px)}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:100px 5% 60px;
+  position:relative;overflow:hidden;
+  background:var(--off);
+}
+/* Geometric background */
+.hero-bg{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+.hero-bg-circle1{
+  position:absolute;right:-120px;top:-80px;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,122,110,.07),transparent 65%);
+}
+.hero-bg-circle2{
+  position:absolute;left:-80px;bottom:-100px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,122,110,.05),transparent 65%);
+}
+.hero-bg-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(14,122,110,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(14,122,110,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+/* Floating accent shapes */
+.shape{
+  position:absolute;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal-pale),var(--teal-pale2));
+  opacity:.6;
+}
+.shape1{width:18px;height:18px;top:18%;left:8%;animation:float1 6s ease-in-out infinite}
+.shape2{width:10px;height:10px;top:35%;right:12%;animation:float2 8s ease-in-out infinite}
+.shape3{width:14px;height:14px;bottom:25%;left:15%;animation:float1 7s ease-in-out infinite .5s}
+.shape4{width:8px;height:8px;top:55%;right:8%;animation:float2 5s ease-in-out infinite 1s}
+
+.hero-inner{
+  position:relative;z-index:2;
+  text-align:center;max-width:860px;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--teal-pale);border:1px solid var(--teal-border);
+  color:var(--teal-dark);
+  padding:7px 18px;border-radius:100px;
+  font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:32px;
+  animation:fadeDown .6s ease both;
+}
+.badge-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--teal);animation:pulse 2s ease infinite;
+}
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(42px,6vw,80px);
+  font-weight:800;line-height:1.05;
+  color:var(--ink);letter-spacing:-.03em;
+  animation:fadeDown .65s .08s ease both;
+}
+h1 .accent{
+  color:var(--teal);
+  position:relative;display:inline-block;
+}
+h1 .accent::after{
+  content:'';position:absolute;left:0;bottom:-4px;right:0;height:3px;
+  background:linear-gradient(90deg,var(--teal),var(--teal-light));
+  border-radius:2px;
+  animation:lineGrow .8s .6s ease both;transform-origin:left;
+}
+h1 .highlight{
+  background:linear-gradient(135deg,var(--teal-deep),var(--teal-mid));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:17px;color:var(--muted);line-height:1.75;
+  max-width:580px;margin:24px auto 0;font-weight:400;
+  animation:fadeDown .65s .16s ease both;
+}
+.hero-ctas{
+  display:flex;gap:14px;flex-wrap:wrap;
+  justify-content:center;margin-top:44px;
+  animation:fadeDown .65s .24s ease both;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--teal);color:#fff;
+  padding:14px 30px;border-radius:10px;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  text-decoration:none;transition:all .22s;cursor:none;
+  box-shadow:0 6px 24px rgba(14,122,110,.3);
+  letter-spacing:.01em;
+}
+.btn-primary:hover{background:var(--teal-dark);transform:translateY(-2px);box-shadow:0 10px 32px rgba(14,122,110,.35)}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--white);color:var(--ink);
+  padding:13px 28px;border-radius:10px;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:600;
+  text-decoration:none;transition:all .22s;cursor:none;
+  border:1.5px solid var(--line);
+}
+.btn-secondary:hover{border-color:var(--teal-border);color:var(--teal);background:var(--teal-pale)}
+.btn-amber{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--amber);color:#fff;
+  padding:13px 28px;border-radius:10px;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  text-decoration:none;transition:all .22s;cursor:none;
+  box-shadow:0 6px 20px rgba(232,149,42,.25);
+}
+.btn-amber:hover{filter:brightness(1.08);transform:translateY(-2px)}
+
+/* Hero stats bar */
+.hero-stats{
+  display:flex;align-items:center;justify-content:center;gap:0;
+  margin-top:60px;
+  background:var(--white);border:1px solid var(--line);
+  border-radius:16px;padding:0;overflow:hidden;
+  box-shadow:0 4px 24px rgba(14,122,110,.08);
+  animation:fadeDown .65s .32s ease both;
+  max-width:680px;margin-left:auto;margin-right:auto;
+}
+.hstat{
+  flex:1;padding:24px 20px;text-align:center;
+  border-right:1px solid var(--line);
+}
+.hstat:last-child{border-right:none}
+.hstat-num{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
+  color:var(--teal);line-height:1;margin-bottom:5px;
+}
+.hstat-label{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.02em}
+
+/* ─── TICKER ─── */
+.ticker{
+  background:var(--teal-deep);padding:14px 0;overflow:hidden;
+}
+.ticker-track{display:flex;animation:ticker 28s linear infinite;width:max-content}
+.t-item{
+  display:flex;align-items:center;gap:18px;padding:0 32px;
+  font-family:'Syne',sans-serif;font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);
+  white-space:nowrap;
+}
+.t-sep{color:var(--teal-light);font-size:9px}
+
+/* ─── SECTIONS ─── */
+section{padding:100px 5%;position:relative;z-index:2}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--teal-pale);border:1px solid var(--teal-border);
+  color:var(--teal-dark);padding:6px 16px;border-radius:100px;
+  font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;
+}
+.eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--teal)}
+
+h2{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(32px,4vw,52px);
+  font-weight:800;line-height:1.1;
+  color:var(--ink);letter-spacing:-.025em;
+}
+h2 em{
+  font-style:normal;color:var(--teal);
+}
+.sec-sub{
+  font-size:16px;color:var(--muted);line-height:1.75;
+  max-width:500px;margin-top:14px;font-weight:400;
+}
+
+/* ─── GOALS ─── */
+.goals{background:var(--off)}
+.goals-top{
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:end;gap:60px;margin-bottom:56px;
+}
+.goals-top .sec-sub{margin-top:14px}
+.goals-tagline{
+  font-family:'Syne',sans-serif;font-size:clamp(16px,2vw,22px);
+  font-weight:600;color:var(--muted2);line-height:1.5;
+  text-align:right;padding-left:20px;
+  border-left:3px solid var(--teal-border);
+}
+.goal-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+}
+.goal-card{
+  background:var(--white);
+  border:1.5px solid var(--line);
+  border-radius:16px;padding:36px 28px;
+  transition:all .28s;cursor:none;
+  position:relative;overflow:hidden;
+}
+.goal-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--teal),var(--teal-light));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .32s ease;
+}
+.goal-card:hover{
+  border-color:var(--teal-border);
+  transform:translateY(-5px);
+  box-shadow:0 16px 48px rgba(14,122,110,.1);
+}
+.goal-card:hover::before{transform:scaleX(1)}
+.goal-icon{
+  width:52px;height:52px;border-radius:12px;
+  background:var(--teal-pale);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:24px;transition:background .25s;
+}
+.goal-card:hover .goal-icon{background:var(--teal-glow)}
+.goal-icon svg{width:24px;height:24px;color:var(--teal)}
+.goal-num{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted2);margin-bottom:10px;
+}
+.goal-title{
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:700;
+  color:var(--ink);margin-bottom:12px;letter-spacing:-.01em;
+}
+.goal-desc{font-size:14px;color:var(--muted);line-height:1.72;margin-bottom:28px}
+.btn-link{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  color:var(--teal);text-decoration:none;transition:gap .2s;
+  cursor:none;letter-spacing:.02em;
+}
+.btn-link:hover{gap:12px}
+.btn-link svg{width:14px;height:14px;transition:transform .2s}
+.btn-link:hover svg{transform:translateX(3px)}
+
+/* ─── SERVICES ─── */
+.services{background:var(--white)}
+.services-layout{
+  display:grid;grid-template-columns:360px 1fr;
+  gap:80px;align-items:start;margin-top:60px;
+}
+.srv-sidebar{position:sticky;top:90px}
+.srv-sidebar .sec-sub{margin-top:16px;margin-bottom:32px}
+.srv-sidebar-cta{
+  background:var(--teal-pale);border:1px solid var(--teal-border);
+  border-radius:14px;padding:28px;margin-top:36px;
+}
+.srv-sidebar-cta p{font-size:14px;color:var(--body);line-height:1.7;margin-bottom:18px}
+.srv-sidebar-cta strong{color:var(--teal-dark);font-weight:600}
+.services-list{display:flex;flex-direction:column;gap:16px}
+.svc-card{
+  background:var(--off);border:1.5px solid var(--line);
+  border-radius:16px;padding:32px;
+  transition:all .28s;cursor:none;
+  position:relative;overflow:hidden;
+}
+.svc-card::after{
+  content:'';position:absolute;
+  left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--teal),var(--teal-light));
+  transform:scaleY(0);transform-origin:top;
+  transition:transform .32s ease;
+}
+.svc-card:hover{
+  border-color:var(--teal-border);
+  box-shadow:0 8px 32px rgba(14,122,110,.09);
+  background:var(--white);
+}
+.svc-card:hover::after{transform:scaleY(1)}
+.svc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.svc-icon{
+  width:46px;height:46px;border-radius:12px;
+  background:var(--teal-pale);
+  display:flex;align-items:center;justify-content:center;
+}
+.svc-icon svg{width:22px;height:22px;color:var(--teal)}
+.svc-tag{
+  font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;
+  color:var(--muted2);letter-spacing:.1em;text-transform:uppercase;
+}
+.svc-title{
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:700;
+  color:var(--ink);margin-bottom:10px;letter-spacing:-.01em;
+}
+.svc-desc{font-size:14.5px;color:var(--muted);line-height:1.72;margin-bottom:22px}
+.svc-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.pill{
+  background:var(--teal-pale);border:1px solid var(--teal-border);
+  color:var(--teal-dark);padding:5px 13px;border-radius:100px;
+  font-size:12px;font-weight:500;
+}
+.btn-svc{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--teal);color:#fff;
+  padding:10px 22px;border-radius:8px;
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  text-decoration:none;transition:all .2s;cursor:none;
+  letter-spacing:.01em;
+}
+.btn-svc:hover{background:var(--teal-dark);transform:translateX(3px)}
+
+/* ─── PERFORMANCE CTA ─── */
+.perf-cta{
+  background:linear-gradient(135deg,var(--teal-deep) 0%,var(--ink2) 100%);
+  padding:90px 5%;position:relative;overflow:hidden;
+}
+.perf-cta::before{
+  content:'';position:absolute;right:-80px;top:-80px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,122,110,.2),transparent 65%);
+}
+.perf-cta::after{
+  content:'';position:absolute;left:-60px;bottom:-60px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(25,168,152,.12),transparent 65%);
+}
+.perf-inner{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1fr auto;
+  align-items:center;gap:60px;max-width:1100px;margin:0 auto;
+}
+.perf-label{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.8);padding:6px 16px;border-radius:100px;
+  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:20px;
+}
+.perf-cta h2{color:#fff;font-size:clamp(28px,3.5vw,48px)}
+.perf-cta h2 em{color:var(--teal-light);font-style:normal}
+.perf-cta p{color:rgba(255,255,255,.6);font-size:15.5px;line-height:1.75;max-width:480px;margin-top:14px}
+.perf-right{display:flex;flex-direction:column;align-items:flex-end;gap:14px;flex-shrink:0}
+.perf-note{font-size:12px;color:rgba(255,255,255,.4);text-align:right;letter-spacing:.02em}
+.btn-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--teal-light);color:#fff;
+  padding:15px 32px;border-radius:10px;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  text-decoration:none;transition:all .22s;cursor:none;
+  box-shadow:0 8px 28px rgba(14,122,110,.35);
+  letter-spacing:.01em;white-space:nowrap;
+}
+.btn-cta:hover{background:var(--teal);transform:translateY(-2px);box-shadow:0 12px 36px rgba(14,122,110,.4)}
+
+/* ─── HOW IT WORKS ─── */
+.how{background:var(--off)}
+.how-head{text-align:center;margin-bottom:64px}
+.how-head .sec-sub{margin:14px auto 0;text-align:center}
+.steps-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  position:relative;gap:0;
+}
+/* Connecting line */
+.steps-grid::before{
+  content:'';position:absolute;
+  top:38px;left:calc(12.5% + 20px);right:calc(12.5% + 20px);
+  height:1px;background:linear-gradient(90deg,var(--teal),var(--teal-light),var(--teal));
+  z-index:0;
+}
+.step{
+  padding:0 20px;text-align:center;position:relative;z-index:1;
+}
+.step-circle{
+  width:76px;height:76px;border-radius:50%;
+  background:var(--white);border:2px solid var(--teal-border);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 28px;
+  transition:all .25s;cursor:none;
+  position:relative;
+}
+.step:hover .step-circle{
+  background:var(--teal);border-color:var(--teal);
+  box-shadow:0 8px 28px rgba(14,122,110,.25);
+  transform:scale(1.08);
+}
+.step-circle svg{width:28px;height:28px;color:var(--teal);transition:color .25s}
+.step:hover .step-circle svg{color:#fff}
+.step-n{
+  position:absolute;top:-4px;right:-4px;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--teal);color:#fff;
+  font-family:'Syne',sans-serif;font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+.step-title{
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:700;
+  color:var(--ink);margin-bottom:10px;letter-spacing:-.01em;
+}
+.step-desc{font-size:13.5px;color:var(--muted);line-height:1.7}
+
+/* ─── WHY US ─── */
+.why{background:var(--white)}
+.why-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:60px}
+.why-card{
+  background:var(--off);border:1.5px solid var(--line);
+  border-radius:16px;padding:32px;
+  display:flex;gap:20px;align-items:flex-start;
+  transition:all .26s;cursor:none;
+}
+.why-card:hover{
+  border-color:var(--teal-border);
+  background:var(--teal-pale);
+  transform:translateY(-3px);
+  box-shadow:0 10px 32px rgba(14,122,110,.08);
+}
+.why-icon-box{
+  width:52px;height:52px;border-radius:12px;flex-shrink:0;
+  background:var(--teal-pale);border:1px solid var(--teal-border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;transition:background .25s;
+}
+.why-card:hover .why-icon-box{background:var(--white)}
+.why-title{
+  font-family:'Syne',sans-serif;font-size:17px;font-weight:700;
+  color:var(--ink);margin-bottom:8px;letter-spacing:-.01em;
+}
+.why-desc{font-size:14px;color:var(--muted);line-height:1.72}
+
+/* ─── CONTACT ─── */
+.contact{background:var(--off)}
+.contact-head{text-align:center;margin-bottom:56px}
+.contact-head .sec-sub{margin:14px auto 0}
+.contact-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:14px;max-width:1000px;margin:0 auto;
+}
+.c-card{
+  background:var(--white);border:1.5px solid var(--line);
+  border-radius:14px;padding:28px 16px;text-align:center;
+  text-decoration:none;color:var(--body);
+  transition:all .26s;display:block;cursor:none;
+  position:relative;overflow:hidden;
+}
+.c-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--teal),var(--teal-light));
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+}
+.c-card:hover{
+  border-color:var(--teal-border);
+  transform:translateY(-5px);
+  box-shadow:0 12px 32px rgba(14,122,110,.1);
+}
+.c-card:hover::before{transform:scaleX(1)}
+.c-icon-wrap{
+  width:48px;height:48px;border-radius:12px;
+  background:var(--teal-pale);border:1px solid var(--teal-border);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;transition:all .25s;
+}
+.c-card:hover .c-icon-wrap{background:var(--teal);border-color:var(--teal)}
+.c-icon-wrap svg{width:20px;height:20px;color:var(--teal);transition:color .25s}
+.c-card:hover .c-icon-wrap svg{color:#fff}
+.c-name{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--ink);margin-bottom:5px}
+.c-val{font-size:11.5px;color:var(--muted);margin-bottom:14px;line-height:1.4}
+.c-cta{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  color:var(--teal);letter-spacing:.08em;text-transform:uppercase;
+}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--ink);
+  padding:64px 5% 32px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr;
+  gap:60px;padding-bottom:48px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.f-brand .logo-box-f{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,var(--teal),var(--teal-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:14px;
+  margin-bottom:14px;
+}
+.f-brand .logo-name-f{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:17px;
+  color:#fff;display:block;margin-bottom:14px;
+}
+.f-desc{font-size:13.5px;color:rgba(255,255,255,.4);line-height:1.8;max-width:280px;font-weight:300}
+.fc h4{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.25);margin-bottom:20px;
+}
+.fc a{
+  display:block;color:rgba(255,255,255,.5);text-decoration:none;
+  font-size:14px;margin-bottom:12px;transition:color .2s;cursor:none;
+}
+.fc a:hover{color:var(--teal-light)}
+.footer-bottom{
+  padding-top:28px;display:flex;justify-content:space-between;align-items:center;
+}
+.footer-bottom span{font-size:12.5px;color:rgba(255,255,255,.25)}
+.footer-bottom em{color:var(--teal-light);font-style:normal}
+
+/* ─── WA FLOAT ─── */
+.wa{
+  position:fixed;bottom:28px;right:28px;
+  width:50px;height:50px;border-radius:50%;
+  background:#25d366;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(37,211,102,.3);z-index:400;
+  text-decoration:none;transition:transform .2s;cursor:none;
+}
+.wa:hover{transform:scale(1.1)}
+.wa svg{width:24px;height:24px;color:#fff}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(5deg)}}
+@keyframes float2{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(-4deg)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+@keyframes lineGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  .services-layout{grid-template-columns:1fr}
+  .srv-sidebar{position:static}
+  .perf-inner{grid-template-columns:1fr;text-align:center}
+  .perf-right{align-items:center}
+  .steps-grid::before{display:none}
+  .steps-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .goals-top{grid-template-columns:1fr}
+  .goals-tagline{text-align:left;border-left:3px solid var(--teal-border);border-right:none;padding-left:16px;padding-right:0}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+}
+@media(max-width:900px){
+  .goal-grid{grid-template-columns:1fr}
+  .why-layout{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:repeat(3,1fr)}
+  nav .nav-links a:not(.btn-nav){display:none}
+}
+@media(max-width:640px){
+  .hero-stats{flex-direction:column;gap:0}
+  .hstat{border-right:none;border-bottom:1px solid var(--line)}
+  .hstat:last-child{border-bottom:none}
+  .steps-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr 1fr}
+  section{padding:72px 4%}
+  nav{padding:0 4%}
+  .perf-cta{padding:64px 4%}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-box">TR</div>
+    <span class="logo-name">TechInRent</span>
+  </a>
+  <div class="nav-links">
+    <a href="#goals">Services</a>
+    <a href="#how">Process</a>
+    <a href="#why">Why Us</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="btn-nav">Get Started</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-bg-circle1"></div>
+    <div class="hero-bg-circle2"></div>
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+    <div class="shape shape4"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      LinkedIn Growth Specialists
+    </div>
+    <h1>
+      Scale Your LinkedIn.<br>
+      Land <span class="accent">High-Intent</span><br>
+      <span class="highlight">Clients.</span>
+    </h1>
+    <p class="hero-sub">
+      Struggling to scale outreach or facing account restrictions? We grow your LinkedIn safely — managed systems, recovery support, and conversion-focused execution.
+    </p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Book Demo
+      </a>
+      <a href="#contact" class="btn-amber">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Get Clients
+      </a>
+      <a href="#goals" class="btn-secondary">
+        View Services →
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-num">500+</div>
+        <div class="hstat-label">Clients Served</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">98%</div>
+        <div class="hstat-label">Success Rate</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">3×</div>
+        <div class="hstat-label">Avg. Growth</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">48h</div>
+        <div class="hstat-label">Launch Time</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="t-item">LinkedIn Outreach <span class="t-sep">◆</span></span>
+    <span class="t-item">Account Recovery <span class="t-sep">◆</span></span>
+    <span class="t-item">Follower Growth <span class="t-sep">◆</span></span>
+    <span class="t-item">Pipeline Generation <span class="t-sep">◆</span></span>
+    <span class="t-item">ICP Targeting <span class="t-sep">◆</span></span>
+    <span class="t-item">Performance-Based <span class="t-sep">◆</span></span>
+    <span class="t-item">B2B Sales Partner <span class="t-sep">◆</span></span>
+    <span class="t-item">Policy-Safe Methods <span class="t-sep">◆</span></span>
+    <span class="t-item">LinkedIn Outreach <span class="t-sep">◆</span></span>
+    <span class="t-item">Account Recovery <span class="t-sep">◆</span></span>
+    <span class="t-item">Follower Growth <span class="t-sep">◆</span></span>
+    <span class="t-item">Pipeline Generation <span class="t-sep">◆</span></span>
+    <span class="t-item">ICP Targeting <span class="t-sep">◆</span></span>
+    <span class="t-item">Performance-Based <span class="t-sep">◆</span></span>
+    <span class="t-item">B2B Sales Partner <span class="t-sep">◆</span></span>
+    <span class="t-item">Policy-Safe Methods <span class="t-sep">◆</span></span>
+  </div>
+</div>
+
+<!-- ═══ GOALS ═══ -->
+<section class="goals reveal" id="goals">
+  <div class="goals-top">
+    <div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Choose Your Path</div>
+      <h2>What's Your<br><em>Goal?</em></h2>
+      <p class="sec-sub">Pick the outcome you're working toward — we map the right execution plan from there.</p>
+    </div>
+    <div class="goals-tagline">
+      "The right strategy,<br>executed precisely,<br>every single time."
+    </div>
+  </div>
+  <div class="goal-grid">
+    <div class="goal-card">
+      <div class="goal-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 10l4.553-2.069A1 1 0 0121 8.882v6.236a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+      </div>
+      <div class="goal-num">01 — Outreach</div>
+      <div class="goal-title">Scale Your Outreach</div>
+      <div class="goal-desc">Managed outbound systems built for high-intent meetings. Done-for-you setup, ICP-targeted strategy, and weekly performance tracking from day one.</div>
+      <a href="#contact" class="btn-link">
+        Book Demo
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      </div>
+      <div class="goal-num">02 — Recovery</div>
+      <div class="goal-title">Recover Your Account</div>
+      <div class="goal-desc">Structured diagnosis and a clear roadmap to restore account health — safely and permanently, without risking further restrictions.</div>
+      <a href="#contact" class="btn-link">
+        Schedule Call
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      </div>
+      <div class="goal-num">03 — Growth</div>
+      <div class="goal-title">Grow Your Audience</div>
+      <div class="goal-desc">Build lasting brand trust with consistent follower growth, profile positioning, and a presence that converts visitors into buyers over time.</div>
+      <a href="#contact" class="btn-link">
+        Buy Now
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section class="services reveal" id="services">
+  <div class="services-layout">
+    <div class="srv-sidebar">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Premium Services</div>
+      <h2>LinkedIn Growth<br><em>Services</em></h2>
+      <p class="sec-sub">Tailored services designed for measurable, real-world outcomes. Every system is policy-safe and built to scale.</p>
+      <div class="srv-sidebar-cta">
+        <p><strong>Not sure which service is right for you?</strong> Book a free 15-min strategy call and we'll map the perfect plan for your goals.</p>
+        <a href="#contact" class="btn-primary" style="font-size:13.5px;padding:11px 22px;">
+          Free Strategy Call →
+        </a>
+      </div>
+    </div>
+    <div class="services-list">
+      <div class="svc-card">
+        <div class="svc-head">
+          <div class="svc-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 10l4.553-2.069A1 1 0 0121 8.882v6.236a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          </div>
+          <span class="svc-tag">Service 01</span>
+        </div>
+        <div class="svc-title">LinkedIn Outreach &amp; Management</div>
+        <div class="svc-desc">Fully managed outbound systems for B2B professionals. We handle strategy, execution, and optimization — you receive qualified conversations ready to convert.</div>
+        <div class="svc-pills">
+          <span class="pill">Done-for-you setup</span>
+          <span class="pill">ICP-targeted strategy</span>
+          <span class="pill">Weekly tracking</span>
+          <span class="pill">A/B optimization</span>
+        </div>
+        <a href="#contact" class="btn-svc">Book Demo →</a>
+      </div>
+      <div class="svc-card">
+        <div class="svc-head">
+          <div class="svc-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+          </div>
+          <span class="svc-tag">Service 02</span>
+        </div>
+        <div class="svc-title">LinkedIn Follower Growth</div>
+        <div class="svc-desc">Scale your visibility and profile authority with a consistent, safe growth framework. Build the audience that converts to clients and establishes long-term brand trust.</div>
+        <div class="svc-pills">
+          <span class="pill">Profile positioning</span>
+          <span class="pill">Targeted connections</span>
+          <span class="pill">Engagement boost</span>
+          <span class="pill">Authority building</span>
+        </div>
+        <a href="#contact" class="btn-svc">Buy Now →</a>
+      </div>
+      <div class="svc-card">
+        <div class="svc-head">
+          <div class="svc-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <span class="svc-tag">Service 03</span>
+        </div>
+        <div class="svc-title">Account Recovery Support</div>
+        <div class="svc-desc">Facing restrictions or at risk of a ban? We diagnose your account health, build a clear recovery roadmap, and walk you through every step safely and permanently.</div>
+        <div class="svc-pills">
+          <span class="pill">Full diagnosis</span>
+          <span class="pill">Recovery roadmap</span>
+          <span class="pill">Safe practices</span>
+          <span class="pill">1-on-1 support</span>
+        </div>
+        <a href="#contact" class="btn-svc">Schedule Call →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PERFORMANCE CTA ═══ -->
+<div class="perf-cta reveal">
+  <div class="perf-inner">
+    <div>
+      <div class="perf-label">✦ Zero Risk Offer</div>
+      <h2>Get Clients Without<br>Paying <em>Upfront</em></h2>
+      <p>We partner with you as a performance-based sales team. You pay only when we deliver a successfully converted client — complete accountability, zero upfront financial risk.</p>
+    </div>
+    <div class="perf-right">
+      <a href="#contact" class="btn-cta">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Partner With Us
+      </a>
+      <span class="perf-note">No upfront cost · Pay on successful results only</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="how reveal" id="how">
+  <div class="how-head">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> The Process</div>
+    <h2>How It <em>Works</em></h2>
+    <p class="sec-sub">Simple, transparent — from requirement to results in 4 clear steps.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-circle">
+        <span class="step-n">01</span>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      </div>
+      <div class="step-title">Share Requirement</div>
+      <div class="step-desc">Tell us your goal, ICP, and timeline. We understand your business context before executing anything.</div>
+    </div>
+    <div class="step">
+      <div class="step-circle">
+        <span class="step-n">02</span>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <div class="step-title">We Execute</div>
+      <div class="step-desc">Our team runs outreach, growth, or recovery using proven, policy-safe systems at full scale.</div>
+    </div>
+    <div class="step">
+      <div class="step-circle">
+        <span class="step-n">03</span>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      </div>
+      <div class="step-title">Leads Delivered</div>
+      <div class="step-desc">Qualified prospects land in your inbox, ready to have a real conversation about your offer.</div>
+    </div>
+    <div class="step">
+      <div class="step-circle">
+        <span class="step-n">04</span>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+      </div>
+      <div class="step-title">You Close &amp; Scale</div>
+      <div class="step-desc">You convert the pipeline we deliver. We maintain consistent weekly flow so growth never plateaus.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY US ═══ -->
+<section class="why reveal" id="why">
+  <div style="text-align:center;margin-bottom:16px">
+    <div class="eyebrow" style="display:inline-flex"><span class="eyebrow-dot"></span> Why TechInRent</div>
+  </div>
+  <h2 style="text-align:center">Why Choose <em>Us</em></h2>
+  <p class="sec-sub" style="text-align:center;margin:14px auto 0">We're not just another agency — we're your strategic partner with real accountability and zero-risk execution.</p>
+  <div class="why-layout">
+    <div class="why-card">
+      <div class="why-icon-box">🛡️</div>
+      <div>
+        <div class="why-title">Policy-Safe Methods</div>
+        <div class="why-desc">Every system complies with LinkedIn's terms. Zero risk of permanent bans or account termination from our work.</div>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon-box">💰</div>
+      <div>
+        <div class="why-title">Performance-Based Pricing</div>
+        <div class="why-desc">For client acquisition, you pay only on successful conversions. Our success is tied directly to yours.</div>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon-box">📊</div>
+      <div>
+        <div class="why-title">Transparent Reporting</div>
+        <div class="why-desc">Weekly performance dashboards so you always know exactly what's working and what results are incoming.</div>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon-box">⚡</div>
+      <div>
+        <div class="why-title">48-Hour Campaign Launch</div>
+        <div class="why-desc">Campaigns go live within 48 hours of onboarding. No lengthy delays, no endless meetings before action.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="contact reveal" id="contact">
+  <div class="contact-head">
+    <div class="eyebrow" style="display:inline-flex"><span class="eyebrow-dot"></span> Get In Touch</div>
+    <h2>Contact <em>Us</em></h2>
+    <p class="sec-sub">Ready to grow? Reach out on any channel — we typically respond within 2 hours during business hours.</p>
+  </div>
+  <div class="contact-grid">
+    <a href="mailto:hello@techinrent.com" class="c-card">
+      <div class="c-icon-wrap"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+      <div class="c-name">Email</div>
+      <div class="c-val">hello@techinrent.com</div>
+      <div class="c-cta">Send →</div>
+    </a>
+    <a href="https://wa.me/917898711748" class="c-card" target="_blank">
+      <div class="c-icon-wrap"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
+      <div class="c-name">WhatsApp</div>
+      <div class="c-val">+91 78987 11748</div>
+      <div class="c-cta">Chat →</div>
+    </a>
+    <a href="https://t.me/techinrentadmin" class="c-card" target="_blank">
+      <div class="c-icon-wrap"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></div>
+      <div class="c-name">Telegram</div>
+      <div class="c-val">@techinrentadmin</div>
+      <div class="c-cta">Open →</div>
+    </a>
+    <a href="https://twitter.com/techinrent" class="c-card" target="_blank">
+      <div class="c-icon-wrap"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"/></svg></div>
+      <div class="c-name">Twitter / X</div>
+      <div class="c-val">@techinrent</div>
+      <div class="c-cta">Follow →</div>
+    </a>
+    <a href="https://instagram.com/techinrent" class="c-card" target="_blank">
+      <div class="c-icon-wrap"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2"/></svg></div>
+      <div class="c-name">Instagram</div>
+      <div class="c-val">@techinrent</div>
+      <div class="c-cta">Follow →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div class="f-brand">
+      <div class="logo-box-f">TR</div>
+      <span class="logo-name-f">TechInRent</span>
+      <p class="f-desc">We help professionals and teams accelerate LinkedIn growth through secure outreach systems, transparent reporting, and measurable outcomes.</p>
+    </div>
+    <div class="fc">
+      <h4>Navigation</h4>
+      <a href="#goals">Services</a>
+      <a href="#how">How It Works</a>
+      <a href="#why">Why Us</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="fc">
+      <h4>Contact</h4>
+      <a href="mailto:hello@techinrent.com">hello@techinrent.com</a>
+      <a href="https://t.me/techinrentadmin" target="_blank">Telegram</a>
+      <a href="https://wa.me/917898711748" target="_blank">WhatsApp</a>
+      <a href="https://twitter.com/techinrent" target="_blank">Twitter / X</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 TechInRent. All rights reserved.</span>
+    <span>LinkedIn Growth — Done Right <em>◆</em></span>
+  </div>
+</footer>
+
+<!-- WA Float -->
+<a href="https://wa.me/917898711748" class="wa" target="_blank">
+  <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// Custom cursor
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function anim(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(anim);
+})();
+document.querySelectorAll('a,button,[class*="card"],[class*="step"],[class*="why-card"]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big')});
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}});
+},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>
