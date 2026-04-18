@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import WhatsAppFloat from "@/components/shared/WhatsAppFloat";
 import { Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
@@ -13,9 +14,18 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "TechInRent | LinkedIn Growth Services",
+  title: {
+    default: "TechInRent | LinkedIn Growth Services",
+    template: "%s | TechInRent",
+  },
   description:
-    "TechInRent helps brands and professionals grow LinkedIn reach with secure, fast, and reliable growth services.",
+    "TechInRent helps brands and professionals scale outreach, recover accounts, and grow LinkedIn visibility with conversion-focused systems.",
+  openGraph: {
+    title: "TechInRent | LinkedIn Growth Services",
+    description:
+      "Scale outreach, recover accounts, and grow LinkedIn visibility with TechInRent.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -28,7 +38,10 @@ export default function RootLayout({
       lang="en"
       className={`${manrope.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <WhatsAppFloat />
+      </body>
     </html>
   );
 }
