@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
 import WhatsAppFloat from "@/components/shared/WhatsAppFloat";
 import {
-  HiArrowRight,
   HiCalendarDays,
   HiChatBubbleLeftRight,
   HiCheckBadge,
@@ -98,156 +97,7 @@ const whyUsCards = [
   },
 ];
 
-const ALL_TAGS = [
-  "LinkedIn Outreach",
-  "Follower Growth",
-  "Account Recovery",
-  "Lead Qualification",
-  "Growth Strategy",
-  "Policy-Safe Execution",
-];
-
-function CarouselBanner() {
-  const [offset, setOffset] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [boxWidth, setBoxWidth] = useState(0);
-
-  useEffect(() => {
-    const calc = () => {
-      if (containerRef.current) {
-        const total = containerRef.current.offsetWidth;
-        // 4 boxes + 3 gaps of 14px
-        setBoxWidth((total - 3 * 14) / 4);
-      }
-    };
-    calc();
-    window.addEventListener("resize", calc);
-    return () => window.removeEventListener("resize", calc);
-  }, []);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setOffset((prev) => (prev + 1) % ALL_TAGS.length);
-    }, 2500);
-    return () => clearInterval(id);
-  }, []);
-
-  const slots = Array.from({ length: 5 }, (_, i) =>
-    ALL_TAGS[(offset + i) % ALL_TAGS.length]
-  );
-
-  return (
-    <div
-      ref={containerRef}
-      style={{ maxWidth: "1200px", margin: "0 auto", overflow: "hidden" }}
-    >
-      <div
-        key={offset}
-        className="carousel-track"
-        style={{
-          display: "flex",
-          gap: "14px",
-          width: boxWidth ? `${5 * boxWidth + 4 * 14}px` : "auto",
-          ["--slide-amount" as string]: boxWidth ? `-${boxWidth + 14}px` : "-25%",
-        }}
-      >
-        {slots.map((tag, i) => (
-          <span
-            key={`${tag}-${i}`}
-            style={{
-              flexShrink: 0,
-              width: boxWidth ? `${boxWidth}px` : "calc(25% - 10.5px)",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-              padding: "28px 20px",
-              borderRadius: "16px",
-              background: "var(--teal-deep)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              boxShadow: "0 8px 24px rgba(6,61,55,0.18)",
-              color: "rgba(255,255,255,0.9)",
-              fontFamily: "var(--font-heading, sans-serif)",
-              fontSize: "13px",
-              fontWeight: 700,
-              textTransform: "uppercase" as const,
-              letterSpacing: "0.1em",
-              whiteSpace: "nowrap" as const,
-            }}
-          >
-            <span style={{ color: "var(--teal-light)", fontSize: "11px" }}>◆</span>
-            {tag}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
-  const curRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const cur = curRef.current;
-    const ring = ringRef.current;
-
-    if (!cur || !ring) {
-      return;
-    }
-
-    let mouseX = 0;
-    let mouseY = 0;
-    let ringX = 0;
-    let ringY = 0;
-    let frameId = 0;
-
-    const handleMove = (event: MouseEvent) => {
-      mouseX = event.clientX;
-      mouseY = event.clientY;
-      cur.style.left = `${mouseX}px`;
-      cur.style.top = `${mouseY}px`;
-    };
-
-    const animateRing = () => {
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
-      ring.style.left = `${ringX}px`;
-      ring.style.top = `${ringY}px`;
-      frameId = window.requestAnimationFrame(animateRing);
-    };
-
-    const interactiveElements = document.querySelectorAll<HTMLElement>(
-      "a,button,[data-cursor='highlight']"
-    );
-
-    const growCursor = () => {
-      cur.classList.add("big");
-      ring.classList.add("big");
-    };
-
-    const shrinkCursor = () => {
-      cur.classList.remove("big");
-      ring.classList.remove("big");
-    };
-
-    document.addEventListener("mousemove", handleMove);
-    frameId = window.requestAnimationFrame(animateRing);
-    interactiveElements.forEach((element) => {
-      element.addEventListener("mouseenter", growCursor);
-      element.addEventListener("mouseleave", shrinkCursor);
-    });
-
-    return () => {
-      document.removeEventListener("mousemove", handleMove);
-      window.cancelAnimationFrame(frameId);
-      interactiveElements.forEach((element) => {
-        element.removeEventListener("mouseenter", growCursor);
-        element.removeEventListener("mouseleave", shrinkCursor);
-      });
-    };
-  }, []);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -268,9 +118,6 @@ export default function Home() {
 
   return (
     <>
-      <div className="cur" ref={curRef} />
-      <div className="cur-ring" ref={ringRef} />
-
       <Navbar />
 
       <main>
@@ -280,249 +127,205 @@ export default function Home() {
             minHeight: "100vh",
             padding: "120px 5% 72px",
             background:
-              "radial-gradient(circle at top right, rgba(25,168,152,0.12), transparent 26%), var(--off)",
+              "radial-gradient(circle at 82% 8%, rgba(25,168,152,0.12), transparent 34%), var(--white)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <div
             style={{
-              maxWidth: "1200px",
+              maxWidth: "980px",
+              width: "100%",
               margin: "0 auto",
-              display: "grid",
-              gridTemplateColumns: "1.2fr 0.8fr",
-              gap: "32px",
-              alignItems: "center",
+              textAlign: "center",
             }}
-            className="hero-grid"
           >
-            <div>
-              <span
-                className="animate-fade-down"
+            <span
+              className="animate-fade-down"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 16px",
+                borderRadius: "999px",
+                background: "var(--off)",
+                border: "1px solid var(--line)",
+                color: "var(--teal-dark)",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+              }}
+            >
+              <HiSparkles size={12} color="var(--teal)" />
+              LinkedIn Growth Services
+            </span>
+
+            <h1
+              className="animate-fade-down animate-delay-1"
+              style={{
+                marginTop: "18px",
+                fontFamily: "var(--font-heading, sans-serif)",
+                fontSize: "clamp(38px, 5vw, 64px)",
+                lineHeight: 1.08,
+                fontWeight: 800,
+                letterSpacing: "-0.03em",
+                color: "var(--ink)",
+              }}
+            >
+              Grow Consistently on LinkedIn
+              <br />
+              and Convert More Qualified Clients
+            </h1>
+
+            <p
+              className="animate-fade-down animate-delay-2"
+              style={{
+                margin: "18px auto 0",
+                maxWidth: "700px",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "16px",
+                lineHeight: 1.75,
+                color: "var(--muted)",
+                fontWeight: 400,
+              }}
+            >
+              A simple, professional system for outreach, audience growth, and account health so
+              your team gets steady opportunities every week.
+            </p>
+
+            <div
+              className="animate-fade-down animate-delay-3 hero-btns"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap",
+                gap: "12px",
+                marginTop: "30px",
+              }}
+            >
+              <Link
+                href="/demo"
+                data-cursor="highlight"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "8px",
-                  padding: "8px 16px",
-                  borderRadius: "999px",
-                  background: "var(--teal-pale)",
-                  border: "1px solid var(--teal-border)",
-                  color: "var(--teal-dark)",
-                  fontFamily: "var(--font-body, sans-serif)",
-                  fontSize: "12px",
+                  gap: "10px",
+                  padding: "14px 24px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  background: "var(--ink)",
+                  color: "#fff",
+                  fontFamily: "var(--font-heading, sans-serif)",
                   fontWeight: 700,
-                  letterSpacing: "0.08em",
+                  fontSize: "13px",
+                  letterSpacing: "0.07em",
                   textTransform: "uppercase",
                 }}
               >
-                <HiSparkles size={14} />
-                LinkedIn Growth Specialists
-              </span>
-
-              <h1
-                className="animate-fade-down animate-delay-1"
+                <FaHandshake size={14} />
+                LinkedIn Outreach &amp; Management
+              </Link>
+              <Link
+                href="/followers-checkout"
+                data-cursor="highlight"
                 style={{
-                  marginTop: "22px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "14px 24px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  background: "var(--teal)",
+                  color: "#fff",
                   fontFamily: "var(--font-heading, sans-serif)",
-                  fontSize: "clamp(42px, 6vw, 78px)",
-                  lineHeight: 1.03,
-                  fontWeight: 800,
-                  letterSpacing: "-0.04em",
-                  color: "var(--ink)",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  letterSpacing: "0.07em",
+                  textTransform: "uppercase",
                 }}
               >
-                Grow your LinkedIn presence and turn attention into qualified clients.
-              </h1>
-
-              <p
-                className="animate-fade-down animate-delay-2"
+                <FaArrowTrendUp size={14} />
+                LinkedIn Growth
+              </Link>
+              <Link
+                href="/demo"
+                data-cursor="highlight"
                 style={{
-                  marginTop: "22px",
-                  maxWidth: "650px",
-                  fontFamily: "var(--font-body, sans-serif)",
-                  fontSize: "18px",
-                  lineHeight: 1.75,
-                  color: "var(--muted)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "14px 24px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  background: "var(--teal-dark)",
+                  color: "#fff",
+                  fontFamily: "var(--font-heading, sans-serif)",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  letterSpacing: "0.07em",
+                  textTransform: "uppercase",
                 }}
               >
-                TechInRent helps founders, agencies, and service brands scale outreach,
-                recover account health, and build trust with systems that are designed for
-                consistency instead of shortcuts.
-              </p>
-
-              <div
-                className="animate-fade-down animate-delay-3"
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "14px",
-                  marginTop: "34px",
-                }}
-              >
-                <a
-                  href="#contact"
-                  data-cursor="highlight"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "14px 24px",
-                    borderRadius: "12px",
-                    textDecoration: "none",
-                    background: "var(--teal)",
-                    color: "#fff",
-                    fontFamily: "var(--font-heading, sans-serif)",
-                    fontWeight: 700,
-                    boxShadow: "0 10px 28px rgba(14,122,110,0.22)",
-                  }}
-                >
-                  <HiCalendarDays size={18} />
-                  Book a Free Strategy Call
-                </a>
-                <a
-                  href="#goals"
-                  data-cursor="highlight"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "14px 24px",
-                    borderRadius: "12px",
-                    textDecoration: "none",
-                    background: "var(--white)",
-                    color: "var(--ink)",
-                    border: "1px solid var(--line)",
-                    fontFamily: "var(--font-heading, sans-serif)",
-                    fontWeight: 700,
-                  }}
-                >
-                  Explore Services
-                  <HiArrowRight size={16} />
-                </a>
-              </div>
-
-              <div className="hero-stats-flex" style={{ display: "flex", gap: "16px", marginTop: "42px" }}>
-                {[
-                  { value: "500+", label: "Clients Served" },
-                  { value: "98%", label: "Satisfaction" },
-                  { value: "48h", label: "Fast Launch" },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    data-cursor="highlight"
-                    style={{
-                      flex: 1,
-                      minWidth: "160px",
-                      padding: "20px",
-                      borderRadius: "16px",
-                      background: "rgba(255,255,255,0.92)",
-                      border: "1px solid var(--line)",
-                      boxShadow: "0 8px 28px rgba(13,31,30,0.05)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontFamily: "var(--font-heading, sans-serif)",
-                        color: "var(--teal)",
-                        fontSize: "28px",
-                        fontWeight: 800,
-                      }}
-                    >
-                      {item.value}
-                    </div>
-                    <div
-                      style={{
-                        marginTop: "6px",
-                        fontFamily: "var(--font-body, sans-serif)",
-                        color: "var(--muted)",
-                        fontSize: "13px",
-                      }}
-                    >
-                      {item.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                <HiCheckBadge size={16} />
+                Account Recovery Support
+              </Link>
             </div>
 
             <div
-              data-cursor="highlight"
               style={{
-                padding: "28px",
-                borderRadius: "28px",
-                background: "linear-gradient(180deg, #ffffff, #f4fbfa)",
-                border: "1px solid var(--line)",
-                boxShadow: "0 20px 50px rgba(13,31,30,0.08)",
+                marginTop: "34px",
+                display: "grid",
+                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gap: "12px",
               }}
+              className="hero-stats-flex"
             >
-              <div
-                style={{
-                  padding: "18px",
-                  borderRadius: "20px",
-                  background: "var(--ink)",
-                  color: "#fff",
-                }}
-              >
-                <p
+              {[
+                { value: "500+", label: "Clients Supported" },
+                { value: "98%", label: "Satisfaction Rate" },
+                { value: "48h", label: "Average Onboarding" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  data-cursor="highlight"
                   style={{
-                    margin: 0,
-                    fontFamily: "var(--font-body, sans-serif)",
-                    fontSize: "12px",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.62)",
+                    padding: "16px 14px",
+                    borderRadius: "12px",
+                    border: "1px solid var(--line)",
+                    background: "var(--off)",
                   }}
                 >
-                  Weekly Outcomes
-                </p>
-                <h2
-                  style={{
-                    margin: "12px 0 0",
-                    fontFamily: "var(--font-heading, sans-serif)",
-                    fontSize: "28px",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  Built for pipeline, authority, and account safety.
-                </h2>
-              </div>
-
-              <div style={{ display: "grid", gap: "14px", marginTop: "18px" }}>
-                {[
-                  "Targeted outreach that starts qualified conversations",
-                  "Follower growth that strengthens your brand positioning",
-                  "Recovery support with safer long-term operating habits",
-                ].map((point) => (
-                  <div
-                    key={point}
+                  <p
                     style={{
-                      display: "flex",
-                      gap: "12px",
-                      alignItems: "flex-start",
-                      padding: "16px",
-                      borderRadius: "16px",
-                      background: "var(--white)",
-                      border: "1px solid var(--line)",
+                      margin: 0,
+                      fontFamily: "var(--font-heading, sans-serif)",
+                      fontSize: "28px",
+                      fontWeight: 800,
+                      color: "var(--teal)",
+                      lineHeight: 1,
                     }}
                   >
-                    <HiCheckBadge size={18} color="var(--teal)" style={{ marginTop: "2px", flexShrink: 0 }} />
-                    <span
-                      style={{
-                        fontFamily: "var(--font-body, sans-serif)",
-                        color: "var(--body)",
-                        lineHeight: 1.7,
-                      }}
-                    >
-                      {point}
-                    </span>
-                  </div>
-                ))}
-              </div>
+                    {item.value}
+                  </p>
+                  <p
+                    style={{
+                      margin: "7px 0 0",
+                      fontFamily: "var(--font-body, sans-serif)",
+                      fontSize: "13px",
+                      color: "var(--muted)",
+                    }}
+                  >
+                    {item.label}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        <div style={{ background: "var(--off)", padding: "28px 5%" }}>
-          <CarouselBanner />
-        </div>
 
         <section
           id="goals"
@@ -582,6 +385,38 @@ export default function Home() {
               >
                 Empower your professional growth with tailored services designed for measurable outcomes.
               </p>
+
+              <div
+                style={{
+                  marginTop: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
+              >
+                {["Safe Execution", "Transparent Reporting", "Fast Launch"].map((item) => (
+                  <span
+                    key={item}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      padding: "8px 12px",
+                      borderRadius: "999px",
+                      border: "1px solid var(--teal-border)",
+                      background: "var(--white)",
+                      color: "var(--teal-dark)",
+                      fontFamily: "var(--font-body, sans-serif)",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    <HiCheckBadge size={14} color="var(--teal)" />
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
 
             <div
@@ -589,117 +424,103 @@ export default function Home() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "24px",
+                gap: "20px",
                 alignItems: "stretch",
               }}
             >
-              {serviceCards.map((service) => (
+              {serviceCards.map((service, index) => (
                 <article
                   key={service.title}
-                  data-cursor="highlight"
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    minHeight: "100%",
-                    padding: "28px 26px 26px",
-                    borderRadius: "22px",
-                    background: "var(--white)",
+                    padding: "28px 24px",
+                    borderRadius: "16px",
+                    background: "var(--off)",
                     border: "1px solid var(--line)",
-                    boxShadow: "0 18px 48px rgba(13,31,30,0.08)",
+                    boxShadow: "0 4px 12px rgba(13,31,30,0.06)",
                   }}
                 >
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "56px",
-                      height: "56px",
-                      borderRadius: "16px",
-                      background: "linear-gradient(145deg, var(--teal-pale), var(--teal-pale2))",
-                      border: "1px solid var(--teal-border)",
-                    }}
-                  >
+                  <div style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "10px",
+                    background: "var(--white)",
+                    border: "1px solid var(--line)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: "18px",
+                    color: "var(--teal)",
+                  }}>
                     {service.icon}
                   </div>
-                  <h3
-                    style={{
-                      margin: "20px 0 0",
-                      fontFamily: "var(--font-heading, sans-serif)",
-                      color: "var(--ink)",
-                      fontSize: "21px",
-                      fontWeight: 800,
-                      lineHeight: 1.25,
-                      letterSpacing: "-0.02em",
-                    }}
-                  >
+
+                  <h3 style={{
+                    margin: "0 0 8px",
+                    fontFamily: "var(--font-heading, sans-serif)",
+                    color: "var(--ink)",
+                    fontSize: "18px",
+                    fontWeight: 700,
+                    lineHeight: 1.3,
+                  }}>
                     {service.title}
                   </h3>
-                  <p
-                    style={{
-                      margin: "12px 0 0",
-                      fontFamily: "var(--font-body, sans-serif)",
-                      color: "var(--muted)",
-                      lineHeight: 1.7,
-                      fontSize: "15px",
-                    }}
-                  >
+
+                  <p style={{
+                    margin: "0 0 16px",
+                    fontFamily: "var(--font-body, sans-serif)",
+                    color: "var(--muted)",
+                    lineHeight: 1.65,
+                    fontSize: "14px",
+                  }}>
                     {service.description}
                   </p>
-                  <ul
-                    style={{
-                      margin: "20px 0 0",
-                      padding: 0,
-                      listStyle: "none",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "12px",
-                      flex: 1,
-                    }}
-                  >
+
+                  <ul style={{
+                    margin: "0 0 24px",
+                    padding: 0,
+                    listStyle: "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    flex: 1,
+                  }}>
                     {service.bullets.map((bullet) => (
-                      <li key={bullet} style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-                        <HiCheckBadge size={18} color="var(--teal)" style={{ marginTop: "3px", flexShrink: 0 }} aria-hidden />
-                        <span
-                          style={{
-                            fontFamily: "var(--font-body, sans-serif)",
-                            color: "var(--body)",
-                            lineHeight: 1.55,
-                            fontSize: "14px",
-                          }}
-                        >
+                      <li key={bullet} style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
+                        <HiCheckBadge size={15} color="var(--teal)" style={{ marginTop: "2px", flexShrink: 0 }} aria-hidden />
+                        <span style={{
+                          fontFamily: "var(--font-body, sans-serif)",
+                          color: "var(--body)",
+                          lineHeight: 1.5,
+                          fontSize: "13px",
+                        }}>
                           {bullet}
                         </span>
                       </li>
                     ))}
                   </ul>
+
                   <Link
                     href={service.ctaHref}
                     className="service-cta-link"
-                    data-cursor="highlight"
                     style={{
-                      marginTop: "28px",
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      gap: "10px",
-                      width: "100%",
-                      padding: "14px 20px",
-                      borderRadius: "12px",
+                      gap: "8px",
+                      padding: "11px 20px",
+                      borderRadius: "8px",
                       background: "var(--ink)",
                       color: "#fff",
                       fontFamily: "var(--font-heading, sans-serif)",
-                      fontSize: "12px",
-                      fontWeight: 800,
-                      letterSpacing: "0.12em",
-                      textTransform: "uppercase",
+                      fontSize: "13px",
+                      fontWeight: 600,
                       textDecoration: "none",
-                      boxShadow: "0 10px 28px rgba(13,31,30,0.2)",
-                      transition: "transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease",
                     }}
                   >
                     {service.ctaLabel}
-                    <FaArrowRightLong size={14} aria-hidden />
+                    <FaArrowRightLong size={12} aria-hidden />
                   </Link>
                 </article>
               ))}
@@ -880,123 +701,69 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className="reveal" style={{ padding: "96px 5%", background: "var(--white)" }}>
-          <div
-            style={{
-              maxWidth: "1200px",
-              margin: "0 auto",
-              padding: "32px",
-              borderRadius: "28px",
-              background: "linear-gradient(135deg, var(--ink), var(--teal-deep))",
-              color: "#fff",
-              boxShadow: "0 18px 50px rgba(6,61,55,0.24)",
-            }}
-          >
-            <div className="contact-wrap-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "28px", alignItems: "center" }}>
-              <div>
-                <p
-                  style={{
-                    margin: 0,
-                    color: "rgba(255,255,255,0.72)",
-                    fontFamily: "var(--font-body, sans-serif)",
-                    fontWeight: 700,
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    fontSize: "12px",
-                  }}
-                >
-                  Contact
-                </p>
-                <h2
-                  style={{
-                    margin: "12px 0 0",
-                    fontFamily: "var(--font-heading, sans-serif)",
-                    fontSize: "clamp(30px, 4vw, 46px)",
-                    lineHeight: 1.1,
-                  }}
-                >
-                  Want a tailored plan for outreach, growth, or recovery?
-                </h2>
-                <p
-                  style={{
-                    margin: "16px 0 0",
-                    fontFamily: "var(--font-body, sans-serif)",
-                    lineHeight: 1.8,
-                    color: "rgba(255,255,255,0.8)",
-                    maxWidth: "560px",
-                  }}
-                >
-                  Reach out on the platform you prefer and we will help map the next best step
-                  for your LinkedIn growth.
-                </p>
-              </div>
+        <section id="contact" className="reveal" style={{ padding: "72px 5%", background: "var(--white)" }}>
+          <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center" }}>
+            <p style={{ margin: 0, color: "var(--teal)", fontFamily: "var(--font-body, sans-serif)", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", fontSize: "11px" }}>
+              Contact
+            </p>
+            <h2 style={{ margin: "14px 0 10px", fontFamily: "var(--font-heading, sans-serif)", fontSize: "clamp(26px, 3.5vw, 38px)", fontWeight: 800, lineHeight: 1.15, color: "var(--ink)" }}>
+              Get in touch
+            </h2>
+            <p style={{ margin: "0 0 36px", fontFamily: "var(--font-body, sans-serif)", fontSize: "15px", lineHeight: 1.7, color: "var(--muted)" }}>
+              Reach out on any platform and we will help map the next step for your LinkedIn growth.
+            </p>
 
-              <div className="contact-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "14px" }}>
-                {[
-                  {
-                    href: "mailto:hello@techinrent.com",
-                    icon: <HiEnvelope size={18} />,
-                    title: "Email",
-                    text: "hello@techinrent.com",
-                  },
-                  {
-                    href: "https://wa.me/917898711748",
-                    icon: <FaWhatsapp size={18} />,
-                    title: "WhatsApp",
-                    text: "+91 78987 11748",
-                  },
-                  {
-                    href: "https://t.me/techinrentadmin",
-                    icon: <RiTelegramLine size={18} />,
-                    title: "Telegram",
-                    text: "@techinrentadmin",
-                  },
-                  {
-                    href: "https://twitter.com/techinrent",
-                    icon: <RiTwitterXLine size={18} />,
-                    title: "X / Twitter",
-                    text: "@techinrent",
-                  },
-                  {
-                    href: "https://instagram.com/techinrent",
-                    icon: <RiInstagramLine size={18} />,
-                    title: "Instagram",
-                    text: "@techinrent",
-                  },
-                ].map((item) => (
-                  <a
-                    key={item.title}
-                    href={item.href}
-                    target={item.href.startsWith("http") ? "_blank" : undefined}
-                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    data-cursor="highlight"
-                    style={{
-                      textDecoration: "none",
-                      color: "#fff",
-                      padding: "18px",
-                      borderRadius: "18px",
-                      background: "rgba(255,255,255,0.08)",
-                      border: "1px solid rgba(255,255,255,0.12)",
-                    }}
-                  >
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: "10px", fontFamily: "var(--font-heading, sans-serif)", fontWeight: 700 }}>
-                      {item.icon}
-                      {item.title}
+            <div className="contact-links-row" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", maxWidth: "1100px", margin: "0 auto" }}>
+              {[
+                { href: "mailto:hello@techinrent.com", icon: <HiEnvelope size={18} />, label: "Email", sub: "hello@techinrent.com" },
+                { href: "https://wa.me/917898711748", icon: <FaWhatsapp size={18} />, label: "WhatsApp", sub: "+91 78987 11748" },
+                { href: "https://t.me/techinrentadmin", icon: <RiTelegramLine size={18} />, label: "Telegram", sub: "@techinrentadmin" },
+                { href: "https://twitter.com/techinrent", icon: <RiTwitterXLine size={18} />, label: "Twitter", sub: "@techinrent" },
+                { href: "https://instagram.com/techinrent", icon: <RiInstagramLine size={18} />, label: "Instagram", sub: "@techinrent" },
+              ].map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "14px 18px",
+                    borderRadius: "12px",
+                    textDecoration: "none",
+                    background: "var(--white)",
+                    border: "1px solid var(--line)",
+                    boxShadow: "0 2px 12px rgba(13,31,30,0.06)",
+                    flex: "1 1 auto",
+                    minWidth: "180px",
+                    maxWidth: "210px",
+                  }}
+                >
+                  <div style={{
+                    width: "38px",
+                    height: "38px",
+                    borderRadius: "9px",
+                    background: "var(--teal-pale)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--teal)",
+                    flexShrink: 0,
+                  }}>
+                    {item.icon}
+                  </div>
+                  <div style={{ textAlign: "left", overflow: "hidden" }}>
+                    <div style={{ fontFamily: "var(--font-heading, sans-serif)", fontSize: "13px", fontWeight: 700, color: "var(--ink)" }}>
+                      {item.label}
                     </div>
-                    <div
-                      style={{
-                        marginTop: "10px",
-                        fontFamily: "var(--font-body, sans-serif)",
-                        color: "rgba(255,255,255,0.8)",
-                        lineHeight: 1.6,
-                        wordBreak: "break-word",
-                      }}
-                    >
-                      {item.text}
+                    <div style={{ fontFamily: "var(--font-body, sans-serif)", fontSize: "11px", color: "var(--muted)", marginTop: "2px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {item.sub}
                     </div>
-                  </a>
-                ))}
-              </div>
+                  </div>
+                </a>
+              ))}
             </div>
           </div>
         </section>

@@ -2,14 +2,20 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer style={{ background: "var(--ink)", padding: "64px 5% 32px" }}>
+    <footer
+      style={{
+        background: "var(--ink)",
+        borderTop: "1px solid rgba(255,255,255,0.08)",
+        padding: "24px 5% 16px",
+      }}
+    >
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "2fr 1fr 1fr",
-          gap: "60px",
-          paddingBottom: "48px",
-          borderBottom: "1px solid rgba(255,255,255,0.07)",
+          gap: "32px",
+          paddingBottom: "16px",
+          borderBottom: "1px solid rgba(255,255,255,0.1)",
         }}
         className="footer-grid-cols"
       >
@@ -24,35 +30,35 @@ export default function Footer() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontFamily: "var(--font-syne, sans-serif)",
+              fontFamily: "var(--font-heading, sans-serif)",
               fontWeight: 800,
               color: "#fff",
               fontSize: "14px",
-              marginBottom: "14px",
+              marginBottom: "10px",
             }}
           >
             TR
           </div>
           <span
             style={{
-              fontFamily: "var(--font-syne, sans-serif)",
+              fontFamily: "var(--font-heading, sans-serif)",
               fontWeight: 700,
               fontSize: "17px",
               color: "#fff",
               display: "block",
-              marginBottom: "14px",
+              marginBottom: "10px",
             }}
           >
             TechInRent
           </span>
           <p
             style={{
-              fontFamily: "var(--font-outfit, sans-serif)",
-              fontSize: "13.5px",
-              color: "rgba(255,255,255,0.4)",
-              lineHeight: 1.8,
-              maxWidth: "280px",
-              fontWeight: 300,
+              fontFamily: "var(--font-body, sans-serif)",
+              fontSize: "14px",
+              color: "rgba(255,255,255,0.62)",
+              lineHeight: 1.7,
+              maxWidth: "340px",
+              fontWeight: 400,
             }}
           >
             We help professionals and teams accelerate LinkedIn growth through secure outreach systems, transparent reporting, and measurable outcomes.
@@ -63,13 +69,13 @@ export default function Footer() {
         <div>
           <h4
             style={{
-              fontFamily: "var(--font-syne, sans-serif)",
+              fontFamily: "var(--font-heading, sans-serif)",
               fontWeight: 700,
-              fontSize: "10px",
-              letterSpacing: "0.14em",
+              fontSize: "11px",
+              letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.25)",
-              marginBottom: "20px",
+              color: "rgba(255,255,255,0.6)",
+              marginBottom: "12px",
             }}
           >
             Navigation
@@ -85,11 +91,12 @@ export default function Footer() {
               href={l.href}
               style={{
                 display: "block",
-                color: "rgba(255,255,255,0.5)",
+                color: "rgba(255,255,255,0.78)",
                 textDecoration: "none",
-                fontFamily: "var(--font-outfit, sans-serif)",
+                fontFamily: "var(--font-body, sans-serif)",
                 fontSize: "14px",
-                marginBottom: "12px",
+                marginBottom: "7px",
+                lineHeight: 1.4,
               }}
             >
               {l.label}
@@ -101,13 +108,13 @@ export default function Footer() {
         <div>
           <h4
             style={{
-              fontFamily: "var(--font-syne, sans-serif)",
+              fontFamily: "var(--font-heading, sans-serif)",
               fontWeight: 700,
-              fontSize: "10px",
-              letterSpacing: "0.14em",
+              fontSize: "11px",
+              letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.25)",
-              marginBottom: "20px",
+              color: "rgba(255,255,255,0.6)",
+              marginBottom: "12px",
             }}
           >
             Contact
@@ -125,11 +132,12 @@ export default function Footer() {
               rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
               style={{
                 display: "block",
-                color: "rgba(255,255,255,0.5)",
+                color: "rgba(255,255,255,0.78)",
                 textDecoration: "none",
-                fontFamily: "var(--font-outfit, sans-serif)",
+                fontFamily: "var(--font-body, sans-serif)",
                 fontSize: "14px",
-                marginBottom: "12px",
+                marginBottom: "7px",
+                lineHeight: 1.4,
               }}
             >
               {l.label}
@@ -140,28 +148,28 @@ export default function Footer() {
 
       <div
         style={{
-          paddingTop: "28px",
+          paddingTop: "16px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           flexWrap: "wrap",
-          gap: "8px",
+          gap: "6px",
         }}
       >
         <span
           style={{
-            fontFamily: "var(--font-outfit, sans-serif)",
-            fontSize: "12.5px",
-            color: "rgba(255,255,255,0.25)",
+            fontFamily: "var(--font-body, sans-serif)",
+            fontSize: "12px",
+            color: "rgba(255,255,255,0.45)",
           }}
         >
           © 2025 TechInRent. All rights reserved.
         </span>
         <span
           style={{
-            fontFamily: "var(--font-outfit, sans-serif)",
-            fontSize: "12.5px",
-            color: "rgba(255,255,255,0.25)",
+            fontFamily: "var(--font-body, sans-serif)",
+            fontSize: "12px",
+            color: "rgba(255,255,255,0.45)",
           }}
         >
           LinkedIn Growth — Done Right{" "}
@@ -171,7 +179,7 @@ export default function Footer() {
 
       <style>{`
         @media (max-width: 1100px) {
-          .footer-grid-cols { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .footer-grid-cols { grid-template-columns: 1fr !important; gap: 24px !important; }
         }
       `}</style>
     </footer>
