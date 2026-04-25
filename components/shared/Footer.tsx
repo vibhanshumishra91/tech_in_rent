@@ -1,45 +1,187 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t border-slate-200 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-slate-100">
-      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
-        <div className="lg:col-span-2">
-          <div className="inline-flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-sky-700 to-emerald-700 text-sm font-bold">
-              TR
-            </span>
-            <span className="text-lg font-semibold">TechInRent</span>
+    <footer
+      style={{
+        background: "var(--ink)",
+        borderTop: "1px solid rgba(255,255,255,0.08)",
+        padding: "24px 5% 16px",
+      }}
+    >
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "2fr 1fr 1fr",
+          gap: "32px",
+          paddingBottom: "16px",
+          borderBottom: "1px solid rgba(255,255,255,0.1)",
+        }}
+        className="footer-grid-cols"
+      >
+        {/* Brand */}
+        <div>
+          <div
+            style={{
+              width: "38px",
+              height: "38px",
+              borderRadius: "10px",
+              background: "linear-gradient(135deg, var(--teal), var(--teal-dark))",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "var(--font-heading, sans-serif)",
+              fontWeight: 800,
+              color: "#fff",
+              fontSize: "14px",
+              marginBottom: "10px",
+            }}
+          >
+            TR
           </div>
-          <p className="mt-4 max-w-md text-sm leading-7 text-slate-300">
-            We help professionals and teams accelerate LinkedIn growth through secure account solutions,
-            transparent support, and measurable outcomes.
+          <span
+            style={{
+              fontFamily: "var(--font-heading, sans-serif)",
+              fontWeight: 700,
+              fontSize: "17px",
+              color: "#fff",
+              display: "block",
+              marginBottom: "10px",
+            }}
+          >
+            TechInRent
+          </span>
+          <p
+            style={{
+              fontFamily: "var(--font-body, sans-serif)",
+              fontSize: "14px",
+              color: "rgba(255,255,255,0.62)",
+              lineHeight: 1.7,
+              maxWidth: "340px",
+              fontWeight: 400,
+            }}
+          >
+            We help professionals and teams accelerate LinkedIn growth through secure outreach systems, transparent reporting, and measurable outcomes.
           </p>
         </div>
 
+        {/* Navigation */}
         <div>
-          <h3 className="text-sm font-medium uppercase tracking-wider text-slate-200">Quick Links</h3>
-          <ul className="mt-4 space-y-2 text-sm text-slate-300">
-            <li><a href="#services" className="transition hover:text-white">Services</a></li>
-            <li><a href="#why-us" className="transition hover:text-white">Why Us</a></li>
-            <li><a href="#contact" className="transition hover:text-white">Contact</a></li>
-          </ul>
+          <h4
+            style={{
+              fontFamily: "var(--font-heading, sans-serif)",
+              fontWeight: 700,
+              fontSize: "11px",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.6)",
+              marginBottom: "12px",
+            }}
+          >
+            Navigation
+          </h4>
+          {[
+            { label: "Services", href: "/#goals" },
+            { label: "How It Works", href: "/#how" },
+            { label: "Why Us", href: "/#why" },
+            { label: "Contact", href: "/#contact" },
+          ].map((l) => (
+            <Link
+              key={l.label}
+              href={l.href}
+              style={{
+                display: "block",
+                color: "rgba(255,255,255,0.78)",
+                textDecoration: "none",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "14px",
+                marginBottom: "7px",
+                lineHeight: 1.4,
+              }}
+            >
+              {l.label}
+            </Link>
+          ))}
         </div>
 
+        {/* Contact */}
         <div>
-          <h3 className="text-sm font-medium uppercase tracking-wider text-slate-200">Get in Touch</h3>
-          <ul className="mt-4 space-y-2 text-sm text-slate-300">
-            <li><a href="mailto:hello@techinrent.com" className="transition hover:text-white">hello@techinrent.com</a></li>
-            <li><a href="https://t.me/techinrentadmin" className="transition hover:text-white">Telegram</a></li>
-            <li><a href="https://wa.me/919999999999" className="transition hover:text-white">WhatsApp</a></li>
-          </ul>
+          <h4
+            style={{
+              fontFamily: "var(--font-heading, sans-serif)",
+              fontWeight: 700,
+              fontSize: "11px",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.6)",
+              marginBottom: "12px",
+            }}
+          >
+            Contact
+          </h4>
+          {[
+            { label: "hello@techinrent.com", href: "mailto:hello@techinrent.com" },
+            { label: "Telegram", href: "https://t.me/techinrentadmin" },
+            { label: "WhatsApp", href: "https://wa.me/917898711748" },
+            { label: "Twitter / X", href: "https://twitter.com/techinrent" },
+          ].map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              target={l.href.startsWith("http") ? "_blank" : undefined}
+              rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              style={{
+                display: "block",
+                color: "rgba(255,255,255,0.78)",
+                textDecoration: "none",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "14px",
+                marginBottom: "7px",
+                lineHeight: 1.4,
+              }}
+            >
+              {l.label}
+            </a>
+          ))}
         </div>
       </div>
 
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-3 px-4 py-4 text-xs text-slate-400 sm:flex-row sm:px-6 lg:px-8">
-          <p>© 2026 TechInRent. All rights reserved.</p>
-          <p>Built for secure, scalable LinkedIn growth.</p>
-        </div>
+      <div
+        style={{
+          paddingTop: "16px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "6px",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-body, sans-serif)",
+            fontSize: "12px",
+            color: "rgba(255,255,255,0.45)",
+          }}
+        >
+          © 2025 TechInRent. All rights reserved.
+        </span>
+        <span
+          style={{
+            fontFamily: "var(--font-body, sans-serif)",
+            fontSize: "12px",
+            color: "rgba(255,255,255,0.45)",
+          }}
+        >
+          LinkedIn Growth — Done Right{" "}
+          <span style={{ color: "var(--teal-light)" }}>◆</span>
+        </span>
       </div>
+
+      <style>{`
+        @media (max-width: 1100px) {
+          .footer-grid-cols { grid-template-columns: 1fr !important; gap: 24px !important; }
+        }
+      `}</style>
     </footer>
   );
 }

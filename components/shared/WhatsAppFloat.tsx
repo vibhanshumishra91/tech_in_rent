@@ -1,15 +1,32 @@
-import { FaWhatsapp } from "react-icons/fa6";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsAppFloat() {
   return (
     <a
       href="https://wa.me/917898711748"
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
-      className="fixed bottom-5 right-5 z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-500/35 transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-500"
+      style={{
+        position: "fixed",
+        bottom: "28px",
+        right: "28px",
+        width: "50px",
+        height: "50px",
+        borderRadius: "50%",
+        background: "#25d366",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        boxShadow: "0 4px 20px rgba(37,211,102,0.3)",
+        zIndex: 400,
+        textDecoration: "none",
+        transition: "transform 0.2s",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
     >
-      <FaWhatsapp size={20} />
+      <FaWhatsapp size={24} color="#fff" />
     </a>
   );
 }

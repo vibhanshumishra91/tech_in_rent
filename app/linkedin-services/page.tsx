@@ -1,10 +1,15 @@
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
-import { FaArrowRightLong, FaCircleCheck, FaHandshake, FaRocket, FaShieldHalved } from "react-icons/fa6";
+import { FaArrowRightLong, FaCircleCheck, FaRocket, FaShieldHalved } from "react-icons/fa6";
 
+const IconHandshake = () => (
+  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.069A1 1 0 0121 8.882v6.236a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+  </svg>
+);
 const services = [
   {
-    icon: FaHandshake,
+    icon: IconHandshake,
     title: "LinkedIn Outreach & Management",
     description:
       "Managed outbound campaigns designed to generate qualified conversations and predictable pipeline.",

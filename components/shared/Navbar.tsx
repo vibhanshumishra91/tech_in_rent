@@ -1,84 +1,205 @@
 "use client";
-
-import Link from "next/link";
 import { useState } from "react";
-import { HiOutlineBars3 as Menu, HiOutlineXMark as X } from "react-icons/hi2";
-
-const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "Why Us", href: "#why-us" },
-  { label: "Contact", href: "#contact" },
-];
+import Link from "next/link";
+import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 shadow-sm shadow-slate-900/5 backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="#top" className="group inline-flex items-center gap-3" aria-label="Go to top">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-sky-700 to-emerald-700 text-sm font-bold text-white shadow-sm">
-            TR
-          </span>
-          <span className="text-sm font-semibold tracking-wide text-slate-900 sm:text-base">
-            TechInRent
-          </span>
-        </Link>
-
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
-          {navLinks.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-slate-700 transition-colors duration-300 hover:text-slate-900"
-            >
-              {item.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            className="rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-slate-800"
-          >
-            Get Started
-          </a>
-        </nav>
-
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-900 transition hover:bg-slate-50 md:hidden"
-          aria-label="Toggle menu"
-          aria-expanded={isOpen}
-          aria-controls="mobile-menu"
+    <nav
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 500,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "0 5%",
+        height: "68px",
+        background: "rgba(255,255,255,0.94)",
+        borderBottom: "1px solid var(--line)",
+        backdropFilter: "blur(18px)",
+      }}
+    >
+      {/* Logo */}
+      <Link
+        href="/"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "11px",
+          textDecoration: "none",
+        }}
+      >
+        <div
+          style={{
+            width: "38px",
+            height: "38px",
+            borderRadius: "10px",
+            background: "linear-gradient(135deg, var(--teal), var(--teal-dark))",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: "var(--font-syne, sans-serif)",
+            fontWeight: 800,
+            color: "#fff",
+            fontSize: "14px",
+            letterSpacing: "0.02em",
+            boxShadow: "0 4px 14px rgba(14,122,110,0.3)",
+            flexShrink: 0,
+          }}
         >
-          <span className="sr-only">Toggle navigation</span>
-          {isOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
+          TR
+        </div>
+        <span
+          style={{
+            fontFamily: "var(--font-syne, sans-serif)",
+            fontWeight: 700,
+            fontSize: "17px",
+            color: "var(--ink)",
+            letterSpacing: "-0.01em",
+          }}
+        >
+          TechInRent
+        </span>
+      </Link>
+
+      {/* Desktop links */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "34px",
+        }}
+        className="nav-links"
+      >
+        {[
+          { label: "Services", href: "/#goals" },
+          { label: "Process", href: "/#how" },
+          { label: "Why Us", href: "/#why" },
+          { label: "Contact", href: "/#contact" },
+        ].map((l) => (
+          <Link
+            key={l.label}
+            href={l.href}
+            style={{
+              textDecoration: "none",
+              color: "var(--muted)",
+              fontFamily: "var(--font-outfit, sans-serif)",
+              fontSize: "14px",
+              fontWeight: 500,
+            }}
+          >
+            {l.label}
+          </Link>
+        ))}
+        <Link
+          href="/#contact"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "7px",
+            background: "var(--teal)",
+            color: "#fff",
+            padding: "9px 22px",
+            borderRadius: "8px",
+            fontFamily: "var(--font-syne, sans-serif)",
+            fontSize: "13.5px",
+            fontWeight: 700,
+            textDecoration: "none",
+            letterSpacing: "0.01em",
+            boxShadow: "0 4px 14px rgba(14,122,110,0.25)",
+          }}
+        >
+          Get Started
+        </Link>
       </div>
 
-      {isOpen ? (
-        <div id="mobile-menu" className="animate-fade-down border-t border-slate-200 bg-white md:hidden">
-          <nav className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-3 sm:px-6" aria-label="Mobile navigation">
-            {navLinks.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors duration-300 hover:bg-slate-100 hover:text-slate-900"
-              >
-                {item.label}
-              </a>
-            ))}
-            <a
-              href="#contact"
-              onClick={() => setIsOpen(false)}
-              className="mt-2 w-full rounded-xl bg-slate-800 py-2.5 text-center text-sm font-medium text-white transition duration-300 hover:bg-slate-700"
+      {/* Mobile hamburger */}
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          display: "none",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          color: "var(--ink)",
+          padding: "4px",
+        }}
+        className="nav-hamburger"
+        aria-label="Toggle menu"
+      >
+        {open ? <RiCloseLine size={24} /> : <RiMenu3Line size={24} />}
+      </button>
+
+      {/* Mobile menu */}
+      {open && (
+        <div
+          style={{
+            position: "absolute",
+            top: "68px",
+            left: 0,
+            right: 0,
+            background: "#fff",
+            borderBottom: "1px solid var(--line)",
+            padding: "16px 5%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+          }}
+        >
+          {[
+            { label: "Services", href: "/#goals" },
+            { label: "Process", href: "/#how" },
+            { label: "Why Us", href: "/#why" },
+            { label: "Contact", href: "/#contact" },
+          ].map((l) => (
+            <Link
+              key={l.label}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              style={{
+                textDecoration: "none",
+                color: "var(--body)",
+                fontFamily: "var(--font-outfit, sans-serif)",
+                fontSize: "15px",
+                fontWeight: 500,
+              }}
             >
-              Get Started
-            </a>
-          </nav>
+              {l.label}
+            </Link>
+          ))}
+          <Link
+            href="/#contact"
+            onClick={() => setOpen(false)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "var(--teal)",
+              color: "#fff",
+              padding: "11px 22px",
+              borderRadius: "8px",
+              fontFamily: "var(--font-syne, sans-serif)",
+              fontSize: "14px",
+              fontWeight: 700,
+              textDecoration: "none",
+            }}
+          >
+            Get Started
+          </Link>
         </div>
-      ) : null}
-    </header>
+      )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .nav-links { display: none !important; }
+          .nav-hamburger { display: flex !important; }
+        }
+      `}</style>
+    </nav>
   );
 }

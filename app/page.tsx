@@ -1,385 +1,776 @@
+"use client";
+
+import { useEffect } from "react";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
+import Link from "next/link";
+import WhatsAppFloat from "@/components/shared/WhatsAppFloat";
 import {
-  FaArrowRightLong as ArrowRight,
-  FaArrowTrendUp as TrendingUp,
-  FaBriefcase as BriefcaseBusiness,
-  FaCircleCheck as BadgeCheck,
-  FaHandshake as Handshake,
-  FaInstagram,
-  FaRocket as Rocket,
-  FaShieldHalved as ShieldCheck,
-  FaTelegram,
-  FaUsers as Users,
-  FaWhatsapp,
-  FaXTwitter,
-} from "react-icons/fa6";
-import {
-  HiOutlineChatBubbleLeftRight as MessagesSquare,
-  HiOutlineEnvelope as Mail,
-  HiSparkles as Sparkles,
+  HiCalendarDays,
+  HiChatBubbleLeftRight,
+  HiCheckBadge,
+  HiClipboardDocument,
+  HiEnvelope,
+  HiSparkles,
 } from "react-icons/hi2";
+import { FaWhatsapp } from "react-icons/fa";
+import {
+  FaArrowTrendUp,
+  FaArrowRightLong,
+  FaHandshake,
+  FaRocket,
+} from "react-icons/fa6";
+import { RiInstagramLine, RiTelegramLine, RiTwitterXLine } from "react-icons/ri";
 
 const serviceCards = [
   {
-    icon: Handshake,
+    icon: <FaHandshake size={22} color="var(--teal)" aria-hidden />,
     title: "LinkedIn Outreach & Management",
-    description: "Managed outreach systems focused on qualified conversations and pipeline growth.",
-    points: ["Done-for-you campaign setup", "ICP-targeted outreach strategy", "Weekly performance tracking"],
+    description:
+      "Managed outreach systems focused on qualified conversations and pipeline growth.",
+    bullets: [
+      "Done-for-you campaign setup",
+      "ICP-targeted outreach strategy",
+      "Weekly performance tracking",
+    ],
     ctaLabel: "Book Demo",
     ctaHref: "/demo",
   },
   {
-    icon: Rocket,
+    icon: <FaRocket size={22} color="var(--teal)" aria-hidden />,
     title: "LinkedIn Growth",
-    description: "Scale visibility and follower growth with a safe, consistent growth framework.",
-    points: ["Profile authority positioning", "Steady follower growth", "Designed for long-term brand trust"],
+    description:
+      "Scale visibility and follower growth with a safe, consistent growth framework.",
+    bullets: [
+      "Profile authority positioning",
+      "Steady follower growth",
+      "Designed for long-term brand trust",
+    ],
     ctaLabel: "Buy Now",
     ctaHref: "/followers-checkout",
   },
   {
-    icon: TrendingUp,
+    icon: <FaArrowTrendUp size={22} color="var(--teal)" aria-hidden />,
     title: "Account Recovery Support",
-    description: "Structured support to restore account health and reduce restriction risks.",
-    points: ["Restriction diagnosis support", "Recovery action roadmap", "Preventive policy-safe best practices"],
+    description:
+      "Structured support to restore account health and reduce restriction risks.",
+    bullets: [
+      "Restriction diagnosis support",
+      "Recovery action roadmap",
+      "Preventive policy-safe best practices",
+    ],
     ctaLabel: "Schedule Call",
     ctaHref: "/demo",
-  },
-];
-
-const whyUsCards = [
-  { icon: ShieldCheck, title: "No Passwords", description: "Share only your profile URL and goals." },
-  { icon: BadgeCheck, title: "Secure & Compliant", description: "Privacy-first workflows built for trust." },
-  { icon: MessagesSquare, title: "24/7 Support", description: "Fast responses whenever you need help." },
-  { icon: Sparkles, title: "Real Growth", description: "Authentic professional connections, not bots." },
-];
-
-const contactCards = [
-  { icon: Mail, title: "Email", value: "hello@techinrent.com", href: "mailto:hello@techinrent.com" },
-  { icon: FaWhatsapp, title: "WhatsApp", value: "+91 78987 11748", href: "https://wa.me/917898711748" },
-  { icon: FaTelegram, title: "Telegram", value: "t.me/techinrentadmin", href: "https://t.me/techinrentadmin" },
-  { icon: FaXTwitter, title: "Twitter/X", value: "@techinrent", href: "https://x.com/techinrent" },
-  { icon: FaInstagram, title: "Instagram", value: "@techinrent", href: "https://instagram.com/techinrent" },
-];
-
-const metrics = [
-  { icon: Users, label: "Clients Served", value: "50+" },
-  { icon: TrendingUp, label: "Leads Generated", value: "1200+" },
-  { icon: BadgeCheck, label: "Avg. Response Rate", value: "92%" },
-];
-
-const segmentationCards = [
-  {
-    icon: Handshake,
-    title: "Scale Outreach",
-    description: "Managed outbound systems for high-intent meetings and qualified pipeline.",
-    ctaLabel: "Book Demo",
-    ctaHref: "/demo",
-  },
-  {
-    icon: TrendingUp,
-    title: "Recover Account",
-    description: "Get structured support to restore account health and continue growth safely.",
-    ctaLabel: "Schedule Call",
-    ctaHref: "/demo",
-  },
-  {
-    icon: Users,
-    title: "Grow Followers",
-    description: "Build profile authority with consistent follower growth and positioning support.",
-    ctaLabel: "Buy Now",
-    ctaHref: "/followers-checkout",
   },
 ];
 
 const processSteps = [
-  { icon: BriefcaseBusiness, title: "Share Requirement", description: "Tell us your goal, ICP, and timeline." },
-  { icon: Rocket, title: "We Execute", description: "Our team runs outreach, growth, or recovery workflow." },
-  { icon: MessagesSquare, title: "Leads Delivered", description: "Qualified responses and opportunities are delivered." },
-  { icon: BadgeCheck, title: "You Close", description: "You convert opportunities and scale with confidence." },
+  {
+    title: "Audit & Positioning",
+    text: "We review your profile, offer, and targeting to define a message-market fit that actually converts.",
+  },
+  {
+    title: "Execution Setup",
+    text: "Campaign structure, growth workflow, and reporting are set up around your goals and capacity.",
+  },
+  {
+    title: "Weekly Optimization",
+    text: "We refine what works, remove what does not, and keep the system healthy as results compound.",
+  },
 ];
 
-const proofCards = [
-  { title: "Outreach Performance Snapshot", subtitle: "Meeting bookings and reply flow view" },
-  { title: "Growth Dashboard Snapshot", subtitle: "Follower and profile visibility trend" },
-  { title: "Recovery Progress Snapshot", subtitle: "Account health and action completion" },
+const whyUsCards = [
+  {
+    icon: <HiCheckBadge size={20} color="var(--teal)" />,
+    title: "Policy-Safe Execution",
+    text: "Every workflow is designed to prioritize account health, consistency, and long-term brand trust.",
+  },
+  {
+    icon: <HiClipboardDocument size={20} color="var(--teal)" />,
+    title: "Clear Reporting",
+    text: "You get measurable updates on activity, conversations, and progress instead of vague promises.",
+  },
+  {
+    icon: <HiChatBubbleLeftRight size={20} color="var(--teal)" />,
+    title: "Human Strategy Support",
+    text: "You are not left with a tool alone. We help translate execution into pipeline and client growth.",
+  },
 ];
 
 export default function Home() {
-  const primaryButtonClass =
-    "flex h-12 w-full max-w-[26rem] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 px-6 text-base font-semibold text-white shadow-lg shadow-slate-300/45 ring-1 ring-slate-700/20 transition duration-300 hover:-translate-y-0.5 hover:from-slate-800 hover:to-slate-700";
-  const blueButtonClass =
-    "flex h-12 w-full max-w-[26rem] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-sky-900 to-sky-700 px-6 text-base font-semibold text-white shadow-lg shadow-sky-300/35 ring-1 ring-sky-700/20 transition duration-300 hover:-translate-y-0.5 hover:from-sky-800 hover:to-sky-600";
-  const greenButtonClass =
-    "flex h-12 w-full max-w-[26rem] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-emerald-900 to-emerald-700 px-6 text-base font-semibold text-white shadow-lg shadow-emerald-300/35 ring-1 ring-emerald-700/20 transition duration-300 hover:-translate-y-0.5 hover:from-emerald-800 hover:to-emerald-600";
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll(".reveal").forEach((node) => observer.observe(node));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div
-      id="top"
-      className="min-h-screen bg-[radial-gradient(circle_at_12%_0%,rgba(148,163,184,0.2),transparent_34%),radial-gradient(circle_at_88%_22%,rgba(56,189,248,0.14),transparent_35%),#f1f5f9] font-bold text-slate-900"
-    >
+    <>
       <Navbar />
 
       <main>
-        <section className="mx-auto w-full max-w-7xl px-4 pb-14 pt-16 sm:px-6 sm:pb-16 md:pt-20 lg:px-8">
-          <div className="animate-fade-up text-center">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-700">
-              <BriefcaseBusiness size={14} />
-              Growth Services
-            </div>
-            <h1 className="mt-6 text-balance text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
-              Scale Your LinkedIn Growth & Get High-Intent Clients
+        <section
+          id="home"
+          style={{
+            minHeight: "100vh",
+            padding: "120px 5% 72px",
+            background:
+              "radial-gradient(circle at 82% 8%, rgba(25,168,152,0.12), transparent 34%), var(--white)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "980px",
+              width: "100%",
+              margin: "0 auto",
+              textAlign: "center",
+            }}
+          >
+            <span
+              className="animate-fade-down"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 16px",
+                borderRadius: "999px",
+                background: "var(--off)",
+                border: "1px solid var(--line)",
+                color: "var(--teal-dark)",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+              }}
+            >
+              <HiSparkles size={12} color="var(--teal)" />
+              LinkedIn Growth Services
+            </span>
+
+            <h1
+              className="animate-fade-down animate-delay-1"
+              style={{
+                marginTop: "18px",
+                fontFamily: "var(--font-heading, sans-serif)",
+                fontSize: "clamp(38px, 5vw, 64px)",
+                lineHeight: 1.08,
+                fontWeight: 800,
+                letterSpacing: "-0.03em",
+                color: "var(--ink)",
+              }}
+            >
+              Grow Consistently on LinkedIn
+              <br />
+              and Convert More Qualified Clients
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-              Struggling to scale outreach or facing account restrictions? We help you grow safely with managed
-              systems, recovery support, and conversion-focused execution.
+
+            <p
+              className="animate-fade-down animate-delay-2"
+              style={{
+                margin: "18px auto 0",
+                maxWidth: "700px",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "16px",
+                lineHeight: 1.75,
+                color: "var(--muted)",
+                fontWeight: 400,
+              }}
+            >
+              A simple, professional system for outreach, audience growth, and account health so
+              your team gets steady opportunities every week.
             </p>
 
-            <div className="mx-auto mt-8 grid max-w-4xl gap-3 sm:grid-cols-3">
-              <a href="/demo" className={`${primaryButtonClass} max-w-none sm:text-sm`}>
-                <ArrowRight size={16} />
-                Book Demo
-              </a>
-              <a href="/sales-partnership" className={`${blueButtonClass} max-w-none sm:text-sm`}>
-                <Handshake size={16} />
-                Get Clients
-              </a>
-              <a href="/followers-checkout" className={`${greenButtonClass} max-w-none sm:text-sm`}>
-                <Users size={16} />
-                Buy Followers
-              </a>
+            <div
+              className="animate-fade-down animate-delay-3 hero-btns"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap",
+                gap: "12px",
+                marginTop: "30px",
+              }}
+            >
+              <Link
+                href="/demo"
+                data-cursor="highlight"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "14px 24px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  background: "var(--ink)",
+                  color: "#fff",
+                  fontFamily: "var(--font-heading, sans-serif)",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  letterSpacing: "0.07em",
+                  textTransform: "uppercase",
+                }}
+              >
+                <FaHandshake size={14} />
+                LinkedIn Outreach &amp; Management
+              </Link>
+              <Link
+                href="/followers-checkout"
+                data-cursor="highlight"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "14px 24px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  background: "var(--teal)",
+                  color: "#fff",
+                  fontFamily: "var(--font-heading, sans-serif)",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  letterSpacing: "0.07em",
+                  textTransform: "uppercase",
+                }}
+              >
+                <FaArrowTrendUp size={14} />
+                LinkedIn Growth
+              </Link>
+              <Link
+                href="/demo"
+                data-cursor="highlight"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "14px 24px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  background: "var(--teal-dark)",
+                  color: "#fff",
+                  fontFamily: "var(--font-heading, sans-serif)",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  letterSpacing: "0.07em",
+                  textTransform: "uppercase",
+                }}
+              >
+                <HiCheckBadge size={16} />
+                Account Recovery Support
+              </Link>
             </div>
-          </div>
 
-          <div className="animate-fade-up animate-delay-1 mx-auto mt-10 max-w-4xl rounded-2xl border border-slate-200 bg-white p-6 shadow-md shadow-slate-300/35 sm:p-8">
-            <div className="text-center">
-              <h2 className="text-2xl font-extrabold text-slate-900 sm:text-3xl">Choose Your Goal</h2>
-              <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
-                Pick the path that matches your current objective. We route you to the right conversion flow.
-              </p>
-            </div>
-
-            <div className="mt-6 grid gap-4 text-left text-sm text-slate-700 md:grid-cols-3">
-              {segmentationCards.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <article
-                    key={item.title}
-                    className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 shadow-sm"
+            <div
+              style={{
+                marginTop: "34px",
+                display: "grid",
+                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gap: "12px",
+              }}
+              className="hero-stats-flex"
+            >
+              {[
+                { value: "500+", label: "Clients Supported" },
+                { value: "98%", label: "Satisfaction Rate" },
+                { value: "48h", label: "Average Onboarding" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  data-cursor="highlight"
+                  style={{
+                    padding: "16px 14px",
+                    borderRadius: "12px",
+                    border: "1px solid var(--line)",
+                    background: "var(--off)",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      fontFamily: "var(--font-heading, sans-serif)",
+                      fontSize: "28px",
+                      fontWeight: 800,
+                      color: "var(--teal)",
+                      lineHeight: 1,
+                    }}
                   >
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-700 ring-1 ring-slate-200">
-                      <Icon size={15} />
-                    </span>
-                    <h3 className="mt-3 text-base font-bold text-slate-900">{item.title}</h3>
-                    <p className="mt-2 text-xs leading-6 text-slate-600">{item.description}</p>
-                    <a
-                      href={item.ctaHref}
-                      className="mt-4 inline-flex items-center gap-1 rounded-lg bg-slate-900 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-white"
-                    >
-                      {item.ctaLabel}
-                      <ArrowRight size={11} />
-                    </a>
-                  </article>
-                );
-              })}
+                    {item.value}
+                  </p>
+                  <p
+                    style={{
+                      margin: "7px 0 0",
+                      fontFamily: "var(--font-body, sans-serif)",
+                      fontSize: "13px",
+                      color: "var(--muted)",
+                    }}
+                  >
+                    {item.label}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        <section id="services" className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-          <div className="animate-fade-up rounded-2xl border border-slate-200 bg-linear-to-b from-white to-slate-50 p-6 shadow-md shadow-slate-300/30 sm:p-8">
-            <div className="text-center">
-              <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
-                <Sparkles size={13} />
+
+        <section
+          id="goals"
+          className="reveal"
+          style={{
+            scrollMarginTop: "88px",
+            padding: "96px 5% 104px",
+            background: "linear-gradient(180deg, var(--off) 0%, #eef6f5 50%, var(--off) 100%)",
+            borderTop: "1px solid var(--line)",
+            borderBottom: "1px solid var(--line)",
+          }}
+        >
+          <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+            <div style={{ textAlign: "center", maxWidth: "720px", margin: "0 auto 48px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "8px 18px",
+                  borderRadius: "999px",
+                  border: "1px solid var(--teal-border)",
+                  background: "var(--white)",
+                  boxShadow: "0 4px 14px rgba(14,122,110,0.08)",
+                  fontFamily: "var(--font-body, sans-serif)",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "var(--teal-dark)",
+                }}
+              >
+                <HiSparkles size={15} color="var(--teal)" aria-hidden />
                 Premium Services
-              </p>
-              <h2 className="text-3xl font-bold sm:text-4xl">LinkedIn Growth Services</h2>
-              <p className="mx-auto mt-3 max-w-2xl text-slate-600">
+              </div>
+              <h2
+                style={{
+                  margin: "22px 0 0",
+                  fontFamily: "var(--font-heading, sans-serif)",
+                  fontSize: "clamp(30px, 4vw, 44px)",
+                  fontWeight: 800,
+                  lineHeight: 1.12,
+                  letterSpacing: "-0.03em",
+                  color: "var(--ink)",
+                }}
+              >
+                LinkedIn Growth Services
+              </h2>
+              <p
+                style={{
+                  margin: "16px 0 0",
+                  fontFamily: "var(--font-body, sans-serif)",
+                  fontSize: "17px",
+                  lineHeight: 1.65,
+                  color: "var(--muted)",
+                }}
+              >
                 Empower your professional growth with tailored services designed for measurable outcomes.
               </p>
-            </div>
 
-            <div className="mt-8 grid gap-4 lg:grid-cols-3">
-              {serviceCards.map((service, index) => {
-                const Icon = service.icon;
-                return (
-                  <article
-                    key={service.title}
-                    className={`rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-md ${index === 1 ? "animate-fade-up animate-delay-1" : index === 2 ? "animate-fade-up animate-delay-2" : "animate-fade-up"}`}
+              <div
+                style={{
+                  marginTop: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
+              >
+                {["Safe Execution", "Transparent Reporting", "Fast Launch"].map((item) => (
+                  <span
+                    key={item}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      padding: "8px 12px",
+                      borderRadius: "999px",
+                      border: "1px solid var(--teal-border)",
+                      background: "var(--white)",
+                      color: "var(--teal-dark)",
+                      fontFamily: "var(--font-body, sans-serif)",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                    }}
                   >
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 ring-1 ring-slate-200">
-                      <Icon size={18} />
-                    </span>
-                    <h3 className="mt-3 text-lg font-semibold">{service.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">{service.description}</p>
-                    <ul className="mt-4 space-y-2 text-sm text-slate-700">
-                      {service.points.map((point) => (
-                        <li key={point} className="flex items-center gap-2">
-                          <BadgeCheck size={15} className="text-slate-700" />
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                    <a
-                      href={service.ctaHref}
-                      className="mt-5 inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition duration-300 hover:-translate-y-0.5 hover:bg-slate-800"
-                    >
-                      {service.ctaLabel}
-                      <ArrowRight size={12} />
-                    </a>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section id="sales-partner" className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-          <div className="rounded-2xl border border-sky-200 bg-linear-to-r from-sky-50 to-blue-50 p-6 shadow-md shadow-sky-200/30 sm:p-8">
-            <div className="text-center">
-              <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-sky-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
-                <Handshake size={13} />
-                Performance-Based Client Acquisition
-              </p>
-              <h2 className="mt-4 text-3xl font-extrabold text-slate-900 sm:text-4xl">Get Clients Without Paying Upfront</h2>
-              <p className="mx-auto mt-3 max-w-3xl text-slate-700">
-                We work as your sales partner and bring you interested clients. You only pay on successful conversions.
-              </p>
-              <a href="/sales-partnership" className="mx-auto mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-sky-700 px-6 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-sky-600">
-                Partner With Us
-                <ArrowRight size={14} />
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <section id="why-us" className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-          <div className="text-center">
-            <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
-              <Rocket size={13} />
-              Conversion Process
-            </p>
-            <h2 className="text-3xl font-bold sm:text-4xl">How It Works</h2>
-          </div>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {processSteps.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <article
-                  key={item.title}
-                  className={`rounded-2xl border border-slate-200 bg-linear-to-b from-white to-slate-50 p-5 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md ${index % 2 === 0 ? "animate-fade-up animate-delay-1" : "animate-fade-up animate-delay-2"}`}
-                >
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 ring-1 ring-slate-200">
-                    <Icon size={18} />
+                    <HiCheckBadge size={14} color="var(--teal)" />
+                    {item}
                   </span>
-                  <h3 className="mt-3 text-lg font-semibold text-slate-900">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">{item.description}</p>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="mx-auto w-full max-w-7xl px-4 pb-6 sm:px-6 sm:pb-10 lg:px-8">
-          <div className="rounded-2xl border border-slate-200 bg-linear-to-b from-white to-slate-50 p-6 shadow-md shadow-slate-300/25 sm:p-8">
-            <div className="text-center">
-              <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
-                <ShieldCheck size={13} />
-                Trust & Proof
-              </p>
-              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Real Results, Real Execution</h2>
+                ))}
+              </div>
             </div>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {metrics.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <article key={item.label} className="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-                    <span className="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 ring-1 ring-slate-200">
-                      <Icon size={18} />
-                    </span>
-                    <p className="mt-3 text-3xl font-bold text-slate-900">{item.value}</p>
-                    <p className="mt-2 text-sm text-slate-600">{item.label}</p>
-                  </article>
-                );
-              })}
-            </div>
-
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {proofCards.map((item) => (
-                <article key={item.title} className="rounded-xl border border-slate-200 bg-slate-100/70 p-4">
-                  <div className="flex h-28 items-center justify-center rounded-lg border border-dashed border-slate-300 bg-white text-xs text-slate-500">
-                    Screenshot Placeholder
+            <div
+              className="goal-grid-3"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "20px",
+                alignItems: "stretch",
+              }}
+            >
+              {serviceCards.map((service, index) => (
+                <article
+                  key={service.title}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: "28px 24px",
+                    borderRadius: "16px",
+                    background: "var(--off)",
+                    border: "1px solid var(--line)",
+                    boxShadow: "0 4px 12px rgba(13,31,30,0.06)",
+                  }}
+                >
+                  <div style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "10px",
+                    background: "var(--white)",
+                    border: "1px solid var(--line)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: "18px",
+                    color: "var(--teal)",
+                  }}>
+                    {service.icon}
                   </div>
-                  <h3 className="mt-3 text-sm font-semibold text-slate-800">{item.title}</h3>
-                  <p className="mt-1 text-xs text-slate-600">{item.subtitle}</p>
+
+                  <h3 style={{
+                    margin: "0 0 8px",
+                    fontFamily: "var(--font-heading, sans-serif)",
+                    color: "var(--ink)",
+                    fontSize: "18px",
+                    fontWeight: 700,
+                    lineHeight: 1.3,
+                  }}>
+                    {service.title}
+                  </h3>
+
+                  <p style={{
+                    margin: "0 0 16px",
+                    fontFamily: "var(--font-body, sans-serif)",
+                    color: "var(--muted)",
+                    lineHeight: 1.65,
+                    fontSize: "14px",
+                  }}>
+                    {service.description}
+                  </p>
+
+                  <ul style={{
+                    margin: "0 0 24px",
+                    padding: 0,
+                    listStyle: "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    flex: 1,
+                  }}>
+                    {service.bullets.map((bullet) => (
+                      <li key={bullet} style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
+                        <HiCheckBadge size={15} color="var(--teal)" style={{ marginTop: "2px", flexShrink: 0 }} aria-hidden />
+                        <span style={{
+                          fontFamily: "var(--font-body, sans-serif)",
+                          color: "var(--body)",
+                          lineHeight: 1.5,
+                          fontSize: "13px",
+                        }}>
+                          {bullet}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    href={service.ctaHref}
+                    className="service-cta-link"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "8px",
+                      padding: "11px 20px",
+                      borderRadius: "8px",
+                      background: "var(--ink)",
+                      color: "#fff",
+                      fontFamily: "var(--font-heading, sans-serif)",
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      textDecoration: "none",
+                    }}
+                  >
+                    {service.ctaLabel}
+                    <FaArrowRightLong size={12} aria-hidden />
+                  </Link>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-          <div className="rounded-2xl border border-slate-200 bg-linear-to-r from-slate-900 to-slate-800 p-6 text-center shadow-lg shadow-slate-400/30 sm:p-8">
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">Ready to Scale Your Business?</h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-200 sm:text-base">
-              Start with the right path today and move from traffic to conversion with a clear system.
+        <section id="how" className="reveal" style={{ padding: "96px 5%", background: "var(--white)" }}>
+          <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+            <p
+              style={{
+                margin: 0,
+                color: "var(--teal)",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                fontSize: "12px",
+              }}
+            >
+              Process
             </p>
-            <div className="mx-auto mt-6 grid max-w-xl gap-3 sm:grid-cols-2">
-              <a href="/demo" className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-white px-6 text-sm font-semibold text-slate-900 transition hover:bg-slate-100">
-                <ArrowRight size={14} />
-                Book Demo
-              </a>
-              <a href="/linkedin-services" className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/40 bg-white/10 px-6 text-sm font-semibold text-white transition hover:bg-white/20">
-                Start Now
-              </a>
+            <h2
+              style={{
+                margin: "12px 0 0",
+                maxWidth: "760px",
+                fontFamily: "var(--font-heading, sans-serif)",
+                fontSize: "clamp(32px, 4vw, 52px)",
+                lineHeight: 1.08,
+                color: "var(--ink)",
+              }}
+            >
+              A simple workflow designed to move from strategy to measurable execution fast.
+            </h2>
+
+            <div className="steps-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", marginTop: "38px" }}>
+              {processSteps.map((step, index) => (
+                <article
+                  key={step.title}
+                  data-cursor="highlight"
+                  style={{
+                    position: "relative",
+                    zIndex: 1,
+                    padding: "28px",
+                    borderRadius: "20px",
+                    background: "var(--off)",
+                    border: "1px solid var(--line)",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "42px",
+                      height: "42px",
+                      borderRadius: "999px",
+                      background: "var(--white)",
+                      border: "1px solid var(--teal-border)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontFamily: "var(--font-heading, sans-serif)",
+                      color: "var(--teal)",
+                      fontWeight: 800,
+                    }}
+                  >
+                    0{index + 1}
+                  </div>
+                  <h3
+                    style={{
+                      margin: "18px 0 0",
+                      fontFamily: "var(--font-heading, sans-serif)",
+                      fontSize: "22px",
+                      color: "var(--ink)",
+                    }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p
+                    style={{
+                      margin: "12px 0 0",
+                      fontFamily: "var(--font-body, sans-serif)",
+                      color: "var(--muted)",
+                      lineHeight: 1.75,
+                    }}
+                  >
+                    {step.text}
+                  </p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
 
-        <section id="contact" className="mx-auto w-full max-w-7xl px-4 pb-10 pt-14 sm:px-6 sm:pb-14 sm:pt-16 lg:px-8">
-          <div className="animate-fade-up rounded-2xl border border-slate-200 bg-linear-to-b from-white to-slate-50 p-6 shadow-md shadow-slate-300/30 sm:p-8">
-            <div className="text-center">
-              <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
-                <Mail size={13} />
-                Let&apos;s Connect
-              </p>
-              <h2 className="text-3xl font-bold sm:text-4xl">Contact Us</h2>
-              <p className="mx-auto mt-3 max-w-2xl text-slate-600">
-                Ready to grow your LinkedIn presence? Reach out and get started today.
-              </p>
-            </div>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-              {contactCards.map((contact) => {
-                const Icon = contact.icon;
-                return (
-                <a
-                  key={contact.title}
-                  href={contact.href}
-                  target={contact.href.startsWith("mailto:") ? undefined : "_blank"}
-                  rel={contact.href.startsWith("mailto:") ? undefined : "noreferrer"}
-                  className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-md"
+        <section id="why" className="reveal" style={{ padding: "96px 5%", background: "var(--off)" }}>
+          <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+            <div className="why-grid-2" style={{ display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: "28px", alignItems: "start" }}>
+              <div>
+                <p
+                  style={{
+                    margin: 0,
+                    color: "var(--teal)",
+                    fontFamily: "var(--font-body, sans-serif)",
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    fontSize: "12px",
+                  }}
                 >
-                  <span className="mx-auto inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-700 ring-1 ring-slate-200">
-                    <Icon size={16} />
-                  </span>
-                  <p className="mt-2 text-sm font-semibold">{contact.title}</p>
-                  <p className="mt-2 text-xs text-slate-600">{contact.value}</p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-xs text-slate-500">
-                    Open link
-                    <ArrowRight size={12} />
-                  </span>
+                  Why TechInRent
+                </p>
+                <h2
+                  style={{
+                    margin: "12px 0 0",
+                    fontFamily: "var(--font-heading, sans-serif)",
+                    fontSize: "clamp(32px, 4vw, 48px)",
+                    lineHeight: 1.08,
+                    color: "var(--ink)",
+                  }}
+                >
+                  Reliable systems, cleaner communication, and execution that respects your account.
+                </h2>
+              </div>
+
+              <div style={{ display: "grid", gap: "18px" }}>
+                {whyUsCards.map((card) => (
+                  <article
+                    key={card.title}
+                    className="why-card"
+                    data-cursor="highlight"
+                    style={{
+                      padding: "24px",
+                      borderRadius: "18px",
+                      background: "var(--white)",
+                      border: "1px solid var(--line)",
+                    }}
+                  >
+                    <div style={{ display: "flex", gap: "14px", alignItems: "flex-start" }}>
+                      <div
+                        style={{
+                          width: "42px",
+                          height: "42px",
+                          borderRadius: "12px",
+                          background: "var(--teal-pale)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {card.icon}
+                      </div>
+                      <div>
+                        <h3
+                          style={{
+                            margin: 0,
+                            fontFamily: "var(--font-heading, sans-serif)",
+                            fontSize: "20px",
+                            color: "var(--ink)",
+                          }}
+                        >
+                          {card.title}
+                        </h3>
+                        <p
+                          style={{
+                            margin: "8px 0 0",
+                            fontFamily: "var(--font-body, sans-serif)",
+                            color: "var(--muted)",
+                            lineHeight: 1.75,
+                          }}
+                        >
+                          {card.text}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="reveal" style={{ padding: "72px 5%", background: "var(--white)" }}>
+          <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center" }}>
+            <p style={{ margin: 0, color: "var(--teal)", fontFamily: "var(--font-body, sans-serif)", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", fontSize: "11px" }}>
+              Contact
+            </p>
+            <h2 style={{ margin: "14px 0 10px", fontFamily: "var(--font-heading, sans-serif)", fontSize: "clamp(26px, 3.5vw, 38px)", fontWeight: 800, lineHeight: 1.15, color: "var(--ink)" }}>
+              Get in touch
+            </h2>
+            <p style={{ margin: "0 0 36px", fontFamily: "var(--font-body, sans-serif)", fontSize: "15px", lineHeight: 1.7, color: "var(--muted)" }}>
+              Reach out on any platform and we will help map the next step for your LinkedIn growth.
+            </p>
+
+            <div className="contact-links-row" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", maxWidth: "1100px", margin: "0 auto" }}>
+              {[
+                { href: "mailto:hello@techinrent.com", icon: <HiEnvelope size={18} />, label: "Email", sub: "hello@techinrent.com" },
+                { href: "https://wa.me/917898711748", icon: <FaWhatsapp size={18} />, label: "WhatsApp", sub: "+91 78987 11748" },
+                { href: "https://t.me/techinrentadmin", icon: <RiTelegramLine size={18} />, label: "Telegram", sub: "@techinrentadmin" },
+                { href: "https://twitter.com/techinrent", icon: <RiTwitterXLine size={18} />, label: "Twitter", sub: "@techinrent" },
+                { href: "https://instagram.com/techinrent", icon: <RiInstagramLine size={18} />, label: "Instagram", sub: "@techinrent" },
+              ].map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "14px 18px",
+                    borderRadius: "12px",
+                    textDecoration: "none",
+                    background: "var(--white)",
+                    border: "1px solid var(--line)",
+                    boxShadow: "0 2px 12px rgba(13,31,30,0.06)",
+                    flex: "1 1 auto",
+                    minWidth: "180px",
+                    maxWidth: "210px",
+                  }}
+                >
+                  <div style={{
+                    width: "38px",
+                    height: "38px",
+                    borderRadius: "9px",
+                    background: "var(--teal-pale)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--teal)",
+                    flexShrink: 0,
+                  }}>
+                    {item.icon}
+                  </div>
+                  <div style={{ textAlign: "left", overflow: "hidden" }}>
+                    <div style={{ fontFamily: "var(--font-heading, sans-serif)", fontSize: "13px", fontWeight: 700, color: "var(--ink)" }}>
+                      {item.label}
+                    </div>
+                    <div style={{ fontFamily: "var(--font-body, sans-serif)", fontSize: "11px", color: "var(--muted)", marginTop: "2px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {item.sub}
+                    </div>
+                  </div>
                 </a>
-                );
-              })}
+              ))}
             </div>
           </div>
         </section>
       </main>
 
       <Footer />
-    </div>
+      <WhatsAppFloat />
+    </>
   );
 }

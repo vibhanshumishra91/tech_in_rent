@@ -201,6 +201,81 @@ export default function FollowersCheckoutPage() {
             Razorpay API starter is connected. Add keys in .env.local to enable live checkout.
           </p>
         </section>
+
+        {/* How It Works */}
+        <section className="mt-12">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <h2 className="text-2xl font-extrabold text-slate-900">How It Works</h2>
+            <div className="mt-6 grid gap-4 sm:grid-cols-3">
+              {[
+                { step: "1", title: "Select your package", desc: "Choose a plan that fits your growth goals." },
+                { step: "2", title: "Submit details", desc: "Fill in your LinkedIn profile info securely." },
+                { step: "3", title: "Start connecting", desc: "Watch your network grow within hours." },
+              ].map((s) => (
+                <div key={s.step} className="flex gap-4 items-start">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-sm font-bold text-slate-700">
+                    {s.step}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-900">{s.title}</p>
+                    <p className="mt-1 text-sm text-slate-500">{s.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Why Choose TechInRent */}
+        <section className="mt-8">
+          <div className="mb-6 text-center">
+            <h2 className="text-2xl font-extrabold text-slate-900">Why Professionals Choose TechInRent</h2>
+            <p className="mt-2 text-sm text-slate-500">Our premium service delivers real results for your LinkedIn growth</p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                icon: <FaRocket size={18} className="text-slate-600" />,
+                title: "Get LinkedIn Connections Fast",
+                desc: "Real-time LinkedIn connections delivered within 24–48 hours automatically with our fast delivery LinkedIn connections service",
+              },
+              {
+                icon: <FaCircleCheck size={18} className="text-slate-600" />,
+                title: "Safe LinkedIn Connection Service",
+                desc: "How to get auto LinkedIn connections safely — all connections come from real, verified LinkedIn profiles with zero risk",
+              },
+              {
+                icon: <FaArrowRightLong size={18} className="text-slate-600" />,
+                title: "Boost LinkedIn Profile Connections",
+                desc: "Increase LinkedIn popularity with connections to expand your professional reach and grow your LinkedIn network",
+              },
+              {
+                icon: <FaUsers size={18} className="text-slate-600" />,
+                title: "Real LinkedIn Connections",
+                desc: "Buy targeted LinkedIn connections from verified professionals in your industry for authentic networking",
+              },
+              {
+                icon: <FaRocket size={18} className="text-slate-600" />,
+                title: "Auto LinkedIn Connection",
+                desc: "TechInRent auto LinkedIn connections processed instantly with real-time LinkedIn growth technology",
+              },
+              {
+                icon: <FaCircleCheck size={18} className="text-slate-600" />,
+                title: "TechInRent LinkedIn Boost",
+                desc: "Buy LinkedIn connections via crypto payment with 100% satisfaction guarantee from TechInRent",
+              },
+            ].map((card) => (
+              <div key={card.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
+                  {card.icon}
+                </div>
+                <h3 className="text-sm font-bold text-slate-900">{card.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500">{card.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
 
       <Footer />

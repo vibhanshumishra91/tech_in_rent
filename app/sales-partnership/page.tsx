@@ -1,6 +1,6 @@
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
-import { FaArrowRightLong, FaBriefcase, FaCircleCheck, FaHandshake, FaRocket, FaUsers } from "react-icons/fa6";
+import { FaArrowRightLong, FaBriefcase, FaHandshake, FaRocket, FaUsers } from "react-icons/fa6";
 
 const audiences = ["Agencies", "Startups", "Coaches", "Service Providers"];
 
