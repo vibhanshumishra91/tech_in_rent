@@ -3,15 +3,15 @@
 :root {
   --font-heading: "Poppins", "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
   --font-body: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --teal: #0e7a6e;
-  --teal-dark: #095e55;
-  --teal-deep: #063d37;
-  --teal-mid: #128578;
-  --teal-light: #19a898;
-  --teal-pale: #e6f4f2;
-  --teal-pale2: #d0ece9;
-  --teal-glow: rgba(14, 122, 110, 0.12);
-  --teal-border: rgba(14, 122, 110, 0.2);
+  --teal: #067CCB;
+  --teal-dark: #0569B0;
+  --teal-deep: #045A94;
+  --teal-mid: #0783D6;
+  --teal-light: #0894F0;
+  --teal-pale: #E6F4FB;
+  --teal-pale2: #D0EAF8;
+  --teal-glow: rgba(6, 124, 203, 0.12);
+  --teal-border: rgba(6, 124, 203, 0.2);
   --white: #ffffff;
   --off: #f7fafa;
   --off2: #eef4f3;
@@ -20,9 +20,7 @@
   --body: #334544;
   --muted: #6b8685;
   --muted2: #9ab5b3;
-  --line: rgba(14, 122, 110, 0.12);
-  --amber: #e8952a;
-  --amber-dim: rgba(232, 149, 42, 0.1);
+  --line: rgba(6, 124, 203, 0.12);
 }
 
 html {

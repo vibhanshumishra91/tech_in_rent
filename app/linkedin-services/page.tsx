@@ -10,12 +10,12 @@ const IconHandshake = () => (
 const services = [
   {
     icon: IconHandshake,
-    title: "LinkedIn Outreach & Management",
+    title: "LinkedIn Account Management",
     description:
       "Managed outbound campaigns designed to generate qualified conversations and predictable pipeline.",
     points: ["ICP research and targeting", "Campaign execution and optimization", "Weekly reporting and insights"],
-    ctaLabel: "Book Demo",
-    ctaHref: "/demo",
+    ctaLabel: "Get Started",
+    ctaHref: "/#contact",
   },
   {
     icon: FaShieldHalved,
@@ -23,8 +23,8 @@ const services = [
     description:
       "Guided support for account issues, restrictions, and recovery planning with policy-safe best practices.",
     points: ["Issue diagnosis support", "Recovery action sequence", "Risk prevention guidance"],
-    ctaLabel: "Schedule Call",
-    ctaHref: "/demo",
+    ctaLabel: "Contact Us",
+    ctaHref: "/#contact",
   },
   {
     icon: FaRocket,

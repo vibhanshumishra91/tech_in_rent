@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 
 export default function Navbar() {
@@ -30,41 +31,30 @@ export default function Navbar() {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "11px",
           textDecoration: "none",
+          cursor: "pointer",
+          transition: "opacity 0.2s ease",
+        }}
+        className="navbar-logo"
+        aria-label="TechInRent Home"
+        onMouseEnter={(e) => {
+          e.currentTarget.style.opacity = "0.8";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.opacity = "1";
         }}
       >
-        <div
+        <Image
+          src="/techinrent-logo.png.png"
+          alt="TechInRent"
+          width={300}
+          height={75}
           style={{
-            width: "38px",
-            height: "38px",
-            borderRadius: "10px",
-            background: "linear-gradient(135deg, var(--teal), var(--teal-dark))",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "var(--font-syne, sans-serif)",
-            fontWeight: 800,
-            color: "#fff",
-            fontSize: "14px",
-            letterSpacing: "0.02em",
-            boxShadow: "0 4px 14px rgba(14,122,110,0.3)",
-            flexShrink: 0,
+            width: "auto",
+            height: "68px",
           }}
-        >
-          TR
-        </div>
-        <span
-          style={{
-            fontFamily: "var(--font-syne, sans-serif)",
-            fontWeight: 700,
-            fontSize: "17px",
-            color: "var(--ink)",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          TechInRent
-        </span>
+          priority
+        />
       </Link>
 
       {/* Desktop links */}
@@ -80,6 +70,7 @@ export default function Navbar() {
           { label: "Services", href: "/#goals" },
           { label: "Process", href: "/#how" },
           { label: "Why Us", href: "/#why" },
+          { label: "Blog", href: "/blog" },
           { label: "Contact", href: "/#contact" },
         ].map((l) => (
           <Link
@@ -111,7 +102,7 @@ export default function Navbar() {
             fontWeight: 700,
             textDecoration: "none",
             letterSpacing: "0.01em",
-            boxShadow: "0 4px 14px rgba(14,122,110,0.25)",
+            boxShadow: "0 4px 14px rgba(6,124,203,0.25)",
           }}
         >
           Get Started
@@ -155,6 +146,7 @@ export default function Navbar() {
             { label: "Services", href: "/#goals" },
             { label: "Process", href: "/#how" },
             { label: "Why Us", href: "/#why" },
+            { label: "Blog", href: "/blog" },
             { label: "Contact", href: "/#contact" },
           ].map((l) => (
             <Link
@@ -198,6 +190,11 @@ export default function Navbar() {
         @media (max-width: 900px) {
           .nav-links { display: none !important; }
           .nav-hamburger { display: flex !important; }
+        }
+        @media (max-width: 768px) {
+          .navbar-logo img {
+            height: 54px !important;
+          }
         }
       `}</style>
     </nav>

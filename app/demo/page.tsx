@@ -76,9 +76,9 @@ export default function DemoPage() {
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
               <FaHandshake size={12} />
-              Demo Booking
+              Consultation
             </p>
-            <h1 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Book Your Strategy Demo</h1>
+            <h1 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Book Your Strategy Consultation</h1>
             <p className="mt-3 text-slate-600">Share your goals and budget. We will recommend the right service path.</p>
 
             <ul className="mt-6 space-y-3 text-sm text-slate-700">
@@ -132,7 +132,7 @@ export default function DemoPage() {
                 <option value="" disabled>
                   Service Interested
                 </option>
-                <option>LinkedIn Outreach & Management</option>
+                <option>LinkedIn Account Management</option>
                 <option>Account Recovery Support</option>
                 <option>LinkedIn Growth</option>
                 <option>Sales Partnership</option>
@@ -146,7 +146,7 @@ export default function DemoPage() {
               />
 
               {submitError ? <p className="text-xs font-semibold text-red-600">{submitError}</p> : null}
-              {submitSuccess ? <p className="text-xs font-semibold text-emerald-700">{submitSuccess}</p> : null}
+              {submitSuccess ? <p className="text-xs font-semibold text-blue-600">{submitSuccess}</p> : null}
 
               <button
                 type="submit"

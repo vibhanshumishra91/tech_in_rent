@@ -1,5 +1,5 @@
 export type FollowerPackage = {
-  id: "followers-1k" | "followers-5k" | "followers-10k";
+  id: "connections-50" | "connections-100" | "connections-500" | "connections-1000" | "connections-2500" | "connections-5000";
   name: string;
   amountInr: number;
   displayPrice: string;
@@ -9,26 +9,47 @@ export type FollowerPackage = {
 
 export const followerPackages: FollowerPackage[] = [
   {
-    id: "followers-1k",
-    name: "1k Followers",
-    amountInr: 1999,
-    displayPrice: "INR 1,999",
-    delivery: "3-5 days",
+    id: "connections-50",
+    name: "50 Connections",
+    amountInr: 200,
+    displayPrice: "$2",
+    delivery: "24-48 hour",
   },
   {
-    id: "followers-5k",
-    name: "5k Followers",
-    amountInr: 8499,
-    displayPrice: "INR 8,499",
-    delivery: "7-10 days",
+    id: "connections-100",
+    name: "100 Connections",
+    amountInr: 300,
+    displayPrice: "$3",
+    delivery: "24-48 hour",
+  },
+  {
+    id: "connections-500",
+    name: "500 Connections",
+    amountInr: 1000,
+    displayPrice: "$10",
+    delivery: "1-2 days",
+  },
+  {
+    id: "connections-1000",
+    name: "1000 Connections",
+    amountInr: 1800,
+    displayPrice: "$18",
+    delivery: "10-20hr priority",
+  },
+  {
+    id: "connections-2500",
+    name: "2500 Connections",
+    amountInr: 3500,
+    displayPrice: "$35",
+    delivery: "Same-day",
     popular: true,
   },
   {
-    id: "followers-10k",
-    name: "10k Followers",
-    amountInr: 14999,
-    displayPrice: "INR 14,999",
-    delivery: "12-15 days",
+    id: "connections-5000",
+    name: "5000 Connections",
+    amountInr: 5500,
+    displayPrice: "$55",
+    delivery: "Same-day priority",
   },
 ];
 

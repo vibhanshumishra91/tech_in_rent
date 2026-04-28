@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
@@ -22,10 +22,152 @@ import {
 } from "react-icons/fa6";
 import { RiInstagramLine, RiTelegramLine, RiTwitterXLine } from "react-icons/ri";
 
+// Logo Marquee Component
+function LogoMarquee() {
+  const [partners, setPartners] = useState<Array<{ _id: string; name: string; logo: string }>>([]);
+
+  useEffect(() => {
+    async function fetchPartners() {
+      try {
+        const response = await fetch("/api/admin/partners");
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          const activePartners = (data.data || []).filter(
+            (p: any) => p.status === "active"
+          );
+          setPartners(activePartners);
+        }
+      } catch (error) {
+        console.error("Failed to fetch partners:", error);
+      }
+    }
+
+    fetchPartners();
+  }, []);
+
+  if (partners.length === 0) {
+    return null;
+  }
+
+  // Multiple duplications to ensure continuous coverage
+  // With only 2 logos, we need many copies to fill viewport and create seamless scroll
+  const multipliedPartners = Array(10).fill(partners).flat();
+
+  return (
+    <section
+      style={{
+        padding: "18px 0",
+        background: "var(--off)",
+        borderTop: "1px solid var(--line)",
+        borderBottom: "1px solid var(--line)",
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
+      {/* Soft fade edges */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          background:
+            "linear-gradient(to right, var(--off) 0%, transparent 8%, transparent 92%, var(--off) 100%)",
+          zIndex: 2,
+        }}
+      />
+
+      <div
+        className="marquee-track"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "28px",
+          width: "max-content",
+          animation: "marqueeScroll 40s linear infinite",
+          willChange: "transform",
+        }}
+      >
+        {multipliedPartners.map((partner, index) => (
+          <div
+            key={`${partner._id}-${index}`}
+            className="marquee-item"
+            style={{
+              flex: "0 0 auto",
+              width: "130px",
+              height: "54px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: "10px",
+              transition: "all 0.3s ease",
+            }}
+          >
+            <img
+              src={partner.logo}
+              alt={partner.name}
+              style={{
+                maxWidth: "120px",
+                maxHeight: "42px",
+                width: "auto",
+                height: "auto",
+                objectFit: "contain",
+                filter: "grayscale(100%)",
+                opacity: 0.55,
+                transition: "all 0.35s ease",
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      <style>{`
+        @keyframes marqueeScroll {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
+
+        .marquee-item:hover img {
+          filter: grayscale(0%);
+          opacity: 1;
+          transform: scale(1.08);
+        }
+
+        .marquee-item:hover {
+          background: rgba(255, 255, 255, 0.65);
+        }
+
+        @media (max-width: 768px) {
+          .marquee-track {
+            gap: 18px !important;
+            animation-duration: 30s !important;
+          }
+          .marquee-item {
+            width: 105px !important;
+            height: 46px !important;
+          }
+          .marquee-item img {
+            max-width: 92px !important;
+            max-height: 34px !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
 const serviceCards = [
   {
     icon: <FaHandshake size={22} color="var(--teal)" aria-hidden />,
-    title: "LinkedIn Outreach & Management",
+    title: "LinkedIn Account Management",
     description:
       "Managed outreach systems focused on qualified conversations and pipeline growth.",
     bullets: [
@@ -33,8 +175,8 @@ const serviceCards = [
       "ICP-targeted outreach strategy",
       "Weekly performance tracking",
     ],
-    ctaLabel: "Book Demo",
-    ctaHref: "/demo",
+    ctaLabel: "Get Started",
+    ctaHref: "/account-management",
   },
   {
     icon: <FaRocket size={22} color="var(--teal)" aria-hidden />,
@@ -59,8 +201,8 @@ const serviceCards = [
       "Recovery action roadmap",
       "Preventive policy-safe best practices",
     ],
-    ctaLabel: "Schedule Call",
-    ctaHref: "/demo",
+    ctaLabel: "Contact Us",
+    ctaHref: "/#contact",
   },
 ];
 
@@ -207,7 +349,7 @@ export default function Home() {
               }}
             >
               <Link
-                href="/demo"
+                href="/account-management"
                 data-cursor="highlight"
                 style={{
                   display: "inline-flex",
@@ -226,7 +368,7 @@ export default function Home() {
                 }}
               >
                 <FaHandshake size={14} />
-                LinkedIn Outreach &amp; Management
+                LinkedIn Account Management
               </Link>
               <Link
                 href="/followers-checkout"
@@ -251,7 +393,7 @@ export default function Home() {
                 LinkedIn Growth
               </Link>
               <Link
-                href="/demo"
+                href="/#contact"
                 data-cursor="highlight"
                 style={{
                   display: "inline-flex",
@@ -326,6 +468,8 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Logo Marquee */}
+        <LogoMarquee />
 
         <section
           id="goals"

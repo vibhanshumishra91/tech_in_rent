@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -21,44 +22,35 @@ export default function Footer() {
       >
         {/* Brand */}
         <div>
-          <div
+          <Link
+            href="/"
             style={{
-              width: "38px",
-              height: "38px",
-              borderRadius: "10px",
-              background: "linear-gradient(135deg, var(--teal), var(--teal-dark))",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "var(--font-heading, sans-serif)",
-              fontWeight: 800,
-              color: "#fff",
-              fontSize: "14px",
-              marginBottom: "10px",
+              display: "inline-block",
+              marginBottom: "16px",
+              textDecoration: "none",
             }}
           >
-            TR
-          </div>
-          <span
-            style={{
-              fontFamily: "var(--font-heading, sans-serif)",
-              fontWeight: 700,
-              fontSize: "17px",
-              color: "#fff",
-              display: "block",
-              marginBottom: "10px",
-            }}
-          >
-            TechInRent
-          </span>
+            <Image
+              src="/techinrent-logo.png.png"
+              alt="TechInRent"
+              width={240}
+              height={60}
+              style={{
+                width: "auto",
+                height: "56px",
+                filter: "brightness(0) invert(1)",
+              }}
+            />
+          </Link>
           <p
             style={{
               fontFamily: "var(--font-body, sans-serif)",
               fontSize: "14px",
-              color: "rgba(255,255,255,0.62)",
+              color: "rgba(6,124,203,0.62)",
               lineHeight: 1.7,
               maxWidth: "340px",
               fontWeight: 400,
+              marginTop: "12px",
             }}
           >
             We help professionals and teams accelerate LinkedIn growth through secure outreach systems, transparent reporting, and measurable outcomes.

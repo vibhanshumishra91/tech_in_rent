@@ -26,7 +26,7 @@ export default function SalesPartnershipPage() {
             No upfront retainers. We partner with your team to generate qualified demand and you pay commission on successful outcomes.
           </p>
           <a
-            href="/demo"
+            href="/#contact"
             className="mx-auto mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-sky-700 px-6 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-sky-600"
           >
             Apply Now
@@ -78,7 +78,7 @@ export default function SalesPartnershipPage() {
             </div>
           </div>
           <a
-            href="/demo"
+            href="/#contact"
             className="mt-6 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
           >
             Apply For Partnership
