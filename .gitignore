@@ -36,6 +36,9 @@ yarn-error.log*
 # markdown files
 *.md
 
+# kiro config files
+.config.kiro
+
 # vercel
 .vercel
 
