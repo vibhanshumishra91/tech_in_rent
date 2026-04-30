@@ -393,7 +393,7 @@ export default function Home() {
                 LinkedIn Growth
               </Link>
               <Link
-                href="/#contact"
+                href="/account-recovery"
                 data-cursor="highlight"
                 style={{
                   display: "inline-flex",
