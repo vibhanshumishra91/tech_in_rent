@@ -201,8 +201,8 @@ const serviceCards = [
       "Recovery action roadmap",
       "Preventive policy-safe best practices",
     ],
-    ctaLabel: "Contact Us",
-    ctaHref: "/#contact",
+    ctaLabel: "Start Recovery",
+    ctaHref: "/account-recovery",
   },
 ];
 

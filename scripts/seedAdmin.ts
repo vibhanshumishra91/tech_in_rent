@@ -1,6 +1,10 @@
 import { config } from "dotenv";
 import { connectDB } from "../lib/db/connection";
 import Admin from "../lib/db/models/Admin";
+import dns from 'dns';
+
+// Force Node.js to use Google DNS for SRV lookups
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 config({ path: ".env.local" });
 
