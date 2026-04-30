@@ -1,4 +1,8 @@
 import mongoose from "mongoose";
+import dns from 'dns';
+
+// Force Node.js to use Google DNS for SRV lookups
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 type MongooseCache = {
   conn: typeof mongoose | null;
