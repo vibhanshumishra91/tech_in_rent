@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
-import { FaShieldHalved, FaMapLocationDot, FaCircleCheck, FaBan, FaTriangleExclamation, FaIdCard, FaUsers, FaFileCircleExclamation, FaKey, FaEnvelope, FaClock, FaChartLine } from "react-icons/fa6";
+import { FaShieldHalved, FaMapLocationDot, FaCircleCheck, FaBan, FaTriangleExclamation, FaIdCard, FaUsers, FaFileCircleExclamation, FaKey, FaEnvelope, FaClock, FaChartLine, FaPhone, FaComments, FaMagnifyingGlass, FaArrowRight } from "react-icons/fa6";
 
 export default function AccountRecoveryPage() {
   const [formData, setFormData] = useState({
@@ -61,7 +61,7 @@ export default function AccountRecoveryPage() {
       <Navbar />
       
       {/* SECTION 1 - HERO */}
-      <section style={{ background: "linear-gradient(to bottom, #EBF5FF, #f8fafc)", padding: "80px 16px" }}>
+      <section style={{ background: "linear-gradient(180deg, var(--teal-pale) 0%, #f8fafc 100%)", padding: "80px 5%", paddingTop: "calc(68px + 80px)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
           <div style={{ display: "inline-block", background: "#EBF5FF", color: "#067CCB", padding: "8px 20px", borderRadius: "24px", fontSize: "14px", fontWeight: 600, marginBottom: "24px", border: "1px solid #067CCB20" }}>
             LinkedIn Recovery Support
@@ -277,6 +277,283 @@ export default function AccountRecoveryPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── HOW TECHINRENT HELPS ── */}
+      <section style={{ background: "#fff", padding: "80px 5%" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+
+          {/* Badge + heading */}
+          <div style={{ textAlign: "center", marginBottom: "52px" }}>
+            <span style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "7px",
+              padding: "6px 16px",
+              borderRadius: "999px",
+              border: "1px solid rgba(6,124,203,0.2)",
+              background: "#E6F4FB",
+              color: "#045A94",
+              fontFamily: "var(--font-body, sans-serif)",
+              fontSize: "11px",
+              fontWeight: 700,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              marginBottom: "18px",
+            }}>
+              Our Process
+            </span>
+            <h2 style={{
+              margin: "0",
+              fontFamily: "var(--font-heading, sans-serif)",
+              fontSize: "clamp(26px, 3.5vw, 38px)",
+              fontWeight: 800,
+              color: "#0f172a",
+              lineHeight: 1.2,
+              letterSpacing: "-0.02em",
+            }}>
+              How We Get Your LinkedIn Account Back
+            </h2>
+          </div>
+
+          {/* 3 Steps */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr auto 1fr auto 1fr",
+            alignItems: "start",
+            gap: "0",
+          }} className="recovery-steps-grid">
+
+            {/* Step 1 */}
+            <div style={{ textAlign: "center", padding: "0 8px" }}>
+              <div style={{
+                width: "64px",
+                height: "64px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #067CCB 0%, #0894F0 100%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 20px",
+                boxShadow: "0 6px 20px rgba(6,124,203,0.28)",
+              }}>
+                <FaComments size={26} color="#fff" />
+              </div>
+              <h3 style={{
+                margin: "0 0 10px",
+                fontFamily: "var(--font-heading, sans-serif)",
+                fontSize: "17px",
+                fontWeight: 700,
+                color: "#0f172a",
+              }}>
+                You Reach Out
+              </h3>
+              <p style={{
+                margin: 0,
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "14px",
+                color: "#64748b",
+                lineHeight: 1.6,
+              }}>
+                Tell us your issue, we listen and assess your situation quickly
+              </p>
+            </div>
+
+            {/* Connector arrow 1 */}
+            <div className="recovery-arrow" style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0 4px",
+              marginTop: "22px",
+              color: "#067CCB",
+              opacity: 0.5,
+            }}>
+              <FaArrowRight size={18} />
+            </div>
+
+            {/* Step 2 */}
+            <div style={{ textAlign: "center", padding: "0 8px" }}>
+              <div style={{
+                width: "64px",
+                height: "64px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #067CCB 0%, #0894F0 100%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 20px",
+                boxShadow: "0 6px 20px rgba(6,124,203,0.28)",
+              }}>
+                <FaMagnifyingGlass size={24} color="#fff" />
+              </div>
+              <h3 style={{
+                margin: "0 0 10px",
+                fontFamily: "var(--font-heading, sans-serif)",
+                fontSize: "17px",
+                fontWeight: 700,
+                color: "#0f172a",
+              }}>
+                We Analyze
+              </h3>
+              <p style={{
+                margin: 0,
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "14px",
+                color: "#64748b",
+                lineHeight: 1.6,
+              }}>
+                Our experts review your account status and identify the recovery path
+              </p>
+            </div>
+
+            {/* Connector arrow 2 */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0 4px",
+              marginTop: "22px",
+              color: "#067CCB",
+              opacity: 0.5,
+            }}>
+              <FaArrowRight size={18} />
+            </div>
+
+            {/* Step 3 */}
+            <div style={{ textAlign: "center", padding: "0 8px" }}>
+              <div style={{
+                width: "64px",
+                height: "64px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #067CCB 0%, #0894F0 100%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 20px",
+                boxShadow: "0 6px 20px rgba(6,124,203,0.28)",
+              }}>
+                <FaCircleCheck size={26} color="#fff" />
+              </div>
+              <h3 style={{
+                margin: "0 0 10px",
+                fontFamily: "var(--font-heading, sans-serif)",
+                fontSize: "17px",
+                fontWeight: 700,
+                color: "#0f172a",
+              }}>
+                Account Restored
+              </h3>
+              <p style={{
+                margin: 0,
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "14px",
+                color: "#64748b",
+                lineHeight: 1.6,
+              }}>
+                We guide you to full unrestricted access with preventive next steps
+              </p>
+            </div>
+          </div>
+
+          {/* Mobile stacked style override */}
+          <style>{`
+            @media (max-width: 640px) {
+              .recovery-steps-grid {
+                grid-template-columns: 1fr !important;
+                gap: 32px !important;
+              }
+              .recovery-steps-grid > [style*="FaArrowRight"],
+              .recovery-arrow { display: none !important; }
+            }
+          `}</style>
+        </div>
+      </section>
+
+      {/* ── CONTACT INFO BAR ── */}
+      <section style={{ background: "#f8fafc", padding: "32px 5%" }}>
+        <div style={{
+          maxWidth: "900px",
+          margin: "0 auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: "16px",
+        }}>
+          <p style={{
+            margin: 0,
+            fontFamily: "var(--font-heading, sans-serif)",
+            fontSize: "15px",
+            fontWeight: 700,
+            color: "#0f172a",
+            flexShrink: 0,
+          }}>
+            Reach us directly:
+          </p>
+
+          <a
+            href="mailto:vibhanshu@techinrent.com"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "9px",
+              padding: "10px 20px",
+              borderRadius: "999px",
+              border: "1.5px solid rgba(6,124,203,0.25)",
+              background: "#fff",
+              color: "#067CCB",
+              fontFamily: "var(--font-body, sans-serif)",
+              fontSize: "14px",
+              fontWeight: 600,
+              textDecoration: "none",
+              boxShadow: "0 2px 8px rgba(6,124,203,0.08)",
+              transition: "background 0.2s ease, transform 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#E6F4FB";
+              e.currentTarget.style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#fff";
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
+          >
+            <FaEnvelope size={14} />
+            vibhanshu@techinrent.com
+          </a>
+
+          <a
+            href="tel:+917898711748"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "9px",
+              padding: "10px 20px",
+              borderRadius: "999px",
+              border: "1.5px solid rgba(6,124,203,0.25)",
+              background: "#fff",
+              color: "#067CCB",
+              fontFamily: "var(--font-body, sans-serif)",
+              fontSize: "14px",
+              fontWeight: 600,
+              textDecoration: "none",
+              boxShadow: "0 2px 8px rgba(6,124,203,0.08)",
+              transition: "background 0.2s ease, transform 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#E6F4FB";
+              e.currentTarget.style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#fff";
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
+          >
+            <FaPhone size={13} />
+            +91 78987 11748
+          </a>
         </div>
       </section>
 

@@ -30,6 +30,7 @@ export default function PartnerPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -119,6 +120,7 @@ export default function PartnerPage() {
         logo: "",
         status: "active",
       });
+      setShowForm(false);
 
       fetchPartners();
 
@@ -196,29 +198,45 @@ export default function PartnerPage() {
   return (
     <div style={{ padding: "32px", maxWidth: "1400px", margin: "0 auto" }}>
       {/* Header */}
-      <div style={{ marginBottom: "32px" }}>
-        <h1
-          style={{
-            margin: 0,
-            fontFamily: "var(--font-heading, sans-serif)",
-            fontSize: "28px",
-            fontWeight: 800,
-            color: "var(--ink)",
-            letterSpacing: "-0.02em",
-          }}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: "32px",
+        }}
+      >
+        <div>
+          <h1
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-heading, sans-serif)",
+              fontSize: "28px",
+              fontWeight: 800,
+              color: "var(--ink)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Partner Management
+          </h1>
+          <p
+            style={{
+              margin: "4px 0 0",
+              fontFamily: "var(--font-body, sans-serif)",
+              fontSize: "14px",
+              color: "var(--muted)",
+            }}
+          >
+            Manage partner logos and information ({partners.length} total)
+          </p>
+        </div>
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 transition"
         >
-          Partner Management
-        </h1>
-        <p
-          style={{
-            margin: "4px 0 0",
-            fontFamily: "var(--font-body, sans-serif)",
-            fontSize: "14px",
-            color: "var(--muted)",
-          }}
-        >
-          Manage partner logos and information ({partners.length} total)
-        </p>
+          <HiPlus size={18} />
+          {showForm ? "Close Form" : "Add New Partner"}
+        </button>
       </div>
 
       {/* Success Message */}
@@ -258,16 +276,17 @@ export default function PartnerPage() {
       )}
 
       {/* Add Partner Form */}
-      <div
-        style={{
-          background: "var(--white)",
-          border: "1px solid var(--line)",
-          borderRadius: "16px",
-          padding: "24px",
-          marginBottom: "32px",
-          boxShadow: "0 2px 8px rgba(13,31,30,0.04)",
-        }}
-      >
+      {showForm && (
+        <div
+          style={{
+            background: "var(--white)",
+            border: "1px solid var(--line)",
+            borderRadius: "16px",
+            padding: "24px",
+            marginBottom: "32px",
+            boxShadow: "0 2px 8px rgba(13,31,30,0.04)",
+          }}
+        >
         <h2
           style={{
             margin: "0 0 20px",
@@ -557,7 +576,8 @@ export default function PartnerPage() {
             100% { transform: rotate(360deg); }
           }
         `}</style>
-      </div>
+        </div>
+      )}
 
       {/* Partners List */}
       {loading ? (
@@ -614,35 +634,21 @@ export default function PartnerPage() {
           </p>
         </div>
       ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-            gap: "20px",
-          }}
-        >
+        <div className="grid grid-cols-4 gap-5 mt-6">
           {partners.map((partner) => (
             <div
               key={partner._id}
+              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 p-4 flex flex-col items-center gap-3 border border-gray-100"
               style={{
-                background: "var(--white)",
-                border: "1px solid var(--line)",
-                borderRadius: "12px",
-                padding: "20px",
-                boxShadow: "0 2px 8px rgba(13,31,30,0.04)",
                 opacity: deleteLoading === partner._id ? 0.5 : 1,
+                pointerEvents: deleteLoading === partner._id ? "none" : "auto",
               }}
             >
               {/* Logo */}
               <div
                 style={{
                   width: "100%",
-                  height: "120px",
-                  borderRadius: "8px",
-                  border: "1px solid var(--line)",
-                  marginBottom: "16px",
-                  overflow: "hidden",
-                  background: "var(--off)",
+                  height: "80px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -651,92 +657,40 @@ export default function PartnerPage() {
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "100%",
-                    objectFit: "contain",
-                  }}
+                  className="h-20 object-contain"
                 />
               </div>
 
-              {/* Name */}
-              <h3
-                style={{
-                  margin: "0 0 12px",
-                  fontFamily: "var(--font-heading, sans-serif)",
-                  fontSize: "18px",
-                  fontWeight: 700,
-                  color: "var(--ink)",
-                }}
-              >
+              {/* Partner Name */}
+              <h3 className="text-sm font-bold text-gray-800 text-center">
                 {partner.name}
               </h3>
 
               {/* Status Badge */}
-              <div style={{ marginBottom: "16px" }}>
-                <button
-                  onClick={() => toggleStatus(partner)}
-                  disabled={deleteLoading === partner._id}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    padding: "6px 12px",
-                    borderRadius: "6px",
-                    fontFamily: "var(--font-body, sans-serif)",
-                    fontSize: "12px",
-                    fontWeight: 600,
-                    background:
-                      partner.status === "active"
-                        ? "var(--teal-pale)"
-                        : "#f3f4f6",
-                    color:
-                      partner.status === "active" ? "var(--teal)" : "var(--muted)",
-                    border:
-                      partner.status === "active"
-                        ? "1px solid var(--teal-border)"
-                        : "1px solid #e5e7eb",
-                    cursor:
-                      deleteLoading === partner._id ? "not-allowed" : "pointer",
-                  }}
-                >
-                  {partner.status === "active" ? (
-                    <HiCheckCircle size={14} />
-                  ) : (
-                    <HiXCircle size={14} />
-                  )}
-                  {partner.status === "active" ? "Active" : "Inactive"}
-                </button>
-              </div>
+              <button
+                onClick={() => toggleStatus(partner)}
+                disabled={deleteLoading === partner._id}
+                className={`text-xs px-3 py-1 rounded-full font-medium transition ${
+                  partner.status === "active"
+                    ? "bg-blue-100 text-blue-600"
+                    : "bg-gray-100 text-gray-400"
+                }`}
+              >
+                {partner.status === "active" ? "Active" : "Inactive"}
+              </button>
 
               {/* Delete Button */}
               <button
                 onClick={() => handleDelete(partner._id, partner.name)}
                 disabled={deleteLoading === partner._id}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  background: "#fef2f2",
-                  border: "1px solid #fecaca",
-                  borderRadius: "8px",
-                  color: "#dc2626",
-                  fontFamily: "var(--font-body, sans-serif)",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  cursor:
-                    deleteLoading === partner._id ? "not-allowed" : "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "8px",
-                }}
+                className="w-full flex items-center justify-center gap-1 py-2 rounded-xl bg-red-50 text-red-500 hover:bg-red-100 text-xs font-medium transition mt-1"
               >
                 {deleteLoading === partner._id ? (
                   <>
                     <div
                       style={{
-                        width: "16px",
-                        height: "16px",
+                        width: "14px",
+                        height: "14px",
                         border: "2px solid #fecaca",
                         borderTop: "2px solid #dc2626",
                         borderRadius: "50%",
@@ -747,7 +701,7 @@ export default function PartnerPage() {
                   </>
                 ) : (
                   <>
-                    <HiTrash size={16} />
+                    <HiTrash size={14} />
                     Delete
                   </>
                 )}
