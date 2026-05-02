@@ -2,13 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { HiPlus, HiPencil, HiTrash, HiMagnifyingGlass } from "react-icons/hi2";
+import { HiPlus, HiPencil, HiTrash, HiMagnifyingGlass, HiPhoto } from "react-icons/hi2";
 
 interface Blog {
   _id: string;
   title: string;
   slug: string;
   excerpt: string;
+  coverImage?: string;
   status: "draft" | "published";
   author: string;
   createdAt: string;
@@ -299,227 +300,94 @@ export default function BlogManagementPage() {
         </div>
       )}
 
-      {/* Blog List Card */}
+      {/* Blog Cards Grid */}
       {!loading && filteredBlogs.length > 0 && (
-        <div
-          style={{
-            background: "var(--white)",
-            borderRadius: "12px",
-            border: "1px solid var(--line)",
-            overflow: "auto",
-          }}
-        >
-          {/* Table Header */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(380px, 2.5fr) minmax(200px, 1.2fr) 140px 140px 130px",
-              padding: "18px 28px",
-              background: "var(--off)",
-              borderBottom: "1px solid var(--line)",
-              fontFamily: "var(--font-body, sans-serif)",
-              fontSize: "12px",
-              fontWeight: 700,
-              color: "var(--muted)",
-              textTransform: "uppercase",
-              letterSpacing: "0.6px",
-              gap: "16px",
-              minWidth: "1000px",
-            }}
-          >
-            <div>Title & Description</div>
-            <div>Slug</div>
-            <div>Status</div>
-            <div>Created</div>
-            <div style={{ textAlign: "center" }}>Actions</div>
-          </div>
-
-          {/* Table Rows */}
+        <div className="grid grid-cols-3 gap-5 mt-4">
           {filteredBlogs.map((blog) => (
             <div
               key={blog._id}
+              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 p-5 flex flex-col gap-3 border border-gray-100"
               style={{
-                display: "grid",
-                gridTemplateColumns: "minmax(380px, 2.5fr) minmax(200px, 1.2fr) 140px 140px 130px",
-                padding: "22px 28px",
-                borderBottom: "1px solid var(--line)",
-                alignItems: "center",
-                gap: "16px",
-                transition: "background 0.15s ease",
                 opacity: deleteLoading === blog._id ? 0.5 : 1,
-                minWidth: "1000px",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "var(--off)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "transparent";
+                pointerEvents: deleteLoading === blog._id ? "none" : "auto",
               }}
             >
-              {/* Title & Description */}
-              <div style={{ minWidth: 0 }}>
-                <p
-                  style={{
-                    margin: 0,
-                    fontFamily: "var(--font-heading, sans-serif)",
-                    fontSize: "15px",
-                    fontWeight: 700,
-                    color: "var(--ink)",
-                    marginBottom: "6px",
-                    lineHeight: 1.3,
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {blog.title}
-                </p>
-                <p
-                  style={{
-                    margin: 0,
-                    fontFamily: "var(--font-body, sans-serif)",
-                    fontSize: "13px",
-                    color: "var(--muted)",
-                    lineHeight: 1.5,
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {blog.excerpt}
-                </p>
-              </div>
+              {/* Blog Cover Image */}
+              {blog.coverImage ? (
+                <div className="w-full h-40 rounded-xl overflow-hidden bg-gray-100 mb-3">
+                  <img
+                    src={blog.coverImage}
+                    alt={blog.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="w-full h-40 rounded-xl bg-gray-100 flex items-center justify-center mb-3">
+                  <HiPhoto className="w-10 h-10 text-gray-300" />
+                </div>
+              )}
+
+              {/* Status Badge */}
+              <span
+                className={`self-end px-3 py-1 rounded-full text-xs font-semibold ${
+                  blog.status === "published"
+                    ? "bg-blue-100 text-blue-600"
+                    : "bg-gray-100 text-gray-600"
+                }`}
+              >
+                {blog.status.charAt(0).toUpperCase() + blog.status.slice(1)}
+              </span>
+
+              {/* Title */}
+              <h3 className="text-base font-bold text-gray-800 leading-snug">
+                {blog.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-sm text-gray-500 line-clamp-2">
+                {blog.excerpt}
+              </p>
 
               {/* Slug */}
-              <div
-                style={{
-                  fontFamily: "var(--font-mono, monospace)",
-                  fontSize: "13px",
-                  color: "var(--body)",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  background: "var(--off)",
-                  padding: "6px 12px",
-                  borderRadius: "6px",
-                  border: "1px solid var(--line)",
-                }}
-                title={blog.slug}
-              >
+              <div className="text-xs text-gray-400 bg-gray-100 rounded-lg px-2 py-1 truncate">
                 {blog.slug}
               </div>
 
-              {/* Status */}
-              <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    padding: "6px 14px",
-                    borderRadius: "8px",
-                    fontFamily: "var(--font-body, sans-serif)",
-                    fontSize: "12px",
-                    fontWeight: 700,
-                    background:
-                      blog.status === "published"
-                        ? "var(--teal-pale)"
-                        : "#f3f4f6",
-                    color:
-                      blog.status === "published"
-                        ? "var(--teal)"
-                        : "var(--muted)",
-                    border:
-                      blog.status === "published"
-                        ? "1px solid var(--teal-border)"
-                        : "1px solid #e5e7eb",
-                    textTransform: "capitalize",
-                  }}
+              {/* Created Date */}
+              <div className="text-xs text-gray-400 flex items-center gap-1">
+                <svg
+                  className="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  {blog.status}
-                </span>
-              </div>
-
-              {/* Date */}
-              <div
-                style={{
-                  fontFamily: "var(--font-body, sans-serif)",
-                  fontSize: "13px",
-                  color: "var(--body)",
-                  fontWeight: 500,
-                }}
-              >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
                 {formatDate(blog.createdAt)}
               </div>
 
-              {/* Actions */}
-              <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+              {/* Action Buttons */}
+              <div className="flex gap-2 mt-2">
                 <button
                   onClick={() => router.push(`/admin/blog/edit/${blog._id}`)}
                   disabled={deleteLoading === blog._id}
-                  title="Edit blog"
-                  style={{
-                    padding: "10px",
-                    background: "var(--teal-pale)",
-                    border: "1px solid var(--teal-border)",
-                    borderRadius: "8px",
-                    cursor:
-                      deleteLoading === blog._id ? "not-allowed" : "pointer",
-                    color: "var(--teal)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transition: "all 0.2s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (deleteLoading !== blog._id) {
-                      e.currentTarget.style.background = "var(--teal)";
-                      e.currentTarget.style.color = "#fff";
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (deleteLoading !== blog._id) {
-                      e.currentTarget.style.background = "var(--teal-pale)";
-                      e.currentTarget.style.color = "var(--teal)";
-                      e.currentTarget.style.transform = "translateY(0)";
-                    }
-                  }}
+                  className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 text-sm font-medium transition"
                 >
                   <HiPencil size={16} />
+                  Edit
                 </button>
                 <button
                   onClick={() => handleDelete(blog._id, blog.title)}
                   disabled={deleteLoading === blog._id}
-                  title="Delete blog"
-                  style={{
-                    padding: "10px",
-                    background: "#fef2f2",
-                    border: "1px solid #fecaca",
-                    borderRadius: "8px",
-                    cursor:
-                      deleteLoading === blog._id ? "not-allowed" : "pointer",
-                    color: "#dc2626",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transition: "all 0.2s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (deleteLoading !== blog._id) {
-                      e.currentTarget.style.background = "#dc2626";
-                      e.currentTarget.style.color = "#fff";
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (deleteLoading !== blog._id) {
-                      e.currentTarget.style.background = "#fef2f2";
-                      e.currentTarget.style.color = "#dc2626";
-                      e.currentTarget.style.transform = "translateY(0)";
-                    }
-                  }}
+                  className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-red-50 text-red-500 hover:bg-red-100 text-sm font-medium transition"
                 >
                   {deleteLoading === blog._id ? (
                     <div
@@ -533,7 +401,10 @@ export default function BlogManagementPage() {
                       }}
                     />
                   ) : (
-                    <HiTrash size={16} />
+                    <>
+                      <HiTrash size={16} />
+                      Delete
+                    </>
                   )}
                 </button>
               </div>

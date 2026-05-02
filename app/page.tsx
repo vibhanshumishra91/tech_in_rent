@@ -19,6 +19,8 @@ import {
   FaArrowRightLong,
   FaHandshake,
   FaRocket,
+  FaUsers,
+  FaBullseye,
 } from "react-icons/fa6";
 import { RiInstagramLine, RiTelegramLine, RiTwitterXLine } from "react-icons/ri";
 
@@ -39,7 +41,9 @@ function LogoMarquee() {
           setPartners(activePartners);
         }
       } catch (error) {
-        console.error("Failed to fetch partners:", error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error("Failed to fetch partners:", error);
+        }
       }
     }
 
@@ -106,16 +110,7 @@ function LogoMarquee() {
             <img
               src={partner.logo}
               alt={partner.name}
-              style={{
-                maxWidth: "120px",
-                maxHeight: "42px",
-                width: "auto",
-                height: "auto",
-                objectFit: "contain",
-                filter: "grayscale(100%)",
-                opacity: 0.55,
-                transition: "all 0.35s ease",
-              }}
+              className="h-12 w-auto object-contain"
             />
           </div>
         ))}
@@ -136,8 +131,6 @@ function LogoMarquee() {
         }
 
         .marquee-item:hover img {
-          filter: grayscale(0%);
-          opacity: 1;
           transform: scale(1.08);
         }
 
@@ -204,6 +197,32 @@ const serviceCards = [
     ctaLabel: "Start Recovery",
     ctaHref: "/account-recovery",
   },
+  {
+    icon: <FaUsers size={22} color="var(--teal)" aria-hidden />,
+    title: "Hiring Support",
+    description:
+      "Save time with LinkedIn-backed hiring. Find skilled candidates faster and smarter.",
+    bullets: [
+      "LinkedIn talent pool access",
+      "Candidate shortlisting support",
+      "Faster hiring pipeline",
+    ],
+    ctaLabel: "Get Started",
+    ctaHref: "/hiring-support",
+  },
+  {
+    icon: <FaBullseye size={22} color="var(--teal)" aria-hidden />,
+    title: "Lead Generation",
+    description:
+      "Get targeted B2B leads directly from LinkedIn. We connect you with decision-makers who matter.",
+    bullets: [
+      "ICP-targeted lead lists",
+      "Decision-maker outreach",
+      "Verified B2B contacts",
+    ],
+    ctaLabel: "Get Started",
+    ctaHref: "/lead-generation",
+  },
 ];
 
 const processSteps = [
@@ -241,21 +260,49 @@ const whyUsCards = [
 
 export default function Home() {
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("in");
-            observer.unobserve(entry.target);
+            revealObserver.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.1 }
     );
+    document.querySelectorAll(".reveal").forEach((node) => revealObserver.observe(node));
 
-    document.querySelectorAll(".reveal").forEach((node) => observer.observe(node));
+    // Count-up for stats
+    const countObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const target = el.dataset.target || "";
+            const suffix = target.replace(/[0-9.]/g, "");
+            const num = parseFloat(target);
+            if (!isNaN(num)) {
+              let start = 0;
+              const duration = 1400;
+              const step = 16;
+              const increment = num / (duration / step);
+              const timer = setInterval(() => {
+                start += increment;
+                if (start >= num) { start = num; clearInterval(timer); }
+                el.textContent = (Number.isInteger(num) ? Math.round(start) : start.toFixed(0)) + suffix;
+              }, step);
+            }
+            countObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    document.querySelectorAll(".count-up").forEach((node) => countObserver.observe(node));
 
-    return () => observer.disconnect();
+    return () => { revealObserver.disconnect(); countObserver.disconnect(); };
   }, []);
 
   return (
@@ -269,7 +316,7 @@ export default function Home() {
             minHeight: "100vh",
             padding: "120px 5% 72px",
             background:
-              "radial-gradient(circle at 82% 8%, rgba(25,168,152,0.12), transparent 34%), var(--white)",
+              "radial-gradient(ellipse at 80% 0%, rgba(6,124,203,0.08) 0%, transparent 50%), radial-gradient(ellipse at 20% 100%, rgba(8,148,240,0.06) 0%, transparent 50%), var(--white)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -393,7 +440,7 @@ export default function Home() {
                 LinkedIn Growth
               </Link>
               <Link
-                href="/#contact"
+                href="/account-recovery"
                 data-cursor="highlight"
                 style={{
                   display: "inline-flex",
@@ -417,34 +464,44 @@ export default function Home() {
             </div>
 
             <div
-              style={{
-                marginTop: "34px",
-                display: "grid",
-                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                gap: "12px",
-              }}
               className="hero-stats-flex"
+              style={{
+                marginTop: "36px",
+                display: "grid",
+                gap: "14px",
+              }}
             >
               {[
-                { value: "500+", label: "Clients Supported" },
-                { value: "98%", label: "Satisfaction Rate" },
-                { value: "48h", label: "Average Onboarding" },
+                { value: "500+", raw: "500", suffix: "+", label: "Clients Supported" },
+                { value: "98%",  raw: "98",  suffix: "%", label: "Satisfaction Rate" },
+                { value: "48h",  raw: "48",  suffix: "h", label: "Average Onboarding" },
               ].map((item) => (
                 <div
                   key={item.label}
-                  data-cursor="highlight"
                   style={{
-                    padding: "16px 14px",
-                    borderRadius: "12px",
+                    padding: "20px 16px",
+                    borderRadius: "14px",
                     border: "1px solid var(--line)",
                     background: "var(--off)",
+                    boxShadow: "var(--shadow-xs)",
+                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-3px)";
+                    e.currentTarget.style.boxShadow = "var(--shadow-md)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "var(--shadow-xs)";
                   }}
                 >
                   <p
+                    className="count-up"
+                    data-target={item.raw + item.suffix}
                     style={{
                       margin: 0,
                       fontFamily: "var(--font-heading, sans-serif)",
-                      fontSize: "28px",
+                      fontSize: "30px",
                       fontWeight: 800,
                       color: "var(--teal)",
                       lineHeight: 1,
@@ -454,10 +511,11 @@ export default function Home() {
                   </p>
                   <p
                     style={{
-                      margin: "7px 0 0",
+                      margin: "8px 0 0",
                       fontFamily: "var(--font-body, sans-serif)",
                       fontSize: "13px",
                       color: "var(--muted)",
+                      fontWeight: 500,
                     }}
                   >
                     {item.label}
@@ -566,23 +624,26 @@ export default function Home() {
             <div
               className="goal-grid-3"
               style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
                 gap: "20px",
-                alignItems: "stretch",
               }}
             >
               {serviceCards.map((service, index) => (
                 <article
                   key={service.title}
+                  className="card-hover svc-card-item"
                   style={{
                     display: "flex",
                     flexDirection: "column",
                     padding: "28px 24px",
                     borderRadius: "16px",
-                    background: "var(--off)",
+                    background: "#fff",
                     border: "1px solid var(--line)",
-                    boxShadow: "0 4px 12px rgba(13,31,30,0.06)",
+                    boxShadow: "var(--shadow-sm)",
+                    flex: "0 1 calc(33.333% - 14px)",
+                    minWidth: "280px",
                   }}
                 >
                   <div style={{
@@ -700,18 +761,19 @@ export default function Home() {
               A simple workflow designed to move from strategy to measurable execution fast.
             </h2>
 
-            <div className="steps-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", marginTop: "38px" }}>
+            <div className="steps-grid" style={{ display: "grid", gap: "24px", marginTop: "40px" }}>
               {processSteps.map((step, index) => (
                 <article
                   key={step.title}
-                  data-cursor="highlight"
+                  className="card-hover"
                   style={{
                     position: "relative",
                     zIndex: 1,
-                    padding: "28px",
-                    borderRadius: "20px",
-                    background: "var(--off)",
+                    padding: "32px",
+                    borderRadius: "18px",
+                    background: "#fff",
                     border: "1px solid var(--line)",
+                    boxShadow: "var(--shadow-sm)",
                   }}
                 >
                   <div
@@ -759,7 +821,7 @@ export default function Home() {
 
         <section id="why" className="reveal" style={{ padding: "96px 5%", background: "var(--off)" }}>
           <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-            <div className="why-grid-2" style={{ display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: "28px", alignItems: "start" }}>
+            <div className="why-grid-2" style={{ display: "grid", gap: "28px", alignItems: "start" }}>
               <div>
                 <p
                   style={{
@@ -791,13 +853,13 @@ export default function Home() {
                 {whyUsCards.map((card) => (
                   <article
                     key={card.title}
-                    className="why-card"
-                    data-cursor="highlight"
+                    className="card-hover"
                     style={{
                       padding: "24px",
-                      borderRadius: "18px",
+                      borderRadius: "16px",
                       background: "var(--white)",
                       border: "1px solid var(--line)",
+                      boxShadow: "var(--shadow-xs)",
                     }}
                   >
                     <div style={{ display: "flex", gap: "14px", alignItems: "flex-start" }}>
@@ -857,9 +919,9 @@ export default function Home() {
               Reach out on any platform and we will help map the next step for your LinkedIn growth.
             </p>
 
-            <div className="contact-links-row" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", maxWidth: "1100px", margin: "0 auto" }}>
+            <div className="contact-links-row" style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "12px" }}>
               {[
-                { href: "mailto:hello@techinrent.com", icon: <HiEnvelope size={18} />, label: "Email", sub: "hello@techinrent.com" },
+                { href: "mailto:vibhanshu@techinrent.com", icon: <HiEnvelope size={18} />, label: "Email", sub: "vibhanshu@techinrent.com" },
                 { href: "https://wa.me/917898711748", icon: <FaWhatsapp size={18} />, label: "WhatsApp", sub: "+91 78987 11748" },
                 { href: "https://t.me/techinrentadmin", icon: <RiTelegramLine size={18} />, label: "Telegram", sub: "@techinrentadmin" },
                 { href: "https://twitter.com/techinrent", icon: <RiTwitterXLine size={18} />, label: "Twitter", sub: "@techinrent" },

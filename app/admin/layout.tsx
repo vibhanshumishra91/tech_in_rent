@@ -29,6 +29,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: "Account Management", href: "/admin/account-management", icon: <HiUserGroup size={20} /> },
     { label: "LinkedIn Connection", href: "/admin/linkedin-connection", icon: <HiUsers size={20} /> },
     { label: "Account Recovery", href: "/admin/account-recovery", icon: <HiUsers size={20} /> },
+    { label: "Hiring Support", href: "/admin/hiring-support", icon: <HiUsers size={20} /> },
+    { label: "Lead Generation", href: "/admin/lead-generation", icon: <HiUsers size={20} /> },
     { label: "Settings", href: "/admin/settings", icon: <HiCog6Tooth size={20} /> },
   ];
 

@@ -698,13 +698,15 @@ export default function AccountManagementPage() {
               Choose from our range of account types to match your business requirements
             </p>
 
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "24px",
-              maxWidth: "1000px",
-              margin: "0 auto"
-            }}>
+            <div
+              className="pricing-cards-grid"
+              style={{
+                display: "grid",
+                gap: "24px",
+                maxWidth: "1000px",
+                margin: "0 auto",
+              }}
+            >
               {[
                 {
                   title: "Basic",
@@ -756,12 +758,13 @@ export default function AccountManagementPage() {
                 <div
                   key={index}
                   style={{
-                    padding: "24px",
-                    borderRadius: "12px",
+                    padding: "28px 24px",
+                    borderRadius: "16px",
                     background: "#fff",
                     border: plan.popular ? "2px solid #067CCB" : "1px solid #e2e8f0",
                     position: "relative",
-                    transition: "all 0.3s ease"
+                    transition: "all 0.3s ease",
+                    boxSizing: "border-box",
                   }}
                   onMouseEnter={(e) => {
                     if (!plan.popular) {
@@ -781,16 +784,17 @@ export default function AccountManagementPage() {
                   {plan.popular && (
                     <div style={{
                       position: "absolute",
-                      top: "-12px",
+                      top: "-13px",
                       left: "50%",
                       transform: "translateX(-50%)",
-                      padding: "6px 20px",
+                      padding: "5px 18px",
                       borderRadius: "999px",
                       background: "#067CCB",
                       color: "#fff",
                       fontSize: "12px",
                       fontWeight: 700,
-                      fontFamily: "var(--font-heading, sans-serif)"
+                      fontFamily: "var(--font-heading, sans-serif)",
+                      whiteSpace: "nowrap",
                     }}>
                       Most Popular
                     </div>
@@ -799,7 +803,7 @@ export default function AccountManagementPage() {
                   <h3 style={{
                     margin: "0 0 8px",
                     fontFamily: "var(--font-heading, sans-serif)",
-                    fontSize: "24px",
+                    fontSize: "22px",
                     fontWeight: 800,
                     color: "#0f172a"
                   }}>
@@ -807,7 +811,7 @@ export default function AccountManagementPage() {
                   </h3>
 
                   <p style={{
-                    margin: "0 0 24px",
+                    margin: "0 0 20px",
                     fontFamily: "var(--font-body, sans-serif)",
                     fontSize: "14px",
                     color: "var(--muted)"
@@ -815,10 +819,10 @@ export default function AccountManagementPage() {
                     {plan.description}
                   </p>
 
-                  <div style={{ marginBottom: "32px" }}>
+                  <div style={{ marginBottom: "28px" }}>
                     <span style={{
                       fontFamily: "var(--font-heading, sans-serif)",
-                      fontSize: "36px",
+                      fontSize: "34px",
                       fontWeight: 800,
                       color: "#067CCB"
                     }}>
@@ -826,29 +830,25 @@ export default function AccountManagementPage() {
                     </span>
                     <span style={{
                       fontFamily: "var(--font-body, sans-serif)",
-                      fontSize: "16px",
+                      fontSize: "15px",
                       color: "var(--muted)"
                     }}>
                       {plan.period}
                     </span>
                   </div>
 
-                  <ul style={{
-                    margin: "0 0 32px",
-                    padding: 0,
-                    listStyle: "none"
-                  }}>
+                  <ul style={{ margin: "0 0 28px", padding: 0, listStyle: "none" }}>
                     {plan.features.map((feature, featureIndex) => (
                       <li
                         key={featureIndex}
                         style={{
                           display: "flex",
                           alignItems: "flex-start",
-                          gap: "12px",
-                          marginBottom: "12px"
+                          gap: "10px",
+                          marginBottom: "11px"
                         }}
                       >
-                        <FaCircleCheck size={16} color="#10b981" style={{ marginTop: "2px", flexShrink: 0 }} />
+                        <FaCircleCheck size={15} color="#10b981" style={{ marginTop: "2px", flexShrink: 0 }} />
                         <span style={{
                           fontFamily: "var(--font-body, sans-serif)",
                           fontSize: "14px",
@@ -863,15 +863,24 @@ export default function AccountManagementPage() {
                   <button
                     style={{
                       width: "100%",
-                      padding: "14px 24px",
-                      borderRadius: "8px",
-                      border: plan.popular ? "none" : "1px solid #067CCB",
+                      padding: "13px 24px",
+                      borderRadius: "9px",
+                      border: plan.popular ? "none" : "1.5px solid #067CCB",
                       background: plan.popular ? "#067CCB" : "transparent",
                       color: plan.popular ? "#fff" : "#067CCB",
                       fontFamily: "var(--font-heading, sans-serif)",
-                      fontSize: "15px",
+                      fontSize: "14px",
                       fontWeight: 700,
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      transition: "background 0.2s ease, transform 0.2s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = plan.popular ? "#0569B0" : "#067CCB";
+                      if (!plan.popular) e.currentTarget.style.color = "#fff";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = plan.popular ? "#067CCB" : "transparent";
+                      if (!plan.popular) e.currentTarget.style.color = "#067CCB";
                     }}
                   >
                     {plan.buttonText}
@@ -880,6 +889,25 @@ export default function AccountManagementPage() {
               ))}
             </div>
           </div>
+
+          <style>{`
+            .pricing-cards-grid {
+              grid-template-columns: repeat(3, 1fr);
+            }
+            @media (max-width: 768px) {
+              .pricing-cards-grid {
+                grid-template-columns: 1fr !important;
+              }
+              .pricing-cards-grid > div {
+                padding: 20px !important;
+              }
+            }
+            @media (min-width: 769px) and (max-width: 1024px) {
+              .pricing-cards-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+              }
+            }
+          `}</style>
         </section>
 
         {/* TESTIMONIALS SECTION */}

@@ -1,18 +1,97 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   HiChartBar,
   HiDocumentText,
   HiShoppingCart,
   HiUsers,
 } from "react-icons/hi2";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+interface DashboardStats {
+  totalBlogs: number;
+  totalAccountManagement: number;
+  totalLinkedInConnection: number;
+  totalAccountRecovery: number;
+  totalHiringSupport: number;
+  totalLeadGeneration: number;
+}
 
 export default function AdminDashboardPage() {
-  const stats = [
-    { label: "Total Leads", value: "248", icon: <HiUsers size={24} />, color: "var(--teal)" },
-    { label: "Total Orders", value: "89", icon: <HiShoppingCart size={24} />, color: "var(--teal-dark)" },
-    { label: "Active Sessions", value: "12", icon: <HiChartBar size={24} />, color: "var(--teal-mid)" },
-    { label: "Last Login", value: "Today", icon: <HiDocumentText size={24} />, color: "var(--teal-deep)" },
+  const [stats, setStats] = useState<DashboardStats>({
+    totalBlogs: 0,
+    totalAccountManagement: 0,
+    totalLinkedInConnection: 0,
+    totalAccountRecovery: 0,
+    totalHiringSupport: 0,
+    totalLeadGeneration: 0,
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("/api/admin/dashboard-stats");
+      const result = await response.json();
+      
+      if (result.success && result.data) {
+        setStats(result.data);
+      }
+    } catch (error) {
+      console.error("Error fetching dashboard stats:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const statCards = [
+    { 
+      label: "Total Blogs", 
+      value: loading ? "..." : stats.totalBlogs.toString(), 
+      icon: <HiDocumentText className="w-6 h-6 text-blue-600" />
+    },
+    { 
+      label: "Total Account Management", 
+      value: loading ? "..." : stats.totalAccountManagement.toString(), 
+      icon: <HiUsers className="w-6 h-6 text-blue-600" />
+    },
+    { 
+      label: "Total LinkedIn Connection", 
+      value: loading ? "..." : stats.totalLinkedInConnection.toString(), 
+      icon: <HiShoppingCart className="w-6 h-6 text-blue-600" />
+    },
+    { 
+      label: "Total Account Recovery", 
+      value: loading ? "..." : stats.totalAccountRecovery.toString(), 
+      icon: <HiChartBar className="w-6 h-6 text-blue-600" />
+    },
+    { 
+      label: "Total Hiring Support", 
+      value: loading ? "..." : stats.totalHiringSupport.toString(), 
+      icon: <HiUsers className="w-6 h-6 text-blue-600" />
+    },
+    { 
+      label: "Total Lead Generation", 
+      value: loading ? "..." : stats.totalLeadGeneration.toString(), 
+      icon: <HiChartBar className="w-6 h-6 text-blue-600" />
+    },
   ];
 
   const recentActivity = [
@@ -21,6 +100,26 @@ export default function AdminDashboardPage() {
     { action: "Order #1234 created", time: "1 hour ago", type: "order" },
     { action: "Admin logged in", time: "3 hours ago", type: "auth" },
     { action: "New lead submitted", time: "5 hours ago", type: "lead" },
+  ];
+
+  // Prepare data for Service Distribution Pie Chart
+  const serviceDistributionData = [
+    { name: "Blogs", value: stats.totalBlogs, color: "#3b82f6" },
+    { name: "Account Management", value: stats.totalAccountManagement, color: "#8b5cf6" },
+    { name: "LinkedIn Connection", value: stats.totalLinkedInConnection, color: "#0ea5e9" },
+    { name: "Account Recovery", value: stats.totalAccountRecovery, color: "#f97316" },
+    { name: "Hiring Support", value: stats.totalHiringSupport, color: "#10b981" },
+    { name: "Lead Generation", value: stats.totalLeadGeneration, color: "#ec4899" },
+  ];
+
+  // Prepare data for Monthly Growth Bar Chart (mock data for demonstration)
+  const monthlyGrowthData = [
+    { month: "Jan", count: 12 },
+    { month: "Feb", count: 19 },
+    { month: "Mar", count: 15 },
+    { month: "Apr", count: 25 },
+    { month: "May", count: 22 },
+    { month: "Jun", count: 30 },
   ];
 
   return (
@@ -52,145 +151,70 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stats Cards */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: "20px",
-          marginBottom: "32px",
-        }}
-      >
-        {stats.map((stat) => (
+      <div className="grid grid-cols-6 gap-4 mb-8">
+        {statCards.map((stat) => (
           <div
             key={stat.label}
-            style={{
-              background: "var(--white)",
-              border: "1px solid var(--line)",
-              borderRadius: "16px",
-              padding: "24px",
-              boxShadow: "0 2px 8px rgba(13,31,30,0.04)",
-            }}
+            className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 p-5 min-h-[160px] flex flex-col gap-3"
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginBottom: "12px",
-              }}
-            >
-              <div
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
-                  background: "var(--teal-pale)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: stat.color,
-                }}
-              >
-                {stat.icon}
-              </div>
+            <div className="w-12 h-12 rounded-full bg-[#dbeafe] flex items-center justify-center">
+              {stat.icon}
             </div>
-            <p
-              style={{
-                margin: 0,
-                fontFamily: "var(--font-heading, sans-serif)",
-                fontSize: "32px",
-                fontWeight: 800,
-                color: "var(--ink)",
-                lineHeight: 1,
-              }}
-            >
+            <p className="text-3xl font-bold text-gray-800">
               {stat.value}
             </p>
-            <p
-              style={{
-                margin: "8px 0 0",
-                fontFamily: "var(--font-body, sans-serif)",
-                fontSize: "14px",
-                color: "var(--muted)",
-              }}
-            >
+            <p className="text-xs text-gray-500 leading-tight">
               {stat.label}
             </p>
           </div>
         ))}
       </div>
 
-      {/* Recent Activity */}
-      <div
-        style={{
-          background: "var(--white)",
-          border: "1px solid var(--line)",
-          borderRadius: "16px",
-          padding: "24px",
-          boxShadow: "0 2px 8px rgba(13,31,30,0.04)",
-        }}
-      >
-        <h2
-          style={{
-            margin: "0 0 20px",
-            fontFamily: "var(--font-heading, sans-serif)",
-            fontSize: "20px",
-            fontWeight: 700,
-            color: "var(--ink)",
-          }}
-        >
-          Recent Activity
-        </h2>
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-          {recentActivity.map((activity, index) => (
-            <div
-              key={index}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "12px 16px",
-                background: "var(--off)",
-                borderRadius: "10px",
-                border: "1px solid var(--line)",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <div
-                  style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    background:
-                      activity.type === "auth"
-                        ? "var(--teal)"
-                        : activity.type === "lead"
-                          ? "var(--teal-mid)"
-                          : "var(--teal-dark)",
-                  }}
-                />
-                <span
-                  style={{
-                    fontFamily: "var(--font-body, sans-serif)",
-                    fontSize: "14px",
-                    color: "var(--ink)",
-                    fontWeight: 500,
-                  }}
-                >
-                  {activity.action}
-                </span>
-              </div>
-              <span
-                style={{
-                  fontFamily: "var(--font-body, sans-serif)",
-                  fontSize: "13px",
-                  color: "var(--muted)",
-                }}
+      {/* Analytics Section */}
+      <div className="grid grid-cols-2 gap-4">
+        {/* Service Distribution Pie Chart */}
+        <div className="bg-white rounded-2xl shadow-sm p-5">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">
+            Service Distribution
+          </h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={serviceDistributionData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={({ name, percent }) =>
+                  `${name}: ${(percent * 100).toFixed(0)}%`
+                }
+                outerRadius={80}
+                fill="#3b82f6"
+                dataKey="value"
               >
-                {activity.time}
-              </span>
-            </div>
-          ))}
+                {serviceDistributionData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Monthly Growth Bar Chart */}
+        <div className="bg-white rounded-2xl shadow-sm p-5">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">
+            Monthly Growth
+          </h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={monthlyGrowthData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="count" fill="#3b82f6" name="New Submissions" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

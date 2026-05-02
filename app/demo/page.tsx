@@ -13,6 +13,20 @@ const benefits = [
   "Performance-focused and transparent workflow",
 ];
 
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "12px 16px",
+  border: "1.5px solid #e2e8f0",
+  borderRadius: "9px",
+  fontSize: "14px",
+  fontFamily: "var(--font-body, sans-serif)",
+  outline: "none",
+  transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+  color: "var(--ink)",
+  background: "#fff",
+  boxSizing: "border-box" as const,
+};
+
 export default function DemoPage() {
   const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL;
   const [formData, setFormData] = useState<LeadPayload>({
@@ -24,7 +38,7 @@ export default function DemoPage() {
     whatsappNumber: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitError, setSubmitError]   = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -52,14 +66,7 @@ export default function DemoPage() {
       }
 
       setSubmitSuccess(result.message ?? "Thanks. Your request has been submitted.");
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        monthlyBudget: "",
-        serviceInterested: "",
-        whatsappNumber: "",
-      });
+      setFormData({ name: "", email: "", company: "", monthlyBudget: "", serviceInterested: "", whatsappNumber: "" });
     } catch {
       setSubmitError("Network error. Please try again.");
     } finally {
@@ -67,116 +74,275 @@ export default function DemoPage() {
     }
   }
 
+  const focusInput = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    e.currentTarget.style.borderColor = "var(--teal)";
+    e.currentTarget.style.boxShadow = "0 0 0 3px rgba(6,124,203,0.1)";
+  };
+  const blurInput = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    e.currentTarget.style.borderColor = "#e2e8f0";
+    e.currentTarget.style.boxShadow = "none";
+  };
+
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_12%_0%,rgba(148,163,184,0.2),transparent_34%),radial-gradient(circle_at_88%_22%,rgba(56,189,248,0.14),transparent_35%),#f1f5f9] text-slate-900">
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "radial-gradient(ellipse at 12% 0%, rgba(6,124,203,0.07), transparent 34%), radial-gradient(ellipse at 88% 22%, rgba(8,148,240,0.06), transparent 35%), var(--off)",
+        paddingTop: "68px",
+      }}
+    >
       <Navbar />
 
-      <main className="mx-auto w-full max-w-7xl px-4 pb-12 pt-16 sm:px-6 md:pt-20 lg:px-8">
-        <section className="grid gap-6 lg:grid-cols-2">
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-            <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
+      <main
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "56px 5% 80px",
+        }}
+      >
+        <section
+          style={{ display: "grid", gap: "24px" }}
+          className="demo-top-grid"
+        >
+          {/* Left – info */}
+          <article
+            style={{
+              borderRadius: "20px",
+              border: "1px solid var(--line)",
+              background: "#fff",
+              padding: "40px",
+              boxShadow: "var(--shadow-sm)",
+            }}
+          >
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "7px",
+                padding: "6px 14px",
+                borderRadius: "999px",
+                border: "1px solid var(--line)",
+                background: "var(--off)",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "var(--muted)",
+                marginBottom: "20px",
+              }}
+            >
               <FaHandshake size={12} />
               Consultation
+            </span>
+            <h1
+              style={{
+                margin: "0 0 14px",
+                fontFamily: "var(--font-heading, sans-serif)",
+                fontSize: "clamp(28px, 3.5vw, 42px)",
+                fontWeight: 800,
+                lineHeight: 1.15,
+                letterSpacing: "-0.02em",
+                color: "var(--ink)",
+              }}
+            >
+              Book Your Strategy Consultation
+            </h1>
+            <p
+              style={{
+                margin: "0 0 28px",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "16px",
+                lineHeight: 1.7,
+                color: "var(--muted)",
+              }}
+            >
+              Share your goals and budget. We will recommend the right service path.
             </p>
-            <h1 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Book Your Strategy Consultation</h1>
-            <p className="mt-3 text-slate-600">Share your goals and budget. We will recommend the right service path.</p>
 
-            <ul className="mt-6 space-y-3 text-sm text-slate-700">
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
               {benefits.map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <FaCircleCheck size={14} className="text-slate-700" />
+                <li
+                  key={item}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "10px",
+                    fontFamily: "var(--font-body, sans-serif)",
+                    fontSize: "14px",
+                    color: "var(--body)",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  <FaCircleCheck size={16} color="var(--teal)" style={{ marginTop: "2px", flexShrink: 0 }} />
                   {item}
                 </li>
               ))}
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-            <h2 className="text-xl font-bold">Qualification Form</h2>
-            <form className="mt-4 grid gap-3" onSubmit={handleSubmit}>
-              <input
-                className="h-11 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-slate-500"
-                placeholder="Name"
-                value={formData.name}
-                onChange={(event) => setFormData((prev) => ({ ...prev, name: event.target.value }))}
-                required
-              />
-              <input
-                className="h-11 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-slate-500"
-                placeholder="Email"
-                type="email"
-                value={formData.email}
-                onChange={(event) => setFormData((prev) => ({ ...prev, email: event.target.value }))}
-                required
-              />
-              <input
-                className="h-11 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-slate-500"
-                placeholder="Company"
-                value={formData.company}
-                onChange={(event) => setFormData((prev) => ({ ...prev, company: event.target.value }))}
-                required
-              />
-              <input
-                className="h-11 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-slate-500"
-                placeholder="Monthly Budget"
-                value={formData.monthlyBudget}
-                onChange={(event) => setFormData((prev) => ({ ...prev, monthlyBudget: event.target.value }))}
-                required
-              />
+          {/* Right – form */}
+          <article
+            style={{
+              borderRadius: "20px",
+              border: "1px solid var(--line)",
+              background: "#fff",
+              padding: "40px",
+              boxShadow: "var(--shadow-sm)",
+            }}
+          >
+            <h2
+              style={{
+                margin: "0 0 24px",
+                fontFamily: "var(--font-heading, sans-serif)",
+                fontSize: "22px",
+                fontWeight: 700,
+                color: "var(--ink)",
+              }}
+            >
+              Qualification Form
+            </h2>
+
+            <form
+              onSubmit={handleSubmit}
+              style={{ display: "flex", flexDirection: "column", gap: "14px" }}
+            >
+              {[
+                { placeholder: "Full Name", key: "name", type: "text" },
+                { placeholder: "Email Address", key: "email", type: "email" },
+                { placeholder: "Company", key: "company", type: "text" },
+                { placeholder: "Monthly Budget", key: "monthlyBudget", type: "text" },
+                { placeholder: "WhatsApp Number", key: "whatsappNumber", type: "text" },
+              ].map(({ placeholder, key, type }) => (
+                <input
+                  key={key}
+                  type={type}
+                  placeholder={placeholder}
+                  required
+                  value={(formData as any)[key]}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, [key]: e.target.value }))}
+                  style={inputStyle}
+                  onFocus={focusInput}
+                  onBlur={blurInput}
+                />
+              ))}
+
               <select
-                className="h-11 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-slate-500"
-                value={formData.serviceInterested}
-                onChange={(event) => setFormData((prev) => ({ ...prev, serviceInterested: event.target.value }))}
                 required
+                value={formData.serviceInterested}
+                onChange={(e) => setFormData((prev) => ({ ...prev, serviceInterested: e.target.value }))}
+                style={inputStyle}
+                onFocus={focusInput}
+                onBlur={blurInput}
               >
-                <option value="" disabled>
-                  Service Interested
-                </option>
+                <option value="" disabled>Service Interested</option>
                 <option>LinkedIn Account Management</option>
                 <option>Account Recovery Support</option>
                 <option>LinkedIn Growth</option>
                 <option>Sales Partnership</option>
               </select>
-              <input
-                className="h-11 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-slate-500"
-                placeholder="WhatsApp Number"
-                value={formData.whatsappNumber}
-                onChange={(event) => setFormData((prev) => ({ ...prev, whatsappNumber: event.target.value }))}
-                required
-              />
 
-              {submitError ? <p className="text-xs font-semibold text-red-600">{submitError}</p> : null}
-              {submitSuccess ? <p className="text-xs font-semibold text-blue-600">{submitSuccess}</p> : null}
+              {submitError && (
+                <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "#dc2626", fontFamily: "var(--font-body)" }}>
+                  {submitError}
+                </p>
+              )}
+              {submitSuccess && (
+                <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "var(--teal-dark)", fontFamily: "var(--font-body)" }}>
+                  {submitSuccess}
+                </p>
+              )}
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+                className="btn-primary"
+                style={{ marginTop: "6px", opacity: isSubmitting ? 0.7 : 1, cursor: isSubmitting ? "not-allowed" : "pointer" }}
               >
-                {isSubmitting ? "Submitting..." : "Submit Request"}
+                {isSubmitting ? "Submitting…" : "Submit Request"}
                 <FaArrowRightLong size={14} />
               </button>
             </form>
           </article>
         </section>
 
-        <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
+        {/* Calendly section */}
+        <section
+          style={{
+            marginTop: "24px",
+            borderRadius: "20px",
+            border: "1px solid var(--line)",
+            background: "#fff",
+            padding: "40px",
+            boxShadow: "var(--shadow-sm)",
+          }}
+        >
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "7px",
+              padding: "6px 14px",
+              borderRadius: "999px",
+              border: "1px solid var(--line)",
+              background: "var(--off)",
+              fontFamily: "var(--font-body, sans-serif)",
+              fontSize: "11px",
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "var(--muted)",
+              marginBottom: "20px",
+            }}
+          >
             <FaCalendarDays size={12} />
             Calendly Integration
-          </p>
+          </span>
+
           {calendlyUrl ? (
             <iframe
               title="Calendly Booking"
               src={calendlyUrl}
-              className="mt-4 h-96 w-full rounded-xl border border-slate-200"
+              style={{
+                width: "100%",
+                height: "420px",
+                borderRadius: "12px",
+                border: "1px solid var(--line)",
+                display: "block",
+                marginTop: "4px",
+              }}
             />
           ) : (
-            <div className="mt-4 flex h-52 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 text-sm text-slate-500">
+            <div
+              style={{
+                marginTop: "12px",
+                height: "200px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "12px",
+                border: "1.5px dashed var(--line)",
+                background: "var(--off)",
+                fontFamily: "var(--font-body, sans-serif)",
+                fontSize: "14px",
+                color: "var(--muted)",
+              }}
+            >
               Set NEXT_PUBLIC_CALENDLY_URL in .env.local to show Calendly embed
             </div>
           )}
-          <p className="mt-3 inline-flex items-center gap-2 text-xs text-slate-500">
+
+          <p
+            style={{
+              margin: "14px 0 0",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "7px",
+              fontFamily: "var(--font-body, sans-serif)",
+              fontSize: "12px",
+              color: "var(--muted)",
+            }}
+          >
             <FaShieldHalved size={12} />
             Your details are used only for consultation and service planning.
           </p>
@@ -184,6 +350,15 @@ export default function DemoPage() {
       </main>
 
       <Footer />
+
+      <style>{`
+        @media (min-width: 900px) {
+          .demo-top-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 899px) {
+          .demo-top-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }

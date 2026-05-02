@@ -1,14 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 
+const NAV_LINKS = [
+  { label: "Services", href: "/#goals" },
+  { label: "Process",  href: "/#how" },
+  { label: "Why Us",   href: "/#why" },
+  { label: "Blog",     href: "/blog" },
+  { label: "Contact",  href: "/#contact" },
+];
+
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen]       = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 12);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  /* Close menu on route hash click */
+  const closeMenu = () => setOpen(false);
 
   return (
     <nav
+      className={scrolled ? "navbar-scrolled" : ""}
       style={{
         position: "fixed",
         top: 0,
@@ -22,12 +41,16 @@ export default function Navbar() {
         height: "68px",
         background: "rgba(255,255,255,0.94)",
         borderBottom: "1px solid var(--line)",
-        backdropFilter: "blur(18px)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        transition: "box-shadow 0.3s ease, background 0.3s ease",
       }}
     >
-      {/* Logo */}
+      {/* ── Logo ── */}
       <Link
         href="/"
+        className="navbar-logo"
+        aria-label="TechInRent Home"
         style={{
           display: "flex",
           alignItems: "center",
@@ -35,100 +58,60 @@ export default function Navbar() {
           cursor: "pointer",
           transition: "opacity 0.2s ease",
         }}
-        className="navbar-logo"
-        aria-label="TechInRent Home"
-        onMouseEnter={(e) => {
-          e.currentTarget.style.opacity = "0.8";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.opacity = "1";
-        }}
+        onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.82")}
+        onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
       >
         <Image
           src="/techinrent-logo.png.png"
           alt="TechInRent"
           width={300}
           height={75}
-          style={{
-            width: "auto",
-            height: "68px",
-          }}
+          style={{ width: "auto", height: "58px" }}
           priority
         />
       </Link>
 
-      {/* Desktop links */}
+      {/* ── Desktop links ── */}
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "34px",
-        }}
         className="nav-links"
+        style={{ display: "flex", alignItems: "center", gap: "32px" }}
       >
-        {[
-          { label: "Services", href: "/#goals" },
-          { label: "Process", href: "/#how" },
-          { label: "Why Us", href: "/#why" },
-          { label: "Blog", href: "/blog" },
-          { label: "Contact", href: "/#contact" },
-        ].map((l) => (
-          <Link
-            key={l.label}
-            href={l.href}
-            style={{
-              textDecoration: "none",
-              color: "var(--muted)",
-              fontFamily: "var(--font-outfit, sans-serif)",
-              fontSize: "14px",
-              fontWeight: 500,
-            }}
-          >
+        {NAV_LINKS.map((l) => (
+          <Link key={l.label} href={l.href} className="nav-link">
             {l.label}
           </Link>
         ))}
-        <Link
-          href="/#contact"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "7px",
-            background: "var(--teal)",
-            color: "#fff",
-            padding: "9px 22px",
-            borderRadius: "8px",
-            fontFamily: "var(--font-syne, sans-serif)",
-            fontSize: "13.5px",
-            fontWeight: 700,
-            textDecoration: "none",
-            letterSpacing: "0.01em",
-            boxShadow: "0 4px 14px rgba(6,124,203,0.25)",
-          }}
-        >
+        <Link href="/#contact" className="nav-cta">
           Get Started
         </Link>
       </div>
 
-      {/* Mobile hamburger */}
+      {/* ── Mobile hamburger ── */}
       <button
         onClick={() => setOpen(!open)}
+        className="nav-hamburger"
+        aria-label="Toggle menu"
+        aria-expanded={open}
         style={{
           display: "none",
           background: "none",
           border: "none",
           cursor: "pointer",
           color: "var(--ink)",
-          padding: "4px",
+          padding: "8px",
+          borderRadius: "8px",
+          transition: "background 0.2s ease",
         }}
-        className="nav-hamburger"
-        aria-label="Toggle menu"
+        onMouseEnter={(e) => (e.currentTarget.style.background = "var(--off)")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
       >
         {open ? <RiCloseLine size={24} /> : <RiMenu3Line size={24} />}
       </button>
 
-      {/* Mobile menu */}
+      {/* ── Mobile menu ── */}
       {open && (
         <div
+          className="animate-slide-down"
           style={{
             position: "absolute",
             top: "68px",
@@ -136,29 +119,35 @@ export default function Navbar() {
             right: 0,
             background: "#fff",
             borderBottom: "1px solid var(--line)",
-            padding: "16px 5%",
+            boxShadow: "0 8px 24px rgba(13,31,30,0.1)",
+            padding: "20px 5% 24px",
             display: "flex",
             flexDirection: "column",
-            gap: "16px",
+            gap: "4px",
           }}
         >
-          {[
-            { label: "Services", href: "/#goals" },
-            { label: "Process", href: "/#how" },
-            { label: "Why Us", href: "/#why" },
-            { label: "Blog", href: "/blog" },
-            { label: "Contact", href: "/#contact" },
-          ].map((l) => (
+          {NAV_LINKS.map((l) => (
             <Link
               key={l.label}
               href={l.href}
-              onClick={() => setOpen(false)}
+              onClick={closeMenu}
               style={{
                 textDecoration: "none",
                 color: "var(--body)",
-                fontFamily: "var(--font-outfit, sans-serif)",
+                fontFamily: "var(--font-body, sans-serif)",
                 fontSize: "15px",
                 fontWeight: 500,
+                padding: "10px 12px",
+                borderRadius: "8px",
+                transition: "background 0.2s ease, color 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--off)";
+                e.currentTarget.style.color = "var(--teal)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "var(--body)";
               }}
             >
               {l.label}
@@ -166,37 +155,30 @@ export default function Navbar() {
           ))}
           <Link
             href="/#contact"
-            onClick={() => setOpen(false)}
+            onClick={closeMenu}
             style={{
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
               background: "var(--teal)",
               color: "#fff",
-              padding: "11px 22px",
-              borderRadius: "8px",
-              fontFamily: "var(--font-syne, sans-serif)",
+              padding: "13px 22px",
+              borderRadius: "9px",
+              fontFamily: "var(--font-heading, sans-serif)",
               fontSize: "14px",
               fontWeight: 700,
               textDecoration: "none",
+              marginTop: "8px",
+              boxShadow: "0 4px 14px rgba(6,124,203,0.28)",
+              transition: "background 0.2s ease",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--teal-dark)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "var(--teal)")}
           >
             Get Started
           </Link>
         </div>
       )}
-
-      <style>{`
-        @media (max-width: 900px) {
-          .nav-links { display: none !important; }
-          .nav-hamburger { display: flex !important; }
-        }
-        @media (max-width: 768px) {
-          .navbar-logo img {
-            height: 54px !important;
-          }
-        }
-      `}</style>
     </nav>
   );
 }
