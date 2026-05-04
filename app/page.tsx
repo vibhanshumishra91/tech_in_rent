@@ -24,6 +24,13 @@ import {
 } from "react-icons/fa6";
 import { RiInstagramLine, RiTelegramLine, RiTwitterXLine } from "react-icons/ri";
 
+type PartnerLogo = {
+  _id: string;
+  name: string;
+  logo: string;
+  status: "active" | "inactive";
+};
+
 // Logo Marquee Component
 function LogoMarquee() {
   const [partners, setPartners] = useState<Array<{ _id: string; name: string; logo: string }>>([]);
@@ -35,9 +42,9 @@ function LogoMarquee() {
         const data = await response.json();
 
         if (response.ok && data.success) {
-          const activePartners = (data.data || []).filter(
-            (p: any) => p.status === "active"
-          );
+          const activePartners = ((data.data || []) as PartnerLogo[])
+            .filter((p) => p.status === "active")
+            .map(({ _id, name, logo }) => ({ _id, name, logo }));
           setPartners(activePartners);
         }
       } catch (error) {
@@ -61,7 +68,7 @@ function LogoMarquee() {
   return (
     <section
       style={{
-        padding: "18px 0",
+        padding: "24px 0 18px",
         background: "var(--off)",
         borderTop: "1px solid var(--line)",
         borderBottom: "1px solid var(--line)",
@@ -69,6 +76,40 @@ function LogoMarquee() {
         position: "relative",
       }}
     >
+      <div
+        style={{
+          position: "relative",
+          zIndex: 3,
+          textAlign: "center",
+          marginBottom: "14px",
+          padding: "0 16px",
+        }}
+      >
+        <p
+          style={{
+            margin: "0",
+            fontFamily: "var(--font-heading, sans-serif)",
+            fontSize: "12px",
+            fontWeight: 700,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: "var(--teal-dark)",
+          }}
+        >
+          Trusted By
+        </p>
+        <p
+          style={{
+            margin: "6px 0 0",
+            fontFamily: "var(--font-body, sans-serif)",
+            fontSize: "13px",
+            color: "var(--muted)",
+          }}
+        >
+          Leading teams and organizations
+        </p>
+      </div>
+
       {/* Soft fade edges */}
       <div
         style={{

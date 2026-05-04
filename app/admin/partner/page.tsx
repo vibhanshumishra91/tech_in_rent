@@ -55,8 +55,8 @@ export default function PartnerPage() {
       }
 
       setPartners(data.data || []);
-    } catch (err: any) {
-      setError(err.message || "Failed to load partners");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to load partners");
     } finally {
       setLoading(false);
     }
@@ -86,8 +86,10 @@ export default function PartnerPage() {
 
       setFormData((prev) => ({ ...prev, logo: data.url }));
       setUploadError("");
-    } catch (err: any) {
-      setUploadError(err.message || "Failed to upload image");
+    } catch (err: unknown) {
+      setUploadError(
+        err instanceof Error ? err.message : "Failed to upload image"
+      );
     } finally {
       setUploading(false);
     }
@@ -125,8 +127,8 @@ export default function PartnerPage() {
       fetchPartners();
 
       setTimeout(() => setSuccess(""), 3000);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setSaving(false);
     }
@@ -156,8 +158,8 @@ export default function PartnerPage() {
       setPartners(partners.filter((p) => p._id !== id));
 
       setTimeout(() => setSuccess(""), 3000);
-    } catch (err: any) {
-      setError(err.message || "Failed to delete partner");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to delete partner");
     } finally {
       setDeleteLoading(null);
     }
@@ -190,8 +192,10 @@ export default function PartnerPage() {
           p._id === partner._id ? { ...p, status: newStatus } : p
         )
       );
-    } catch (err: any) {
-      setError(err.message || "Failed to update partner status");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error ? err.message : "Failed to update partner status"
+      );
     }
   };
 

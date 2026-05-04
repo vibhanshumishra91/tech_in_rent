@@ -47,8 +47,8 @@ export default function BlogListingPage() {
       );
 
       setBlogs(publishedBlogs);
-    } catch (err: any) {
-      setError(err.message || "Failed to load blogs");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to load blogs");
     } finally {
       setLoading(false);
     }

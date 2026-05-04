@@ -1,20 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { PopupButton } from 'react-calendly';
 
 export default function BookDemoButton() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/salil9tiwari2002/30min";
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Fallback function to open Calendly in new tab if popup fails
-  const handleFallbackClick = () => {
-    window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
-  };
 
   if (!mounted) {
     return (

@@ -34,8 +34,10 @@ export default function RecruiterPage() {
       }
 
       setRequests(data.data || []);
-    } catch (err: any) {
-      setError(err.message || "Failed to load recovery requests");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error ? err.message : "Failed to load recovery requests"
+      );
     } finally {
       setLoading(false);
     }

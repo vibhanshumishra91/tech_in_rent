@@ -58,8 +58,8 @@ export default function BlogManagementPage() {
 
       setBlogs(data.data || []);
       setFilteredBlogs(data.data || []);
-    } catch (err: any) {
-      setError(err.message || "Failed to load blogs");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to load blogs");
     } finally {
       setLoading(false);
     }
@@ -92,8 +92,8 @@ export default function BlogManagementPage() {
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(""), 3000);
-    } catch (err: any) {
-      setError(err.message || "Failed to delete blog");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to delete blog");
     } finally {
       setDeleteLoading(null);
     }
@@ -478,7 +478,7 @@ export default function BlogManagementPage() {
               marginBottom: "8px",
             }}
           >
-            No blogs found matching "{searchQuery}"
+            No blogs found matching &quot;{searchQuery}&quot;
           </p>
           <button
             onClick={() => setSearchQuery("")}

@@ -1,5 +1,6 @@
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
+import Link from "next/link";
 import { FaArrowRightLong, FaBriefcase, FaHandshake, FaRocket, FaUsers } from "react-icons/fa6";
 
 const audiences = ["Agencies", "Startups", "Coaches", "Service Providers"];
@@ -86,10 +87,10 @@ export default function SalesPartnershipPage() {
           >
             No upfront retainers. We partner with your team to generate qualified demand and you pay commission on successful outcomes.
           </p>
-          <a href="/#contact" className="btn-primary">
+          <Link href="/#contact" className="btn-primary">
             Apply Now
             <FaArrowRightLong size={14} />
-          </a>
+          </Link>
         </section>
 
         {/* Info cards */}
@@ -287,14 +288,14 @@ export default function SalesPartnershipPage() {
               </div>
             ))}
           </div>
-          <a
+          <Link
             href="/#contact"
             className="btn-secondary"
             style={{ marginTop: "28px", display: "inline-flex" }}
           >
             Apply For Partnership
             <FaArrowRightLong size={14} />
-          </a>
+          </Link>
         </section>
       </main>
 

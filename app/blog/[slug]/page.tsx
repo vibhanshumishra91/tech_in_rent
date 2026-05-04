@@ -77,7 +77,7 @@ export default function SingleBlogPage() {
         .slice(0, 3);
 
       setRelatedBlogs(related);
-    } catch (err: any) {
+    } catch {
       setNotFound(true);
     } finally {
       setLoading(false);
@@ -198,7 +198,7 @@ export default function SingleBlogPage() {
                   color: "var(--muted)",
                 }}
               >
-                The blog post you're looking for doesn't exist or has been removed.
+                The blog post you&apos;re looking for doesn&apos;t exist or has been removed.
               </p>
               <button
                 onClick={() => router.push("/blog")}

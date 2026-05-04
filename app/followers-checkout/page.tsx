@@ -3,7 +3,7 @@
 import Footer from "@/components/shared/Footer";
 import { followerPackages } from "@/lib/payments/followerPackages";
 import Navbar from "@/components/shared/Navbar";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { 
   FaArrowRightLong, 
   FaCircleCheck, 
@@ -15,130 +15,11 @@ import {
   FaStar
 } from "react-icons/fa6";
 
-type CheckoutStartResponse = {
-  ok?: boolean;
-  message?: string;
-  checkout?: {
-    packageId: string;
-    packageName: string;
-    amountInr: number;
-    razorpayKeyId: string;
-    orderId: string;
-    currency: string;
-    amount: number;
-  };
-};
-
-type RazorpayPaymentSuccessResponse = {
-  razorpay_order_id: string;
-  razorpay_payment_id: string;
-  razorpay_signature: string;
-};
-
-type RazorpayOptions = {
-  key: string;
-  amount: number;
-  currency: string;
-  name: string;
-  description: string;
-  order_id: string;
-  handler: (response: RazorpayPaymentSuccessResponse) => void | Promise<void>;
-  theme?: { color?: string };
-};
-
-declare global {
-  interface Window {
-    Razorpay?: new (options: RazorpayOptions) => { open: () => void };
-  }
-}
-
-async function loadRazorpayScript(): Promise<boolean> {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  if (window.Razorpay) {
-    return true;
-  }
-
-  return await new Promise((resolve) => {
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-}
-
 export default function FollowersCheckoutPage() {
-  const [isLoadingPackageId, setIsLoadingPackageId] = useState<string | null>(null);
-  const [checkoutError, setCheckoutError] = useState<string | null>(null);
-  const [checkoutSuccess, setCheckoutSuccess] = useState<string | null>(null);
+  const router = useRouter();
 
-  async function startCheckout(packageId: string) {
-    setIsLoadingPackageId(packageId);
-    setCheckoutError(null);
-    setCheckoutSuccess(null);
-
-    try {
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ packageId }),
-      });
-
-      const result = (await response.json()) as CheckoutStartResponse;
-
-      if (!response.ok || !result.ok || !result.checkout) {
-        setCheckoutError(result.message ?? "Unable to start checkout right now.");
-        return;
-      }
-
-      const scriptReady = await loadRazorpayScript();
-
-      if (!scriptReady || !window.Razorpay) {
-        setCheckoutError("Unable to load Razorpay checkout. Please try again.");
-        return;
-      }
-
-      const selectedPackage = followerPackages.find((item) => item.id === packageId);
-
-      const razorpay = new window.Razorpay({
-        key: result.checkout.razorpayKeyId,
-        amount: result.checkout.amount,
-        currency: result.checkout.currency,
-        name: "TechInRent",
-        description: selectedPackage?.name ?? "Followers Package",
-        order_id: result.checkout.orderId,
-        handler: async (paymentResponse) => {
-          const verifyResponse = await fetch("/api/checkout/verify", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              packageId,
-              ...paymentResponse,
-            }),
-          });
-
-          const verifyResult = (await verifyResponse.json()) as { ok?: boolean; message?: string };
-
-          if (!verifyResponse.ok || !verifyResult.ok) {
-            setCheckoutError(verifyResult.message ?? "Payment verification failed.");
-            return;
-          }
-
-          setCheckoutSuccess(verifyResult.message ?? "Payment completed successfully.");
-        },
-        theme: { color: "#0f172a" },
-      });
-
-      razorpay.open();
-    } catch {
-      setCheckoutError("Network error while starting checkout.");
-    } finally {
-      setIsLoadingPackageId(null);
-    }
+  function beginCheckoutFlow(packageId: string) {
+    router.push(`/order-summary?package=${encodeURIComponent(packageId)}`);
   }
 
   return (
@@ -197,7 +78,7 @@ export default function FollowersCheckoutPage() {
                 lineHeight: 1.65,
                 color: "var(--muted)"
               }}>
-                Purchase LinkedIn connections with <strong style={{ color: "var(--teal)", fontWeight: 600 }}>TechInRent</strong>'s trusted service. Real, targeted, and secure – boost your presence with confidence.
+                Purchase LinkedIn connections with <strong style={{ color: "var(--teal)", fontWeight: 600 }}>TechInRent</strong>&apos;s trusted service. Real, targeted, and secure – boost your presence with confidence.
               </p>
 
               {/* 4 Mini Feature Cards Row */}
@@ -834,8 +715,7 @@ export default function FollowersCheckoutPage() {
 
                   <button
                     type="button"
-                    onClick={() => startCheckout(pkg.id)}
-                    disabled={isLoadingPackageId === pkg.id}
+                    onClick={() => beginCheckoutFlow(pkg.id)}
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
@@ -850,67 +730,23 @@ export default function FollowersCheckoutPage() {
                       fontSize: "15px",
                       fontWeight: 700,
                       letterSpacing: "0.02em",
-                      cursor: isLoadingPackageId === pkg.id ? "not-allowed" : "pointer",
-                      opacity: isLoadingPackageId === pkg.id ? 0.7 : 1,
+                      cursor: "pointer",
+                      opacity: 1,
                       transition: "all 0.2s ease",
                       width: "100%"
                     }}
                     onMouseEnter={(e) => {
-                      if (isLoadingPackageId !== pkg.id) {
-                        e.currentTarget.style.background = "#1e293b";
-                      }
+                      e.currentTarget.style.background = "#1e293b";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = "#0f172a";
                     }}
                   >
-                    {isLoadingPackageId === pkg.id ? "Processing..." : "Get Started"}
+                    Get Started
                   </button>
                 </article>
               ))}
             </div>
-
-            {checkoutError && (
-              <div style={{
-                marginTop: "40px",
-                padding: "16px 24px",
-                borderRadius: "12px",
-                background: "#fee2e2",
-                border: "1px solid #fca5a5",
-                textAlign: "center"
-              }}>
-                <p style={{
-                  margin: 0,
-                  fontFamily: "var(--font-body, sans-serif)",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "#991b1b"
-                }}>
-                  {checkoutError}
-                </p>
-              </div>
-            )}
-
-            {checkoutSuccess && (
-              <div style={{
-                marginTop: "40px",
-                padding: "16px 24px",
-                borderRadius: "12px",
-                background: "#dbeafe",
-                border: "1px solid #93c5fd",
-                textAlign: "center"
-              }}>
-                <p style={{
-                  margin: 0,
-                  fontFamily: "var(--font-body, sans-serif)",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "#1e40af"
-                }}>
-                  {checkoutSuccess}
-                </p>
-              </div>
-            )}
 
             <style>{`
               @media (max-width: 968px) {
@@ -1178,3 +1014,6 @@ export default function FollowersCheckoutPage() {
     </>
   );
 }
+
+
+

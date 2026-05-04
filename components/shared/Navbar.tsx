@@ -1,20 +1,26 @@
 "use client";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 
 const NAV_LINKS = [
   { label: "Services", href: "/#goals" },
-  { label: "Process",  href: "/#how" },
-  { label: "Why Us",   href: "/#why" },
-  { label: "Blog",     href: "/blog" },
-  { label: "Contact",  href: "/#contact" },
+  { label: "Process", href: "/#how" },
+  { label: "Why Us", href: "/#why" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
-  const [open, setOpen]       = useState(false);
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const getStartedHref =
+    pathname === "/followers-checkout"
+      ? "#pricing"
+      : "/followers-checkout#pricing";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 12);
@@ -81,7 +87,7 @@ export default function Navbar() {
             {l.label}
           </Link>
         ))}
-        <Link href="/#contact" className="nav-cta">
+        <Link href={getStartedHref} className="nav-cta">
           Get Started
         </Link>
       </div>
@@ -154,7 +160,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Link
-            href="/#contact"
+            href={getStartedHref}
             onClick={closeMenu}
             style={{
               display: "inline-flex",
@@ -172,8 +178,12 @@ export default function Navbar() {
               boxShadow: "0 4px 14px rgba(6,124,203,0.28)",
               transition: "background 0.2s ease",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--teal-dark)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "var(--teal)")}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.background = "var(--teal-dark)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.background = "var(--teal)")
+            }
           >
             Get Started
           </Link>

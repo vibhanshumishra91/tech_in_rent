@@ -58,8 +58,8 @@ export default function EditBlogPage() {
         seoTitle: data.data.seoTitle || "",
         seoDescription: data.data.seoDescription || "",
       });
-    } catch (err: any) {
-      setError(err.message || "Failed to load blog");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to load blog");
     } finally {
       setLoading(false);
     }
@@ -99,8 +99,8 @@ export default function EditBlogPage() {
       setTimeout(() => {
         router.push("/admin/blog");
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
       setSaving(false);
     }
   };
@@ -132,8 +132,10 @@ export default function EditBlogPage() {
         ...prev,
         coverImage: data.url,
       }));
-    } catch (err: any) {
-      setUploadError(err.message || "Failed to upload image");
+    } catch (err: unknown) {
+      setUploadError(
+        err instanceof Error ? err.message : "Failed to upload image"
+      );
     } finally {
       setUploading(false);
       // Reset file input

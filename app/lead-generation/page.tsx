@@ -169,7 +169,7 @@ export default function LeadGenerationPage() {
               }}
             >
               Connect with decision-makers who matter. We deliver verified B2B
-              contacts directly from LinkedIn's professional network.
+              contacts directly from LinkedIn&apos;s professional network.
             </p>
           </div>
         </section>
@@ -213,7 +213,7 @@ export default function LeadGenerationPage() {
                 textAlign: "center",
               }}
             >
-              Tell us about your ideal customer profile and we'll deliver
+              Tell us about your ideal customer profile and we&apos;ll deliver
               qualified leads
             </p>
 

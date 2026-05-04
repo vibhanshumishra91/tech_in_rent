@@ -33,11 +33,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full" data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      className="h-full"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Arima:wght@100..700&display=swap" rel="stylesheet" />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ScrollReveal />
         {children}
       </body>

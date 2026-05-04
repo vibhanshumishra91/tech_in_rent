@@ -78,8 +78,8 @@ export default function CreateBlogPage() {
       setTimeout(() => {
         router.push("/admin/blog");
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
       setLoading(false);
     }
   };
@@ -111,8 +111,10 @@ export default function CreateBlogPage() {
         ...prev,
         coverImage: data.url,
       }));
-    } catch (err: any) {
-      setUploadError(err.message || "Failed to upload image");
+    } catch (err: unknown) {
+      setUploadError(
+        err instanceof Error ? err.message : "Failed to upload image"
+      );
     } finally {
       setUploading(false);
       // Reset file input

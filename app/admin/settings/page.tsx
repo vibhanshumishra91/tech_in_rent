@@ -79,7 +79,7 @@ export default function SettingsPage() {
             marginRight: "auto",
           }}
         >
-          This feature is currently under development. Soon you'll be able to configure
+          This feature is currently under development. Soon you&apos;ll be able to configure
           system settings, manage preferences, and customize your admin experience.
         </p>
         <div

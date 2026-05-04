@@ -13,6 +13,7 @@ import {
   HiXMark,
   HiArrowRightOnRectangle,
   HiBriefcase,
+  HiCreditCard,
 } from "react-icons/hi2";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -31,6 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: "Account Recovery", href: "/admin/account-recovery", icon: <HiUsers size={20} /> },
     { label: "Hiring Support", href: "/admin/hiring-support", icon: <HiUsers size={20} /> },
     { label: "Lead Generation", href: "/admin/lead-generation", icon: <HiUsers size={20} /> },
+    { label: "Payment Methods", href: "/admin/payment-methods", icon: <HiCreditCard size={20} /> },
     { label: "Settings", href: "/admin/settings", icon: <HiCog6Tooth size={20} /> },
   ];
 
@@ -271,7 +273,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 lineHeight: 1.6,
               }}
             >
-              Are you sure you want to logout? You'll need to sign in again to access the admin panel.
+              Are you sure you want to logout? You&apos;ll need to sign in again to access the admin panel.
             </p>
             <div style={{ display: "flex", gap: "12px" }}>
               <button

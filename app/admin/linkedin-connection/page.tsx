@@ -79,7 +79,7 @@ export default function LinkedInConnectionPage() {
             marginRight: "auto",
           }}
         >
-          This feature is currently under development. Soon you'll be able to manage
+          This feature is currently under development. Soon you&apos;ll be able to manage
           LinkedIn connections, track outreach campaigns, and analyze engagement metrics.
         </p>
         <div

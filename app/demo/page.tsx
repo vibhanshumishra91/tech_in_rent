@@ -27,6 +27,8 @@ const inputStyle: React.CSSProperties = {
   boxSizing: "border-box" as const,
 };
 
+type LeadFormKey = Exclude<keyof LeadPayload, "source" | "pagePath">;
+
 export default function DemoPage() {
   const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL;
   const [formData, setFormData] = useState<LeadPayload>({
@@ -41,8 +43,39 @@ export default function DemoPage() {
   const [submitError, setSubmitError]   = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
+  function validateLeadForm() {
+    if (formData.name.trim().length < 2) {
+      return "Please enter a valid name.";
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(formData.email.trim())) {
+      return "Please enter a valid email address.";
+    }
+    if (!formData.company.trim()) {
+      return "Please enter your company name.";
+    }
+    if (!formData.monthlyBudget.trim()) {
+      return "Please enter your monthly budget.";
+    }
+    if (!formData.serviceInterested.trim()) {
+      return "Please choose a service.";
+    }
+    const phonePattern = /^[+()\-\s0-9]{8,20}$/;
+    if (!phonePattern.test(formData.whatsappNumber.trim())) {
+      return "Please enter a valid WhatsApp number.";
+    }
+    return "";
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const clientError = validateLeadForm();
+    if (clientError) {
+      setSubmitError(clientError);
+      setSubmitSuccess(null);
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitSuccess(null);
@@ -207,19 +240,21 @@ export default function DemoPage() {
               onSubmit={handleSubmit}
               style={{ display: "flex", flexDirection: "column", gap: "14px" }}
             >
-              {[
+              {([
                 { placeholder: "Full Name", key: "name", type: "text" },
                 { placeholder: "Email Address", key: "email", type: "email" },
                 { placeholder: "Company", key: "company", type: "text" },
                 { placeholder: "Monthly Budget", key: "monthlyBudget", type: "text" },
                 { placeholder: "WhatsApp Number", key: "whatsappNumber", type: "text" },
-              ].map(({ placeholder, key, type }) => (
+              ] as Array<{ placeholder: string; key: LeadFormKey; type: string }>).map(({ placeholder, key, type }) => (
                 <input
                   key={key}
                   type={type}
                   placeholder={placeholder}
                   required
-                  value={(formData as any)[key]}
+                  minLength={key === "name" ? 2 : undefined}
+                  pattern={key === "whatsappNumber" ? "[+()\\-\\s0-9]{8,20}" : undefined}
+                  value={formData[key]}
                   onChange={(e) => setFormData((prev) => ({ ...prev, [key]: e.target.value }))}
                   style={inputStyle}
                   onFocus={focusInput}

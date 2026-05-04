@@ -401,15 +401,15 @@ export default function HiringSupportPage() {
 
           {/* Filter Buttons */}
           <div style={{ display: "flex", gap: "8px" }}>
-            {[
+            {([
               { label: "All", value: "all" },
               { label: "Pending", value: "pending" },
               { label: "In Progress", value: "in_progress" },
               { label: "Completed", value: "completed" },
-            ].map((tab) => (
+            ] as const).map((tab) => (
               <button
                 key={tab.value}
-                onClick={() => setFilter(tab.value as any)}
+                onClick={() => setFilter(tab.value)}
                 style={{
                   padding: "8px 16px",
                   borderRadius: "8px",

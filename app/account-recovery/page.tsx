@@ -1,11 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import { FaShieldHalved, FaMapLocationDot, FaCircleCheck, FaBan, FaTriangleExclamation, FaIdCard, FaUsers, FaFileCircleExclamation, FaKey, FaEnvelope, FaClock, FaChartLine, FaPhone, FaComments, FaMagnifyingGlass, FaArrowRight } from "react-icons/fa6";
+import { PopupButton } from "react-calendly";
 
 export default function AccountRecoveryPage() {
+  const calendlyUrl =
+    process.env.NEXT_PUBLIC_CALENDLY_URL ??
+    "https://calendly.com/salil9tiwari2002/30min";
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -45,8 +54,12 @@ export default function AccountRecoveryPage() {
         issueType: "",
         description: "",
       });
-    } catch (error: any) {
-      setErrorMessage(error.message || "Failed to submit request. Please try again.");
+    } catch (error: unknown) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Failed to submit request. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -77,14 +90,38 @@ export default function AccountRecoveryPage() {
           </p>
           
           <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", marginBottom: "40px" }}>
-            <a
-              href="/account-management"
-              style={{ background: "#067CCB", color: "#fff", padding: "16px 32px", borderRadius: "12px", fontSize: "16px", fontWeight: 600, textDecoration: "none", display: "inline-block", transition: "transform 0.2s", boxShadow: "0 4px 14px rgba(6,124,203,0.25)" }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-2px)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
-            >
-              Book Free Consultation
-            </a>
+            {mounted ? (
+              <PopupButton
+                url={calendlyUrl}
+                rootElement={document.body}
+                text="Book Free Consultation"
+                styles={{
+                  background: "#067CCB",
+                  color: "#fff",
+                  padding: "16px 32px",
+                  borderRadius: "12px",
+                  fontSize: "16px",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  display: "inline-block",
+                  transition: "transform 0.2s",
+                  boxShadow: "0 4px 14px rgba(6,124,203,0.25)",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              />
+            ) : (
+              <a
+                href={calendlyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ background: "#067CCB", color: "#fff", padding: "16px 32px", borderRadius: "12px", fontSize: "16px", fontWeight: 600, textDecoration: "none", display: "inline-block", transition: "transform 0.2s", boxShadow: "0 4px 14px rgba(6,124,203,0.25)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
+              >
+                Book Free Consultation
+              </a>
+            )}
             <button
               onClick={scrollToProcess}
               style={{ background: "transparent", color: "#067CCB", padding: "16px 32px", borderRadius: "12px", fontSize: "16px", fontWeight: 600, border: "2px solid #067CCB", cursor: "pointer", transition: "all 0.2s" }}
@@ -205,7 +242,7 @@ export default function AccountRecoveryPage() {
               Common Issues We Solve
             </h2>
             <p style={{ fontSize: "18px", color: "#94a3b8" }}>
-              If you're facing any of these, we can help
+              If you&apos;re facing any of these, we can help
             </p>
           </div>
           
@@ -253,16 +290,16 @@ export default function AccountRecoveryPage() {
               Our Recovery Process
             </h2>
             <p style={{ fontSize: "18px", color: "#64748b" }}>
-              Simple 4-step process to restore your account
+              Consultation-led 4-step process to restore your account
             </p>
           </div>
           
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "32px" }}>
             {[
-              { number: "1", title: "Submit Request", description: "Fill out our recovery form with your account details and issue description" },
-              { number: "2", title: "Diagnosis", description: "Our experts analyze your account status and identify root causes" },
-              { number: "3", title: "Action Plan", description: "Receive your personalized recovery roadmap within 48 hours" },
-              { number: "4", title: "Recovery", description: "Implement the plan and restore your LinkedIn account access" }
+              { number: "1", title: "Demo Call", description: "Book a free consultation and discuss your account issue with a Techinrent professional" },
+              { number: "2", title: "Submit Request", description: "After the call, share your account details and issue summary through our recovery form" },
+              { number: "3", title: "Diagnosis & Action Plan", description: "Our specialists review your case and provide a personalized recovery roadmap" },
+              { number: "4", title: "Recovery Execution", description: "Follow the recommended steps with our guidance to restore LinkedIn account access" }
             ].map((step, index) => (
               <div key={index} style={{ position: "relative", textAlign: "center" }}>
                 <div style={{ width: "64px", height: "64px", background: "#067CCB", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: "24px", fontWeight: 700, color: "#fff" }}>
@@ -347,7 +384,7 @@ export default function AccountRecoveryPage() {
                 fontWeight: 700,
                 color: "#0f172a",
               }}>
-                You Reach Out
+                Demo With Expert
               </h3>
               <p style={{
                 margin: 0,
@@ -356,7 +393,7 @@ export default function AccountRecoveryPage() {
                 color: "#64748b",
                 lineHeight: 1.6,
               }}>
-                Tell us your issue, we listen and assess your situation quickly
+                We run a consultation call first, understand your case, and guide you on request submission
               </p>
             </div>
 
@@ -752,7 +789,7 @@ export default function AccountRecoveryPage() {
               },
               {
                 question: "How do I get started?",
-                answer: "Simply fill out the recovery request form above or book a free consultation call with our recovery specialists."
+                answer: "Start by booking a free consultation demo. After the call, submit your recovery request and we continue with diagnosis and action planning."
               }
             ].map((faq, index) => (
               <div
