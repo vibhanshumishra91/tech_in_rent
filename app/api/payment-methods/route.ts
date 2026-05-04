@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db/connection";
-import PaymentMethod from "@/lib/db/models/PaymentMethod";
+import PaymentMethod, { type IPaymentOption } from "@/lib/db/models/PaymentMethod";
+
+type PublicPaymentMethod = {
+  name: string;
+  options: IPaymentOption[];
+};
 
 export async function GET() {
   try {
     await connectDB();
-    const methods = await PaymentMethod.find({ isActive: true }).sort({ createdAt: 1 });
+    const methods = (await PaymentMethod.find({ isActive: true }).sort({
+      createdAt: 1,
+    })) as PublicPaymentMethod[];
 
     const data = methods
       .map((method) => ({
@@ -32,4 +39,3 @@ export async function GET() {
     );
   }
 }
-

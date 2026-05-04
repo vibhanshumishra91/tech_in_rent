@@ -6,7 +6,7 @@ import { followerPackages } from "@/lib/payments/followerPackages";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { FaCircleCheck } from "react-icons/fa6";
 
 type CheckoutStep = 1 | 2 | 3;
@@ -148,6 +148,33 @@ const PAYMENT_METHOD_OPTIONS: Record<
 };
 
 export default function OrderSummaryPage() {
+  return (
+    <Suspense fallback={<OrderSummaryLoading />}>
+      <OrderSummaryPageContent />
+    </Suspense>
+  );
+}
+
+function OrderSummaryLoading() {
+  return (
+    <>
+      <Navbar />
+      <main style={{ minHeight: "100vh", paddingTop: "calc(68px + 56px)", paddingInline: "5%", background: "var(--off)" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center", background: "#fff", border: "1px solid var(--line)", borderRadius: "14px", padding: "36px" }}>
+          <h1 style={{ margin: "0 0 10px", fontFamily: "var(--font-heading, sans-serif)", fontSize: "34px", color: "var(--ink)" }}>
+            Loading Order Summary
+          </h1>
+          <p style={{ margin: 0, fontFamily: "var(--font-body, sans-serif)", color: "var(--muted)" }}>
+            Preparing your checkout details...
+          </p>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+function OrderSummaryPageContent() {
   const searchParams = useSearchParams();
   const packageId = searchParams.get("package") ?? "";
 
@@ -423,6 +450,10 @@ export default function OrderSummaryPage() {
   async function submitPaymentProof() {
     if (!paymentProofFile) {
       setCheckoutError("Please upload payment proof before submitting.");
+      return;
+    }
+    if (!selectedPackage) {
+      setCheckoutError("Please select a package before submitting.");
       return;
     }
 
