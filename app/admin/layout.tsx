@@ -8,6 +8,7 @@ import {
   HiCog6Tooth,
   HiDocumentText,
   HiBars3,
+  HiShoppingCart,
   HiUserGroup,
   HiUsers,
   HiXMark,
@@ -32,6 +33,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: "Account Recovery", href: "/admin/account-recovery", icon: <HiUsers size={20} /> },
     { label: "Hiring Support", href: "/admin/hiring-support", icon: <HiUsers size={20} /> },
     { label: "Lead Generation", href: "/admin/lead-generation", icon: <HiUsers size={20} /> },
+    { label: "Order Submissions", href: "/admin/order-submissions", icon: <HiShoppingCart size={20} /> },
     { label: "Payment Methods", href: "/admin/payment-methods", icon: <HiCreditCard size={20} /> },
     { label: "Settings", href: "/admin/settings", icon: <HiCog6Tooth size={20} /> },
   ];
