@@ -40,7 +40,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Arima:wght@100..700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ScrollReveal />

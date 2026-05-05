@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Arima:wght@100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap');
 
 * {
-  font-family: 'Arima', serif !important;
+  font-family: 'Open Sans', sans-serif !important;
 }
 
 @import "tailwindcss";
@@ -10,8 +10,8 @@
    DESIGN TOKENS
 ══════════════════════════════════════════════ */
 :root {
-  --font-heading: "Arima", serif;
-  --font-body: "Arima", serif;
+  --font-heading: "Open Sans", sans-serif;
+  --font-body: "Open Sans", sans-serif;
 
   /* Brand palette */
   --teal: #067CCB;
