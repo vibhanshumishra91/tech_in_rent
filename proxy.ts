@@ -11,14 +11,15 @@ export function proxy(request: NextRequest) {
 
   const token = request.cookies.get("admin_token")?.value;
   const isLoginPage = pathname === "/admin/login";
+  const isAdminLandingPage = pathname === "/admin";
 
-  // If user is on login page
-  if (isLoginPage) {
+  // Allow login and admin landing page to be public
+  if (isLoginPage || isAdminLandingPage) {
     // If already logged in, redirect to dashboard
-    if (token) {
+    if (isLoginPage && token) {
       return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
-    // Allow access to login page
+    // Allow access to login and landing pages
     return NextResponse.next();
   }
 
