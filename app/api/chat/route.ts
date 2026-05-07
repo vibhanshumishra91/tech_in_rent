@@ -179,9 +179,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const isGemini = baseUrl.includes("generativelanguage.googleapis.com");
+  // If URL ends with /openai → use OpenAI-compatible format (works for Groq, OpenAI, and Gemini's OpenAI-compatible endpoint)
+  // If URL is bare generativelanguage.googleapis.com (v1 or v1beta, no /openai) → use native Gemini API
+  const isNativeGemini =
+    baseUrl.includes("generativelanguage.googleapis.com") && !baseUrl.endsWith("/openai");
 
-  const result = isGemini
+  const result = isNativeGemini
     ? await callGeminiNative(baseUrl, apiKey, model, messages)
     : await callOpenAICompatible(baseUrl, apiKey, model, messages);
 
