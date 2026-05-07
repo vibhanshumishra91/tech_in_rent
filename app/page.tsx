@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
+import Chatbot from "@/components/shared/Chatbot";
 import WhatsAppFloat from "@/components/shared/WhatsAppFloat";
 import {
   HiCalendarDays,
@@ -61,9 +62,12 @@ function LogoMarquee() {
     return null;
   }
 
-  // Multiple duplications to ensure continuous coverage
-  // With only 2 logos, we need many copies to fill viewport and create seamless scroll
-  const multipliedPartners = Array(10).fill(partners).flat();
+  // Need enough items to fill ~2x viewport width so the -50% loop is seamless.
+  // Each item = 130px + 40px gap = 170px. For 1920px viewport: 1920/170 ≈ 12 items per half.
+  // Use 16 per half to be safe on any screen, then duplicate once → 32 total, animate -50%.
+  const perHalf = Math.max(16, Math.ceil(1920 / (partners.length * 170)) * partners.length);
+  const half = Array(Math.ceil(perHalf / partners.length)).fill(partners).flat();
+  const allItems = [...half, ...half]; // exactly two identical halves
 
   return (
     <section
@@ -117,26 +121,26 @@ function LogoMarquee() {
           inset: 0,
           pointerEvents: "none",
           background:
-            "linear-gradient(to right, var(--off) 0%, transparent 8%, transparent 92%, var(--off) 100%)",
+            "linear-gradient(to right, var(--off) 0%, transparent 10%, transparent 90%, var(--off) 100%)",
           zIndex: 2,
         }}
       />
 
+      {/* Single track: [half][half] — animates translateX(0→-50%).
+          At -50% the visible content is identical to the start → seamless loop. */}
       <div
-        className="marquee-track"
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "28px",
+          gap: "40px",
           width: "max-content",
-          animation: "marqueeScroll 40s linear infinite",
+          animation: "marqueeInfinite 30s linear infinite",
           willChange: "transform",
         }}
       >
-        {multipliedPartners.map((partner, index) => (
+        {allItems.map((partner, i) => (
           <div
-            key={`${partner._id}-${index}`}
-            className="marquee-item"
+            key={`${partner._id}-${i}`}
             style={{
               flex: "0 0 auto",
               width: "130px",
@@ -145,53 +149,21 @@ function LogoMarquee() {
               alignItems: "center",
               justifyContent: "center",
               borderRadius: "10px",
-              transition: "all 0.3s ease",
             }}
           >
             <img
               src={partner.logo}
               alt={partner.name}
-              className="h-12 w-auto object-contain"
+              style={{ maxWidth: "110px", maxHeight: "44px", objectFit: "contain" }}
             />
           </div>
         ))}
       </div>
 
       <style>{`
-        @keyframes marqueeScroll {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-
-        .marquee-track:hover {
-          animation-play-state: paused;
-        }
-
-        .marquee-item:hover img {
-          transform: scale(1.08);
-        }
-
-        .marquee-item:hover {
-          background: rgba(255, 255, 255, 0.65);
-        }
-
-        @media (max-width: 768px) {
-          .marquee-track {
-            gap: 18px !important;
-            animation-duration: 30s !important;
-          }
-          .marquee-item {
-            width: 105px !important;
-            height: 46px !important;
-          }
-          .marquee-item img {
-            max-width: 92px !important;
-            max-height: 34px !important;
-          }
+        @keyframes marqueeInfinite {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
         }
       `}</style>
     </section>
@@ -1018,6 +990,7 @@ export default function Home() {
 
       <Footer />
       <WhatsAppFloat />
+      <Chatbot />
     </>
   );
 }

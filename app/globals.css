@@ -248,16 +248,6 @@ body {
   }
 }
 
-@keyframes marqueeScroll {
-  0% {
-    transform: translateX(0%);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
 @keyframes scaleIn {
   from {
     opacity: 0;
@@ -696,18 +686,6 @@ section[id],
 /* ══════════════════════════════════════════════
    MARQUEE
 ══════════════════════════════════════════════ */
-.marquee-track {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  width: max-content;
-  animation: marqueeScroll 40s linear infinite;
-  will-change: transform;
-}
-
-.marquee-track:hover {
-  animation-play-state: paused;
-}
 
 .marquee-item {
   flex: 0 0 auto;
@@ -840,21 +818,6 @@ section[id],
 @media (max-width: 768px) {
   .navbar-logo img {
     height: 52px !important;
-  }
-
-  .marquee-track {
-    gap: 18px !important;
-    animation-duration: 28s !important;
-  }
-
-  .marquee-item {
-    width: 105px !important;
-    height: 46px !important;
-  }
-
-  .marquee-item img {
-    max-width: 92px !important;
-    max-height: 34px !important;
   }
 }
 
