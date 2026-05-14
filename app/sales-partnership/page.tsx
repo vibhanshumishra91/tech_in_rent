@@ -1,7 +1,21 @@
+import type { Metadata } from "next";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import Link from "next/link";
 import { FaArrowRightLong, FaBriefcase, FaHandshake, FaRocket, FaUsers } from "react-icons/fa6";
+
+export const metadata: Metadata = {
+  title: "Sales Partnership — Grow Your Revenue With LinkedIn",
+  description:
+    "Partner with TechInRent to scale your B2B sales pipeline. Our sales partnership programme gives you access to LinkedIn outreach, lead generation, and expert strategy support.",
+  alternates: { canonical: "https://techinrent.com/sales-partnership" },
+  openGraph: {
+    title: "Sales Partnership | TechInRent",
+    description:
+      "Scale your revenue with TechInRent's LinkedIn-powered sales partnership. Done-for-you outreach, qualified leads, and transparent reporting.",
+    url: "https://techinrent.com/sales-partnership",
+  },
+};
 
 const audiences = ["Agencies", "Startups", "Coaches", "Service Providers"];
 

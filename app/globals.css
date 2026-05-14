@@ -341,8 +341,8 @@ body {
 ══════════════════════════════════════════════ */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+  transform: translateY(20px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
 }
 
 .reveal.in {
@@ -675,12 +675,12 @@ section[id],
 .steps-grid::before {
   content: '';
   position: absolute;
-  top: 38px;
-  left: calc(12.5% + 20px);
-  right: calc(12.5% + 20px);
+  top: 58px;
+  left: 58px;
+  right: calc((100% - 40px) / 3 - 58px);
   height: 1px;
   background: linear-gradient(90deg, var(--teal), var(--teal-light), var(--teal));
-  z-index: 0;
+  z-index: -1;
 }
 
 /* ══════════════════════════════════════════════

@@ -3,11 +3,19 @@ import Image from "next/image";
 import { FaEnvelope, FaPhone } from "react-icons/fa6";
 
 const NAV_LINKS = [
+  { label: "About Us",     href: "/about" },
   { label: "Services",     href: "/#goals" },
   { label: "How It Works", href: "/#how" },
-  { label: "Why Us",       href: "/#why" },
-  { label: "Contact",      href: "/#contact" },
   { label: "Blog",         href: "/blog" },
+  { label: "FAQ",          href: "/faq" },
+  { label: "Contact Us",   href: "/contact" },
+];
+
+const LEGAL_LINKS = [
+  { label: "Privacy Policy",    href: "/privacy-policy" },
+  { label: "Terms & Conditions", href: "/terms" },
+  { label: "Refund Policy",     href: "/refund-policy" },
+  { label: "Service Agreement", href: "/service-agreement" },
 ];
 
 const CONTACT_LINKS = [
@@ -37,7 +45,7 @@ export default function Footer() {
           className="footer-grid-cols"
           style={{
             display: "grid",
-            gridTemplateColumns: "2.2fr 1fr 1fr",
+            gridTemplateColumns: "2fr 1fr 1fr 1fr",
             gap: "40px",
             paddingBottom: "32px",
             borderBottom: "1px solid rgba(255,255,255,0.09)",
@@ -129,6 +137,28 @@ export default function Footer() {
             ))}
           </div>
 
+          {/* Legal */}
+          <div>
+            <h4
+              style={{
+                fontFamily: "var(--font-heading, sans-serif)",
+                fontWeight: 700,
+                fontSize: "11px",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.45)",
+                margin: "0 0 16px",
+              }}
+            >
+              Legal
+            </h4>
+            {LEGAL_LINKS.map((l) => (
+              <Link key={l.label} href={l.href} className="footer-link">
+                {l.label}
+              </Link>
+            ))}
+          </div>
+
           {/* Contact */}
           <div>
             <h4
@@ -213,7 +243,10 @@ export default function Footer() {
 
       <style>{`
         @media (max-width: 1100px) {
-          .footer-grid-cols { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .footer-grid-cols { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
+        }
+        @media (max-width: 640px) {
+          .footer-grid-cols { grid-template-columns: 1fr !important; gap: 24px !important; }
         }
       `}</style>
     </footer>
