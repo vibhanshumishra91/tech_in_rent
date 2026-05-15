@@ -71,7 +71,7 @@ export default function AboutPage() {
             <h1 style={{ margin: "0 0 20px", fontFamily: "var(--font-heading)", fontSize: "clamp(32px, 5vw, 50px)", fontWeight: 800, color: "var(--ink)", lineHeight: 1.15 }}>
               We Help Professionals<br />Win on LinkedIn
             </h1>
-            <p style={{ margin: 0, fontFamily: "var(--font-body)", fontSize: "17px", color: "var(--muted)", lineHeight: 1.75, maxWidth: "560px", margin: "0 auto" }}>
+            <p style={{ fontFamily: "var(--font-body)", fontSize: "17px", color: "var(--muted)", lineHeight: 1.75, maxWidth: "560px", margin: "0 auto" }}>
               TechInRent was founded with one goal: to give professionals, founders, and teams the LinkedIn presence they need to grow — without the guesswork or wasted time.
             </p>
           </div>
